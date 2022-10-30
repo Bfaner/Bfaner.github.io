@@ -36,7 +36,7 @@
   }
   
   /* 时间轴生肖icon */
-  svg.icon {
+  /* svg.icon {
     /* 这里定义svg.icon，避免和Butterfly自带的note标签冲突 */
     width: 1em;
     height: 1em;
@@ -44,7 +44,7 @@
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
-  }
+  } */
   
   .icon-zhongbiao::before {
     color: #f7c768;
