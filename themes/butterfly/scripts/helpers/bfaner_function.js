@@ -30,24 +30,24 @@ hexo.extend.helper.register('get_category_posts',function(){
     })
     // console.log(categoryPostArr)
     strCategories = `<style type="text/css"> 
-        .category-lists {font-size:20px; color:#00FFFF;}
-        .category-lists-second {font-size:18px; color:#FF0000;}
-        .category-articles {font-size:16px; color:#FF0000;}
+        #category-lists a{font-size:20px; color:#00A1FF;}
+        #category-lists-second a{font-size:16px; color:#00C4FF;}
+        #category-articles a{font-size:16px; color:#000000;}
         </style>`
-        console.log(categoryPostArr.length)
+        // console.log(categoryPostArr.length)
     for (let i = 0; i < categoryPostArr.length; i++) {
         if(categoryPostArr[i].hasParent){
             continue
         }
         
         strTemp=`
-            <div class="category-lists" id="${categoryPostArr[i].name}">
-            <a href="../${categoryPostArr[i].path}">${categoryPostArr[i].name}</a>
+            <div id="category-lists">
+            <a href="../${categoryPostArr[i].path}">- ${categoryPostArr[i].name}</a>
             </div>`
         if(categoryPostArr[i].children.length == 0){
             for(let j = 0; j < categoryPostArr[i].content.length; j++){
                 strTemp+=`
-                    <div class="category-articles" id="${categoryPostArr[i].content[j].name}">
+                    <div id="category-articles">
                     <a href="../${categoryPostArr[i].content[j].value}">&emsp;${categoryPostArr[i].content[j].name}</a>
                     </div>`
             }
@@ -56,12 +56,12 @@ hexo.extend.helper.register('get_category_posts',function(){
             for(let j=0; j<categoryPostArr[i].children.length; j++){
                 var categoryTmp = categoryPostArr[categoryPostArr[i].children[j]]
                 strTemp+=`
-                    <div class="category-lists-second" id="${categoryTmp.name}">
-                    <a href="../${categoryTmp.path}">&emsp;${categoryTmp.name}</a>
+                    <div id="category-lists-second">
+                    <a href="../${categoryTmp.path}">&emsp;· ${categoryTmp.name}</a>
                     </div>`
                 for(let k = 0; k < categoryTmp.content.length; k++){
                     strTemp+=`
-                        <div class="category-articles" id="${categoryTmp.content[k].name}">
+                        <div id="category-articles">
                         <a href="../${categoryTmp.content[k].value}">&emsp;&emsp;${categoryTmp.content[k].name}</a>
                         </div>`
                 }
@@ -69,6 +69,6 @@ hexo.extend.helper.register('get_category_posts',function(){
         }
         strCategories+=strTemp
     }
-    console.log(strCategories)
+    // console.log(strCategories)
     return strCategories
 })
