@@ -5,7 +5,7 @@ categories:
   - PX4学习笔记
 abbrlink: 76c2
 date: 2022-10-24 14:42:24
-tags:
+tags: [PX4]
 ---
 
 PX4自动驾驶仪软件可分为三大部分：实时操作系统、中间件和飞行控制栈。

@@ -10,6 +10,7 @@ menu:
   # Tags: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
   # 说说: /moments/ || fas fa-comments
+  微博: /weibo/ || fas fa-comments
   # 分类||fas fa-list:
   #   博客相关: /categories/博客相关/ || fas fa-folder-open
   #   编程语言: /categories/编程语言/ || fas fa-folder-open
@@ -71,21 +72,14 @@ local_search:
 
 # MathJax
 mathjax:
-  enable: false
+  enable: true
   per_page: false
 
 # KaTeX
 katex:
-  enable: false
-  per_page: false
-  hide_scrollbar: true
-
-# 说说界面
-artitalk:
   enable: true
-  appId: 'mHcEIPuuyz99B0w5ADhChIfI-MdYXbMMI'
-  appKey: 'AcitrdZDJ8V5Uv297u2YNDSF'
-  option: 
+  per_page: true
+  hide_scrollbar: true
 
 # Image (圖片設置)
 # --------------------------------------
@@ -686,7 +680,7 @@ aside:
   card_categories:
     enable: true
     limit: 8 # if set 0 will show all
-    expand: none # none/true/false
+    expand: false # none/true/false
     sort_order: # Don't modify the setting unless you know how it works
   card_tags:
     enable: false
