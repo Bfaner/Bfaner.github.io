@@ -15,6 +15,9 @@
   div#menus {
     font-family: "ZhuZiAYuanJWD";
   }
+  
+    height:auto;
+    width:100%
   h1#site-title {
     font-family: ZhuZiAYuanJWD;
     font-size: 3em !important;
@@ -318,19 +321,19 @@
     /* 超出部分隐藏 */
     overflow: hidden;
     /* 下边距 */
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
+    margin-bottom: auto;
+    /* 上边距 */
+    margin-top: 16px;
     border: var(--style-border);
+    /* 宽度 */
+    width:100%;
   }
 
   @media screen and (max-width: 768px){
     #category-bar{
       border-radius: 0;
     }
-  }
-
-  #category #category-bar{
-    padding: 0;
-    border: none;
   }
 
   #category a.category-bar-item.select a{
