@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>固定翼位置控制 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="纵向—TECS总能量飞机的总能量：$\mathrm{E}&amp;#x3D;m g h+\frac{1}{2} m V^2$ 两边同时除以质量m：$E_s&amp;#x3D;g h+\frac{1}{2} V^2$ 求导：$\dot{E}_s&amp;#x3D;g \dot{h}+V \dot{V}&amp;#x3D;g V_z+V \dot{V}$ TECS表达式："><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/c408"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '固定翼位置控制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:09:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">固定翼位置控制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-03T15:17:57.000Z" title="发表于 2021-04-03 23:17:57">2021-04-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:09:40.722Z" title="更新于 2023-04-14 20:09:40">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/PX4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">PX4学习笔记</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="纵向—TECS"><a href="#纵向—TECS" class="headerlink" title="纵向—TECS"></a>纵向—TECS</h1><h2 id="总能量"><a href="#总能量" class="headerlink" title="总能量"></a>总能量</h2><p>飞机的总能量：$\mathrm{E}=m g h+\frac{1}{2} m V^2$</p>
+<p>两边同时除以质量m：$E_s=g h+\frac{1}{2} V^2$</p>
+<p>求导：$\dot{E}_s=g \dot{h}+V \dot{V}=g V_z+V \dot{V}$</p>
+<p>TECS表达式：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+E_s=g h+\frac{1}{2} V^2 \newline
+\dot{E}_s=g \dot{h}+V \dot{V}
+\end{array}\right.</script><h3 id="物理量的来源"><a href="#物理量的来源" class="headerlink" title="物理量的来源"></a>物理量的来源</h3><p>高度h和高度变化率$\dot h$：</p>
+<blockquote>
+<p>实际值：气压高度和EKF的Z轴速度，如果没有z轴惯导，使用三阶互补滤波对h、Vz进行估计<br>目标值：</p>
+<blockquote>
+<p>1.高度目标：输入值，用最大爬升/下滑速率限幅，一阶滤波处理<br>2.高度变化率目标：(目标高度-气压高)<em>K1+(当前目标高度-上一刻目标高度)/dt</em>K2</p>
+</blockquote>
+</blockquote>
+<p>速度V和速度变化率$\dot V$：</p>
+<blockquote>
+<p>实际值：</p>
+<blockquote>
+<p>1.速度：二阶互补滤波得到<br>2.速度变化率：speed_deriv = sinθ*g + accel_x</p>
+</blockquote>
+<p>目标值：</p>
+<blockquote>
+<p>1.速度目标：TAS_sp=EAS_sp<em>eas2tas<br>2.速度变化率目标：两次速度目标值的误差</em>速度误差增益(1/s)</p>
+</blockquote>
+</blockquote>
+<h3 id="总能量STE、势能SPE、动能SKE计算"><a href="#总能量STE、势能SPE、动能SKE计算" class="headerlink" title="总能量STE、势能SPE、动能SKE计算"></a>总能量STE、势能SPE、动能SKE计算</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SPE</th>
+<th>SKE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>estimate</td>
+<td>vert_pos_state*g</td>
+<td>0.5*TAS_state^2</td>
+</tr>
+<tr>
+<td>rate</td>
+<td>vert_vel_state*g</td>
+<td>TAS_state *  _speed_derivative</td>
+</tr>
+<tr>
+<td>sp</td>
+<td>hgt_sp_adj * g</td>
+<td>0.5*TAS_sp_adj^2</td>
+</tr>
+<tr>
+<td>rate_sp</td>
+<td>hgt_rate_sp * g</td>
+<td>TAS_state * TAS_rate_sp</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> 即：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SPE</th>
+<th>SKE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td>g*H</td>
+<td>0.5*V²</td>
+</tr>
+<tr>
+<td>rate</td>
+<td>Vz*g</td>
+<td>$V*\dot V$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="总能量误差STE"><a href="#总能量误差STE" class="headerlink" title="总能量误差STE"></a>总能量误差STE</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">STE_error = STE(目标值-实际值)</span><br><span class="line">STE_rate_error = STE_rate(目标值-实际值)【并进行一阶IIR滤波】</span><br></pre></td></tr></table></figure>
+<p>油门值初步计算</p>
+<p>能量增加(STE_rate_sp&gt;0)，$预测油门=巡航油门+\frac{STE_rate_sp}{STE_rate_max} *(最大油门- 巡航油门)$</p>
+<p>能量减小(STE_rate_sp&lt;0)，$预测油门=巡航油门+\frac{STE_rate_sp}{STE_rate_min} *(最小油门- 巡航油门)$</p>
+<p>STE_error通过PI得到油门值</p>
+<blockquote>
+<p>油门比例值=(STE_error+STE_rate_error*K)*能量到油门的因子+预测油门<br>油门积分值=STE_error*K*dt*能量到油门的因子<br><strong>空速可用，油门值=油门比例值+油门积分值；空速不可用，油门值=预测油门</strong></p>
+<blockquote>
+<p>能量到油门的因子 = 1.0/(油门时间常数 * (STE_rate_max - STE_rate_min))<br>【油门时间常数默认值为8】<br>【STE_rate_max = max_climb_rate <em> g】【STE_rate_min = - min_sink_rate </em> g】</p>
+</blockquote>
+</blockquote>
+<h2 id="能量权重得到SEB"><a href="#能量权重得到SEB" class="headerlink" title="能量权重得到SEB"></a>能量权重得到SEB</h2><p>动能权重SKE_weight，势能权重SPE_weight【0为0%权重，2为100%权重】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SEB = SKE*SKE_weight + SPE*SPE_weight</span><br><span class="line">SEB_error = SEB_sp - SEB_estimate</span><br><span class="line">SEB_rate_error = SEB_rate_sp - SEB_rate</span><br></pre></td></tr></table></figure>
+<p>SEB_error通过PI得到俯仰角指令</p>
+<blockquote>
+<p> SEB误差比例值 = SEB_error + SEB_rate_error*Kd + SEB_rate_sp * Kp</p>
+<blockquote>
+<p>若爬升模态，SEB误差比例值+=最小俯仰角*俯仰角到能量的因子</p>
+</blockquote>
+<p> SEB误差积分值 += SEB_error*Ki*dt<br> <strong>目标俯仰角=(SEB误差比例值+SEB误差积分值)/俯仰角到能量的因子</strong></p>
+<blockquote>
+<p>俯仰角到能量的因子=TAS_state * 俯仰时间常数 * g<br>【俯仰时间常数默认值为5】</p>
+</blockquote>
+</blockquote>
+<h1 id="横侧向—L1"><a href="#横侧向—L1" class="headerlink" title="横侧向—L1"></a>横侧向—L1</h1><h2 id="受力分析"><a href="#受力分析" class="headerlink" title="受力分析"></a>受力分析</h2><p><img src="c408/image-20230410012746001.png" alt="image-20230410012746001" style="zoom:25%;" /></p>
+<p>无人机滚转时</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+L \cos \varphi=m g \newline
+L \sin \varphi=m a
+\end{array}\right.</script><p>②/①得：</p>
+<script type="math/tex; mode=display">
+\tan \varphi=\frac{a}{g}</script><p>即，$\varphi=\tan ^{-1} \frac{a}{g}$</p>
+<h2 id="几何分析"><a href="#几何分析" class="headerlink" title="几何分析"></a>几何分析</h2><p><img src="c408/image-20230410012857057.png" alt="image-20230410012857057" style="zoom:20%;" /></p>
+<script type="math/tex; mode=display">
+a_{c m d}=\frac{V^2}{R}=\frac{V^2}{\frac{L_1}{2 \sin \eta}}=\frac{2 V^2}{L_1} \sin \eta</script><h2 id="L1计算"><a href="#L1计算" class="headerlink" title="L1计算"></a>L1计算</h2><script type="math/tex; mode=display">
+\mathbf{L 1}=\mathrm{L} 1 \_ \text {distance }=\frac{\mathbf{1}}{\pi} \bullet \xi \bullet T \bullet V=\mathrm{L} 1 \_ \text {ratio } * \mathrm{~V}</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{c}
+L1 \_ distance=L1 \_ ratio * ground_speed \newline
+L1 \_ ratio=1.0 / \pi * L1 \_damping * L1 \_ period
+\end{array}\right.</script><p>L1_damping=0.75；L1_period=25，此时得到的L1_ratio=5.9683</p>
+<h2 id="线性化"><a href="#线性化" class="headerlink" title="线性化"></a>线性化</h2><h3 id="跟随一条直线"><a href="#跟随一条直线" class="headerlink" title="跟随一条直线"></a>跟随一条直线</h3><p>【方向偏移量+位置偏移量】</p>
+<img src="/posts/c408/image-20230410013447785.png" class="" title="image-20230410013447785">
+<p>假设角度很小$\sin \eta \approx \eta=\eta_1+\eta_2$</p>
+<script type="math/tex; mode=display">
+\eta_1 \approx \sin \eta_1 \approx \frac{d}{L_1}, \quad \eta_2 \approx \sin \eta_2 \approx \frac{\dot{d}}{V}</script><script type="math/tex; mode=display">
+a_{c m d}=\frac{2 V^2}{L_1} \sin \eta \approx \frac{2 V^2}{L_1}\left(\frac{d}{L_1}+\frac{\dot{d}}{V}\right)=2 \frac{V}{L_1}\left(\frac{V}{L_1} d+\dot{d}\right)</script><p>当忽略内环动力学和$\eta _2$，则$a_{c m d}=-\ddot{d}$</p>
+<p>则上述方程为：</p>
+<script type="math/tex; mode=display">
+\ddot{d}+2 \zeta \omega_n \dot{d}+\omega_n^2=0</script><p>其中，$\zeta=1/\sqrt 2$，$\omega_n=\sqrt 2/L_1$【这表明，跟随直线时，系统是一个二阶系统，频率为0.7071，阻尼与无人机的速度和距离有关】</p>
+<h3 id="跟随曲线"><a href="#跟随曲线" class="headerlink" title="跟随曲线"></a>跟随曲线</h3><p><img src="c408/image-20230410033054393.png" alt="image-20230410033054393" style="zoom:50%;" /></p>
+<p>假设角度很小$\sin \eta \approx \eta=\eta_1+\eta_2$</p>
+<script type="math/tex; mode=display">
+\eta_1 \approx \sin \eta_1 \approx \frac{d-d_{\text {ref.pt }}^*}{L_1}, \quad \eta_2 \approx \sin \eta_2 \approx \frac{\dot{d}}{V}</script><p>同样可得</p>
+<script type="math/tex; mode=display">
+\ddot{d}+\frac{2 V}{L_1} \dot{d}+\frac{2 V^2}{L_1^2} d=\frac{2 V^2}{L_1^2} d_{\text {ref.pt }}^*</script><p>转化为L(s)得：</p>
+<script type="math/tex; mode=display">
+\frac{d(s)}{d_{r e f . p t}^*(s)}=\frac{\omega_n^2}{s^2+2 \zeta \omega_n+\omega_n^2}</script><p>其中，$\zeta=1/\sqrt 2$，$\omega_n=\sqrt 2/L_1$【这表明，跟随曲线时，系统等效为一个二阶低通线性系统，频率为0.7071，阻尼与无人机的速度和距离有关】</p>
+<h3 id="跟随圆"><a href="#跟随圆" class="headerlink" title="跟随圆"></a>跟随圆</h3><p>【到圆弧的方向偏移量+到圆弧的位置偏移量+圆弧处的向心加速度】</p>
+<p><img src="c408/image-20230410033131228.png" alt="image-20230410033131228" style="zoom: 33%;" /></p>
+<p>假设$\eta_1 \approx 0, \eta_2 \approx 0,\left|\eta_3\right| \gg 0$</p>
+<ol>
+<li><p>$\psi-\theta+\frac{\eta_2}{2}=\frac{\pi}{2}$，可得$\dot{\psi}=\dot{\theta}-\dot{\eta}_2$</p>
+<p>$\dot{\mathrm{d}}=\mathrm{V} \sin \eta_2 \approx \mathrm{V} \eta_2$ ，因此 $\ddot{\mathrm{d}} \approx \mathrm{V} \eta_2$</p>
+<script type="math/tex; mode=display">
+a_{c m d} \approx V \dot{\psi}=V \dot{\theta}-V \dot{\eta_2}=V \dot{\theta}-\ddot{d}</script><p>有$V \dot{\theta}=\frac{\mathrm{V}^2}{\mathrm{R}}$ ，则 $a_{c m d} \approx \frac{\mathrm{V}^2}{\mathrm{R}}-\ddot{d}$</p>
+</li>
+<li><p>根据假设，$\sin \eta_3=\frac{L_1}{2 R}$，则令$c \equiv \cos \eta_3 \approx \sqrt{1-\left(\frac{L_1}{2 R}\right)^2}$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \frac{2 V^2}{L_1} \sin \eta=\frac{2 V^2}{L_1} \sin \left(\eta_1+\eta_2+\eta_3\right) \newline
+& =\frac{2 V^2}{L_1}\left\{\sin \left(\eta_1+\eta_2\right) \cos \eta_3+\cos \left(\eta_1+\eta_2\right) \sin \eta_3\right\} \newline
+& \approx \frac{2 V^2}{L_1}\left\{\eta_1 \cos \eta_3+\eta_2 \cos \eta_3+\sin \eta_3\right\}
+\end{aligned}</script><p>其中， $\eta_1 \approx \sin \eta_1 \approx \frac{d \cos \eta_3}{L_1}, \eta_2 \approx \sin \eta_2 \approx \frac{d}{V}$,</p>
+<p>因此，</p>
+<script type="math/tex; mode=display">
+\frac{2 \mathrm{~V}^2}{\mathrm{~L}_1} \sin \eta \approx \frac{2 \mathrm{~V}^2}{\mathrm{~L}_1}\left(\frac{d \cos \eta_3}{L_1} \cos \eta_3+\frac{\dot{d}}{V} \cos \eta_3+\sin \eta_3\right)=\frac{2 \mathrm{~V}^2 c^2}{\mathrm{~L}_1} d+\frac{2 V c}{L_1} \dot{d}+\frac{\mathrm{v}^2}{R}</script><p>【到圆弧的侧偏值+到圆弧的切线方向+圆弧上的向心加速度】</p>
+<p>$\ddot{d}+2 \zeta \omega_n \dot{d}+\omega_n^2 \approx 0$,其中， $\zeta=1 / \sqrt{2} ， \omega_n=\sqrt{2} V c / L_1$</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/c408.html">https://bfaner.github.io/posts/c408.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/f48b.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">气动估算软件</div></div></a></div><div class="next-post pull-right"><a href="/posts/f530.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">固定翼姿态控制</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%B5%E5%90%91%E2%80%94TECS"><span class="toc-number">1.</span> <span class="toc-text">纵向—TECS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%83%BD%E9%87%8F"><span class="toc-number">1.1.</span> <span class="toc-text">总能量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E9%87%8F%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="toc-number">1.1.1.</span> <span class="toc-text">物理量的来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E8%83%BD%E9%87%8FSTE%E3%80%81%E5%8A%BF%E8%83%BDSPE%E3%80%81%E5%8A%A8%E8%83%BDSKE%E8%AE%A1%E7%AE%97"><span class="toc-number">1.1.2.</span> <span class="toc-text">总能量STE、势能SPE、动能SKE计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%83%BD%E9%87%8F%E8%AF%AF%E5%B7%AESTE"><span class="toc-number">1.2.</span> <span class="toc-text">总能量误差STE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E9%87%8F%E6%9D%83%E9%87%8D%E5%BE%97%E5%88%B0SEB"><span class="toc-number">1.3.</span> <span class="toc-text">能量权重得到SEB</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%AA%E4%BE%A7%E5%90%91%E2%80%94L1"><span class="toc-number">2.</span> <span class="toc-text">横侧向—L1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%97%E5%8A%9B%E5%88%86%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">受力分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E5%88%86%E6%9E%90"><span class="toc-number">2.2.</span> <span class="toc-text">几何分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L1%E8%AE%A1%E7%AE%97"><span class="toc-number">2.3.</span> <span class="toc-text">L1计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%8C%96"><span class="toc-number">2.4.</span> <span class="toc-text">线性化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9F%E9%9A%8F%E4%B8%80%E6%9D%A1%E7%9B%B4%E7%BA%BF"><span class="toc-number">2.4.1.</span> <span class="toc-text">跟随一条直线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9F%E9%9A%8F%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.4.2.</span> <span class="toc-text">跟随曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9F%E9%9A%8F%E5%9C%86"><span class="toc-number">2.4.3.</span> <span class="toc-text">跟随圆</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

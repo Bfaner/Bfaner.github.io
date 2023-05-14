@@ -1,0 +1,542 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>互补滤波算法 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="互补滤波原理 数字罗盘和加速度传感器：测量姿态没有累积误差，但动态响应较差（精度高，频率低） 陀螺仪：动态响应特性良好，但计算姿态时，会产生累积误差（频率高，精度低）   \hat{R}(s) &amp;#x3D;G_L(s) {R}_o(s)+G_H(s) {R}_c(s)步骤详情 获取实时角速度【陀螺仪数据】①读"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/5f1e"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '互补滤波算法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:08:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">互补滤波算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-25T12:32:58.000Z" title="发表于 2020-12-25 20:32:58">2020-12-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:08:40.334Z" title="更新于 2023-04-14 20:08:40">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/Minifly/">Minifly</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="互补滤波"><a href="#互补滤波" class="headerlink" title="互补滤波"></a>互补滤波</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ul>
+<li>数字罗盘和加速度传感器：测量姿态没有累积误差，但动态响应较差（精度高，频率低）</li>
+<li>陀螺仪：动态响应特性良好，但计算姿态时，会产生累积误差（频率高，精度低）</li>
+</ul>
+<script type="math/tex; mode=display">
+\hat{R}(s) =G_L(s) {R}_o(s)+G_H(s) {R}_c(s)</script><h2 id="步骤详情"><a href="#步骤详情" class="headerlink" title="步骤详情"></a>步骤详情</h2><ol>
+<li><h3 id="获取实时角速度【陀螺仪数据】"><a href="#获取实时角速度【陀螺仪数据】" class="headerlink" title="获取实时角速度【陀螺仪数据】"></a>获取实时角速度【陀螺仪数据】</h3><p>①读取陀螺仪数据</p>
+<p>②消除零偏【每次启动陀螺仪的零偏基本不变，因此每次开机静止校准，以累积bias数据】</p>
+<p>③通过二阶低通滤波得到实时角速度$\omega _x、\omega _y、\omega _z(gyro)$</p>
+</li>
+<li><h3 id="计算加速度计误差【加速度计与姿态求得重力加速度】"><a href="#计算加速度计误差【加速度计与姿态求得重力加速度】" class="headerlink" title="计算加速度计误差【加速度计与姿态求得重力加速度】"></a>计算加速度计误差【加速度计与姿态求得重力加速度】</h3><script type="math/tex; mode=display">
+\begin{aligned}
+R_b^n=
+\left[\begin{array}{ccc}
+r_{x x} & r_{x y} & r_{x z} \newline
+r_{y x} & r_{y y} & r_{y z} \newline
+r_{z x} & r_{z y} & r_{z z}
+\end{array}\right]
+=\left[\begin{array}{ccc}
+q_0^2+q_1^2-q_2^2-q_3^2 & 2(q_1q_2-q_0q_3) & 2(q_0q_2+q_1q_3) \newline
+2(q_0q_3+q_1q_2) & q_0^2-q_1^2+q_2^2-q_3^2 & 2(q_2q_3-q_0q_1) \newline
+2(q_1q_3-q_0q_2) & 2(q_0q_1+q_2q_3) & q_0^2-q_1^2-q_2^2+q_3^2
+\end{array}\right]
+\end{aligned}</script><script type="math/tex; mode=display">
+e_{\theta \phi}=\left[\begin{array}{c}
+r_{z x} \newline
+r_{z y} \newline
+r_{z z}
+\end{array}\right] \times \frac{|g|}=\left[\begin{array}{c}
+r_{z x} \newline
+r_{z y} \newline
+r_{z z}
+\end{array}\right] \times\left[\begin{array}{c}
+a_x \newline
+a_y \newline
+a_z
+\end{array}\right]=\left[\begin{array}{c}
+r_{z y} a_z-r_{z z} a_y \newline
+r_{z z} a_x-r_{z x} a_z \newline
+r_{z x} a_y-r_{z y} a_x
+\end{array}\right]</script></li>
+<li><h3 id="姿态角速度融合加速度计"><a href="#姿态角速度融合加速度计" class="headerlink" title="姿态角速度融合加速度计"></a>姿态角速度融合加速度计</h3><script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\omega _x \newline
+\omega _y \newline
+\omega _z
+\end{array}\right]=\left[\begin{array}{c}
+\omega _{x_{gyro}} \newline
+\omega _{y_{gyro}} \newline
+\omega _{z_{gyro}}
+\end{array}\right]+(k_P+\frac{k_I}{s})e_{\theta \phi}</script></li>
+<li><h3 id="求解新四元数"><a href="#求解新四元数" class="headerlink" title="求解新四元数"></a>求解新四元数</h3><script type="math/tex; mode=display">
+\frac {d  Q}{dt}=\frac{1}{2}(q_0+q_1 i+q_2 j+q_3 k)(w_x i+w_y j+w_z k)</script><script type="math/tex; mode=display">
+\left[\begin{array}{l}
+   q_0 \newline
+   q_1 \newline
+   q_2 \newline
+   q_3
+   \end{array}\right]_{t+\Delta \mathrm{t}}=\left[\begin{array}{l}
+   q_0 \newline
+   q_1 \newline
+   q_2 \newline
+   q_3
+   \end{array}\right]_t+\frac {d  Q}{dt}*\Delta t
+   =\left[\begin{array}{l}
+   q_0 \newline
+   q_1 \newline
+   q_2 \newline
+   q_3
+   \end{array}\right]_t+\frac{\Delta \mathrm{t}}{2}\left[\begin{array}{l}
+   -\omega_x \cdot q_1-\omega_y \cdot q_2-\omega_z \cdot q_3 \newline
+   +\omega_x \cdot q_0-\omega_y \cdot q_3+\omega_z \cdot q_2 \newline
+   +\omega_x \cdot q_3+\omega_y \cdot q_0-\omega_z \cdot q_1 \newline
+   -\omega_x \cdot q_2+\omega_y \cdot q_1+\omega_z \cdot q_0
+   \end{array}\right]</script><p><img src="5f1e/image-20230404203957225.png" alt="image-20230404203957225" style="zoom:50%;" /></p>
+</li>
+</ol>
+<h1 id="Minifly的流程"><a href="#Minifly的流程" class="headerlink" title="Minifly的流程"></a>Minifly的流程</h1><h2 id="官方流程图"><a href="#官方流程图" class="headerlink" title="官方流程图"></a>官方流程图</h2><p><img src="5f1e/image-20230401204009331.png" alt="image-20230401204009331" style="zoom:50%;" /></p>
+<h2 id="校准姿态的方法"><a href="#校准姿态的方法" class="headerlink" title="校准姿态的方法"></a>校准姿态的方法</h2><p>1）陀螺仪：测量的是角速度，将传感器静止时角速度应当为0，所以静止放置传感器，此时的陀螺仪数值即为零偏；</p>
+<p>2）加速度计：测量的是三轴与重力的夹角，Z轴向上静止放置时，XY读数为0，Z读数为 1g 翻过来为 -1g（AD值与量程有关，1g对应量程最大值）。对于XY轴校准，将传感器Z轴向上静止放置，XY轴的读数为零偏；对于Z轴，先将Z轴向上读取数值（1g），再将Z轴向下读取数值（-1g），两个数值相加 除2 即为零偏。也可以使用椭球校准法，这种方法不需要区分XYZ。</p>
+<p>3）磁力计：测量的是XYZ轴与地磁场的夹角，以Z轴为例，传感器向上和向下的Z轴数据应当大小相等，方向相反。校准使用球面校准法、椭球校准法。</p>
+<h1 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h1><h2 id="互补滤波模型"><a href="#互补滤波模型" class="headerlink" title="互补滤波模型"></a>互补滤波模型</h2><h3 id="基础模型"><a href="#基础模型" class="headerlink" title="基础模型"></a>基础模型</h3><p>以 R 表示飞行器真实姿态的方向余弦矩阵表示，$\hat{R}$表示互补滤波器计算输出的姿态方向余弦矩阵</p>
+<p>$R_0$表示由加速度传感器和数字罗盘观测到的姿态方向余弦矩阵，$u_H$表示$R_0$的高频观测噪声，$R_0=R+u_H$</p>
+<p>$R_c$表示由陀螺仪数据计算得到的姿态，$u_L$表示$R_c$中的低频累积误差，则$R_c=R+u_L$</p>
+<p>此时，取</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&G_L(s)=\frac{C(s)}{s+C(s)} \newline
+&G_H(s)=1-G_L(s)=\frac{S}{s+C(s)}
+\end{aligned}</script><p>如果$C(s)$具有全通特性，则$G_L(s)$具有低通滤波特性，$G_H(s)$具有高通滤波特性。</p>
+<p>令</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{R}(s) & =G_L(s) {R}_o(s)+G_H(s) {R}_c(s) \newline
+& ={R}(s)+G_L(s) {u}_H(s)+G_H(s) {u}_L(s) \newline
+& \approx {R}(s) .
+\end{aligned}</script><p>因此，互补滤波算法能够同时滤除低频和高频干扰。</p>
+<h3 id="姿态推算的简化"><a href="#姿态推算的简化" class="headerlink" title="姿态推算的简化"></a>姿态推算的简化</h3><p>体轴系到地轴系的状态转移矩阵：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+R_b^n=\left[\begin{array}{ccc}
+\cos \theta \cos \psi & -\cos \phi \sin \psi+\sin \phi \sin \theta \cos \psi & \sin \phi \sin \psi+\cos \phi \sin \theta \cos \psi \newline
+\cos \theta \sin \psi & \cos \phi \cos \psi+\sin \phi \sin \theta \sin \psi & -\sin \phi \cos \psi+\cos \phi \sin \theta \sin \psi \newline
+-\sin \theta & \sin \phi \cos \theta & \cos \phi \cos \theta
+\end{array}\right]
+\end{aligned}</script><p>因此，从t时刻到(t+dt)时刻的状态转移矩阵推算为：</p>
+<script type="math/tex; mode=display">
+R_b^n(t+dt)=R_{b(t+dt)}^{n(t+dt)}=R_{n(t)}^{n(t+dt)}*R_{b(t)}^{n(t)}*R_{b(t)}^{b(t+dt)}</script><p>考虑dt极短，地轴系没有变化，$R_{n(t)}^{n(t+dt)}$为1。而$R_{b(t)}^{b(t+dt)}$相当于体轴系下姿态角在dt时间内的改变量，其值即为$R_b^n(dt)$，因此</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& R_b^n(t+{d} t)=R_b^n(t)R_b^n(dt)=R_b^n(t)\left[\begin{array}{ccc}
+1 & -d\psi & d\theta \newline
+d\psi & 1 & -d\phi \newline
+-d\theta & d\phi & 1
+\end{array}\right] \newline
+& =R_b^n(t)\left[\begin{array}{ccc}
+1 & -\omega_z dt & \omega_y dt \newline
+\omega_z d t & 1 & -\omega_x dt \newline
+-\omega_y dt & \omega_x dt & 1
+\end{array}\right]
+\end{aligned}</script><p>当dt趋于0时，可以求得旋转矩阵的导数值</p>
+<script type="math/tex; mode=display">
+\dot R_b^n=R_b^n {\Omega}_{n b}^b</script><p>其中，</p>
+<script type="math/tex; mode=display">
+{\Omega}_{n b}^b=\left[\begin{array}{ccc}
+0 & -\omega_z & \omega_y \newline
+\omega_z & 0 & -\omega_x \newline
+-\omega_y & \omega_x & 0
+\end{array}\right]</script><p>即$s R_c(s)=\hat{R}(s) {\Omega}(s)$</p>
+<h3 id="互补滤波模型的简化"><a href="#互补滤波模型的简化" class="headerlink" title="互补滤波模型的简化"></a>互补滤波模型的简化</h3><p>将 $s R_c(s)=\hat{R}(s) {\Omega}(s)$ 带入 $\hat{R}(s)=G_L(s) {R}_o(s)+G_H(s) {R}_c(s)$ ，可得：</p>
+<script type="math/tex; mode=display">
+\hat{R}(s)=\frac{C(s)}{s+C(s)}{R}_o(s)+\frac{s}{s+C(s)}{R}_c(s) \newline
+s\hat{R}(s)+C(s)\hat{R}(s) = C(s){R}_o(s)+\hat{R}(s) {\Omega}(s)</script><script type="math/tex; mode=display">
+s\hat{R}(s)=C(s)\left({R}_o(s)-\hat{R}(s)\right)+\hat{R}(s) {\Omega}(s)</script><p>因此，互补滤波的模型为</p>
+<p><img src="5f1e/image-20230402172501049.png" alt="image-20230402172501049" style="zoom:50%;" /></p>
+<p>$C(s)$ 如果取固定常数$k_p$，则设计的低通滤波器与高通滤波器的截止频率。</p>
+<script type="math/tex; mode=display">
+f_T=\frac{k_p}{2\pi}</script><p>在大于$f_T$的高频段，陀螺仪对解算结果起主要作用；在小于$f_T$的低频段，数字罗盘和加速度传感器对解算结果起主要作用。</p>
+<p>对上式拉普拉斯反变换，可得其在时域中的表达式如下</p>
+<script type="math/tex; mode=display">
+\dot{\hat R}=k_p\left(R_o-\hat{R}\right)+\hat{R} \Omega</script><p>上式亦可理解为：</p>
+<script type="math/tex; mode=display">
+\omega=k_p*e+\omega_g \newline
+【\omega_g为陀螺仪解算的结果，e为加计/罗盘与陀螺仪解算的误差】</script><h2 id="误差计算"><a href="#误差计算" class="headerlink" title="误差计算"></a>误差计算</h2><p>姿态求解可设计为：使用陀螺仪(频率高)实时对姿态进行解算，同时使用加速度计和罗盘对姿态进行校正。</p>
+<h3 id="比例积分设计"><a href="#比例积分设计" class="headerlink" title="比例积分设计"></a>比例积分设计</h3><p>为消除静态偏差，取$C(s)=k_P+\frac{k_I}{s}$，$k_P$的大小决定互补滤波器的截止频率，$K_I$的大小决定了消除静态偏差的时间，通常$K_I$的大小为$K_P$ 的0.01~0.1倍。</p>
+<p>加速度传感器测量载体坐标系下重力加速度矢量 g 的方向，以校正横滚和俯仰姿态角；数字罗盘测量在参考坐标系下的航向角$\psi$，以校正飞行器的偏航姿态角。由于加速度传感器与数字罗盘的响应时间是不相同的$k_P$和$k_I$，最终设计的互补滤波器的姿态求解器结构如下：</p>
+<p><img src="5f1e/image-20230402173551601.png" alt="image-20230402173551601" style="zoom:60%;" /></p>
+<p>飞行器的偏航不会影响重力加速度矢量的方向，而且横滚角和俯仰角也不会影响飞行器的航向，所以，两路校正之间是解耦的，不会相互干扰，分为两路的策略是合理的。</p>
+<p>$\omega$为校正后的角速度，由此得到${\Omega}_{n b}^b$，再通过$\dot R_b^n=R_b^n {\Omega}_{n b}^b$积分，便得到新的姿态角。</p>
+<script type="math/tex; mode=display">
+{\Omega}_{n b}^b=\left[\begin{array}{ccc}
+0 & -\omega_z & \omega_y \newline
+\omega_z & 0 & -\omega_x \newline
+-\omega_y & \omega_x & 0
+\end{array}\right] \newline
+\dot R_b^n=R_b^n {\Omega}_{n b}^b</script><h3 id="加速度计误差"><a href="#加速度计误差" class="headerlink" title="加速度计误差"></a>加速度计误差</h3><p>根据状态矩阵</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+R_b^n=
+\left[\begin{array}{ccc}
+r_{x x} & r_{x y} & r_{x z} \newline
+r_{y x} & r_{y y} & r_{y z} \newline
+r_{z x} & r_{z y} & r_{z z}
+\end{array}\right]
+=\left[\begin{array}{ccc}
+\cos \theta \cos \psi & -\cos \phi \sin \psi+\sin \phi \sin \theta \cos \psi & \sin \phi \sin \psi+\cos \phi \sin \theta \cos \psi \newline
+\cos \theta \sin \psi & \cos \phi \cos \psi+\sin \phi \sin \theta \sin \psi & -\sin \phi \cos \psi+\cos \phi \sin \theta \sin \psi \newline
+-\sin \theta & \sin \phi \cos \theta & \cos \phi \cos \theta
+\end{array}\right]
+\end{aligned}</script><p>即</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+R_n^b=
+\left[\begin{array}{ccc}
+r_{x x} & r_{y x} & r_{z x} \newline
+r_{x y} & r_{y y} & r_{z y} \newline
+r_{x z} & r_{y z} & r_{z z}
+\end{array}\right]
+=\left[\begin{array}{ccc}
+\cos \theta \cos \psi & \cos \theta \sin \psi & -\sin \theta \newline
+-\cos \phi \sin \psi+\sin \phi \sin \theta \cos \psi & \cos \phi \cos \psi+\sin \phi \sin \theta \sin \psi & \sin \phi \cos \theta \newline
+\sin \phi \sin \psi+\cos \phi \sin \theta \cos \psi & -\sin \phi \cos \psi+\cos \phi \sin \theta \sin \psi & \cos \phi \cos \theta
+\end{array}\right]
+\end{aligned}</script><p>因此，重力加速度在体轴系三个方向的分量为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\left[\begin{array}{c}
+g_1 \newline
+g_2 \newline
+g_3
+\end{array}\right]
+=
+\left[\begin{array}{ccc}
+r_{x x} & r_{y x} & r_{z x} \newline
+r_{x y} & r_{y y} & r_{z y} \newline
+r_{x z} & r_{y z} & r_{z z}
+\end{array}\right]
+\left[\begin{array}{ccc}
+0 \newline
+0 \newline
+g
+\end{array}\right]
+=\left[\begin{array}{c}
+r_{z x} \newline
+r_{z y} \newline
+r_{z z}
+\end{array}\right]
+\end{aligned}</script><p>因此，加速度计与姿态角解算的重力加速度，之间的误差为：</p>
+<script type="math/tex; mode=display">
+e_{\theta \phi}=\left[\begin{array}{c}
+r_{z x} \newline
+r_{z y} \newline
+r_{z z}
+\end{array}\right] \times \frac{g}{|g|}=\left[\begin{array}{c}
+r_{z x} \newline
+r_{z y} \newline
+r_{z z}
+\end{array}\right] \times\left[\begin{array}{c}
+a_x \newline
+a_y \newline
+a_z
+\end{array}\right]=\left[\begin{array}{c}
+r_{z y} a_z-r_{z z} a_y \newline
+r_{z z} a_x-r_{z x} a_z \newline
+r_{z x} a_y-r_{z y} a_x
+\end{array}\right]</script><p>如果将陀螺仪绕着$e_{\theta \phi}$向量旋转$|e_{\theta \phi}|$，便可以将陀螺仪解算与加速度计的向量误差完全消除。如果将$e_{\theta \phi}$乘以x%，加到陀螺的积分角度上去，就是x%的互补算法。</p>
+<p>而加速度计无法感知z轴，因此只对$\theta、\phi$进行校正。</p>
+<h3 id="罗盘误差"><a href="#罗盘误差" class="headerlink" title="罗盘误差"></a>罗盘误差</h3><p>飞行器的航向是定义在参考坐标系的 x-y 平面内的，所以，偏航误差$e_\psi$近似为数字罗盘测量的偏航角矢量与互补滤波器估计的航向矢量，投影到参考坐标系 x-y 平面形成的 2 个单位矢量的叉乘 c，再转换到机体坐标系下。</p>
+<script type="math/tex; mode=display">
+{c}=\sqrt{\frac{1}{r_{x x}^2+r_{y x}^2}}\left[\begin{array}{l}
+r_{x x} \newline
+r_{y x} \newline
+0
+\end{array}\right] \times\left[\begin{array}{c}
+\cos \psi \newline
+\sin \psi \newline
+0
+\end{array}\right]</script><script type="math/tex; mode=display">
+\begin{aligned}
+{e}_\psi & ={R}_n^b \cdot {c} \newline
+& =\sqrt{\frac{1}{r_{x x}^2+r_{y x}^2}}\left(r_{x x} \sin \phi-r_{y x} \cos \phi\right)\left[\begin{array}{c}
+r_{z x} \newline
+r_{z y} \newline
+r_{z z}
+\end{array}\right]
+\end{aligned}</script><h3 id="最终形式"><a href="#最终形式" class="headerlink" title="最终形式"></a>最终形式</h3><p>校正之后的角速度矢量为</p>
+<script type="math/tex; mode=display">
+\omega=k_{P 1} e_{\theta \phi}+k_{11} \mathrm{~d} t \sum e_{\theta \phi}+k_{P 2} e_\psi+k_{I 2} \mathrm{~d} t \sum e_\psi+\omega_g</script><h2 id="四元数推算姿态角"><a href="#四元数推算姿态角" class="headerlink" title="四元数推算姿态角"></a>四元数推算姿态角</h2><h3 id="四元数推算"><a href="#四元数推算" class="headerlink" title="四元数推算"></a>四元数推算</h3><ol>
+<li><h4 id="四元数定义"><a href="#四元数定义" class="headerlink" title="四元数定义"></a>四元数定义</h4><script type="math/tex; mode=display">
+q=q_0+q_1i+q_2j+q_3k</script><p>可以将该四元数表达为，把绕单位向量 $ n$ 旋转 $\theta$ 角</p>
+<script type="math/tex; mode=display">
+ Q={cos}(\frac {\theta} 2)+{sin}(\frac {\theta} 2) n \newline
+
+{cos}(\frac {\theta} 2)={\frac {q_0} {|Q|}}，{sin}(\frac {\theta} 2)=\sqrt{\frac {(q_1^2+q_2^2+q_3^2)}{|Q|}}， n=\frac {q_1i+q_2j+q_3k} {\sqrt {q_1^2+q_2^2+q_3^2}} ，|Q|=q*q</script></li>
+<li><h4 id="四元数导数"><a href="#四元数导数" class="headerlink" title="四元数导数"></a>四元数导数</h4><script type="math/tex; mode=display">
+\frac {d  Q}{dt}=-\frac{1}{2}{sin}(\frac{\theta}{2})\frac{d\theta}{dt}+\frac{1}{2}{cos}(\frac{\theta}{2})\frac{d\theta}{dt} n+{sin}(\frac{\theta}{2})\frac {d  n}{dt}</script><p>由于旋转轴不变，$\frac {d  n}{dt}=0$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac {d  Q}{dt} & =-\frac{1}{2}\frac{d\theta}{dt}[{sin}(\frac{\theta}{2})+{cos}(\frac{\theta}{2}) n] \newline
+& =\frac{1}{2}\frac{d\theta}{dt} n[{sin}(\frac{\theta}{2}) n+{cos}(\frac{\theta}{2})]
+\end{aligned}</script><p>地轴系下，角速度$ \omega_n=\dot{\theta} n$，此时</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac {d  Q}{dt}=\frac{1}{2} \omega_n Q
+\end{aligned}</script><p>体轴系与地轴系下，$\omega$的转化如下</p>
+<script type="math/tex; mode=display">
+ \omega_n= Q \omega_b Q^{-1}</script><p>得到</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac {d  Q}{dt}& =\frac{1}{2} Q \omega_b=\frac{1}{2}(q_0+q_1 i+q_2 j+q_3 k)(w_x i+w_y j+w_z k) \newline
+& =\frac{1}{2}\left[\begin{array}{cccc}
+0 & -\omega_x & -\omega_y & -\omega_z \newline
+\omega_x & 0 & \omega_z & -\omega_y \newline
+\omega_y & -\omega_z & 0 & \omega_x \newline
+\omega_z & \omega_y & -\omega_x & 0
+\end{array}\right] \cdot\left[\begin{array}{l}
+q_0 \newline
+q_1 \newline
+q_2 \newline
+q_3
+\end{array}\right]
+\end{aligned}</script></li>
+<li><h4 id="推算姿态角"><a href="#推算姿态角" class="headerlink" title="推算姿态角"></a>推算姿态角</h4><script type="math/tex; mode=display">
+\left[\begin{array}{l}
+q_0 \newline
+q_1 \newline
+q_2 \newline
+q_3
+\end{array}\right]_{t+\Delta \mathrm{t}}=\left[\begin{array}{l}
+q_0 \newline
+q_1 \newline
+q_2 \newline
+q_3
+\end{array}\right]_t+\frac {d  Q}{dt}*\Delta t
+=\left[\begin{array}{l}
+q_0 \newline
+q_1 \newline
+q_2 \newline
+q_3
+\end{array}\right]_t+\frac{\Delta \mathrm{t}}{2}\left[\begin{array}{l}
+-\omega_x \cdot q_1-\omega_y \cdot q_2-\omega_z \cdot q_3 \newline
++\omega_x \cdot q_0-\omega_y \cdot q_3+\omega_z \cdot q_2 \newline
++\omega_x \cdot q_3+\omega_y \cdot q_0-\omega_z \cdot q_1 \newline
+-\omega_x \cdot q_2+\omega_y \cdot q_1+\omega_z \cdot q_0
+\end{array}\right]</script></li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><ol>
+<li><p>加速度计测得三轴加速度，归一化；</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">normalise = invSqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z);</span><br><span class="line">acc.x *= normalise;</span><br><span class="line">acc.y *= normalise;</span><br><span class="line">acc.z *= normalise;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据上一步的欧拉角求得的重力向量，即<code>[vecxZ vecyZ veczZ]</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vecxZ=<span class="number">2</span>*(q1*q3-q0*q2)</span><br><span class="line">vecyZ=<span class="number">2</span>*(q0*q1+q2*q3)</span><br><span class="line">veczZ=q0s-q1s-q2s+q3s</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>计算加速度计与积分得到的姿态的误差（矢量叉乘）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ex=(acc.y*veczZ-acc.z*vecyZ)</span><br><span class="line">ey=(acc.z*vecxZ-acc.x*veczZ)</span><br><span class="line">ez=(acc.x*vecyZ-acc.y*vecxZ)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>误差累积：积分累加（积分常数*误差）</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exInt+=Ki*ex*dt</span><br><span class="line">eyInt+=Ki*ey*dt</span><br><span class="line">ezInt+=Ki*ez*dt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>陀螺仪角速度修正（陀螺仪+与加速度计的误差PI）</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gyro.x+=Kp*ex+exInt</span><br><span class="line">gyro.y+=Kp*ey+eyInt</span><br><span class="line">gyro.z+=Kp*ez+ezInt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一阶龙格库塔算法求解四元数微分方程</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">q0+=(-q1Last*gyro.x-q2Last*gyro.y-q3Last*gyro.z)*halfT;</span><br><span class="line">q1+=(q0Last*gyro.x+q2Last*gyro.z-q3Last*gyro.y)*halfT;</span><br><span class="line">q2+=(q0Last*gyro.y-q1Last*gyro.z+q3Last*gyro.x)*halfT;</span><br><span class="line">q3+=(q0Last*gyro.z+q1Last*gyro.y-q2Last*gyro.x)*halfT;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="补充加速度转姿态角"><a href="#补充加速度转姿态角" class="headerlink" title="补充加速度转姿态角"></a>补充加速度转姿态角</h2><script type="math/tex; mode=display">
+\begin{aligned}
+& \theta x=\arctan (\frac {A_x} {\sqrt{A_y A_y+A_z A_z}}) * \frac {180} \pi \newline
+& \theta y=\arctan (\frac {A_y} {\sqrt{A_x A_x+A_z A_z}}) * \frac {180} \pi \newline
+& \theta z=\arctan (\frac {A_y} {\sqrt{A_x A_x+A_y A_y}}) *  \frac {180} \pi
+\end{aligned}</script><p><img src="5f1e/image-20230402075642314.png" alt="image-20230402075642314" style="zoom:15%;" /></p>
+<h1 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h1><h2 id="sensfusion6-c【姿态】"><a href="#sensfusion6-c【姿态】" class="headerlink" title="sensfusion6.c【姿态】"></a>sensfusion6.c【姿态】</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sensfusion6.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;config.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ledseq.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;maths.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/********************************************************************************	 </span></span><br><span class="line"><span class="comment"> * 本程序只供学习使用，未经作者许可，不得用于其它任何用途</span></span><br><span class="line"><span class="comment"> * ALIENTEK MiniFly</span></span><br><span class="line"><span class="comment"> * 6轴数据融合代码	</span></span><br><span class="line"><span class="comment"> * 正点原子@ALIENTEK</span></span><br><span class="line"><span class="comment"> * 技术论坛:www.openedv.com</span></span><br><span class="line"><span class="comment"> * 创建日期:2017/5/12</span></span><br><span class="line"><span class="comment"> * 版本：V1.3</span></span><br><span class="line"><span class="comment"> * 版权所有，盗版必究。</span></span><br><span class="line"><span class="comment"> * Copyright(C) 广州市星翼电子科技有限公司 2014-2024</span></span><br><span class="line"><span class="comment"> * All rights reserved</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 修改说明:</span></span><br><span class="line"><span class="comment"> * 版本V1.3 互补滤波代码移植于inav-1.9.0</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ACCZ_SAMPLE		350</span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> Kp = <span class="number">0.4f</span>;		<span class="comment">/*比例增益*/</span></span><br><span class="line"><span class="type">float</span> Ki = <span class="number">0.001f</span>;		<span class="comment">/*积分增益*/</span></span><br><span class="line"><span class="type">float</span> exInt = <span class="number">0.0f</span>;</span><br><span class="line"><span class="type">float</span> eyInt = <span class="number">0.0f</span>;</span><br><span class="line"><span class="type">float</span> ezInt = <span class="number">0.0f</span>;		<span class="comment">/*积分误差累计*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> q0 = <span class="number">1.0f</span>;	<span class="comment">/*四元数*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> q1 = <span class="number">0.0f</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">float</span> q2 = <span class="number">0.0f</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">float</span> q3 = <span class="number">0.0f</span>;	</span><br><span class="line"><span class="type">static</span> <span class="type">float</span> rMat[<span class="number">3</span>][<span class="number">3</span>];<span class="comment">/*旋转矩阵*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> maxError = <span class="number">0.f</span>;		<span class="comment">/*最大误差*/</span></span><br><span class="line"><span class="type">bool</span> isGravityCalibrated = <span class="literal">false</span>;	<span class="comment">/*是否校校准完成*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> baseAcc[<span class="number">3</span>] = &#123;<span class="number">0.f</span>,<span class="number">0.f</span>,<span class="number">1.0f</span>&#125;;	<span class="comment">/*静态加速度*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> <span class="title function_">invSqrt</span><span class="params">(<span class="type">float</span> x)</span>;	<span class="comment">/*快速开平方求倒*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">calBaseAcc</span><span class="params">(<span class="type">float</span>* acc)</span>	<span class="comment">/*计算静态加速度*/</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">static</span> u16 cnt = <span class="number">0</span>;</span><br><span class="line">	<span class="type">static</span> <span class="type">float</span> accZMin = <span class="number">1.5</span>;</span><br><span class="line">	<span class="type">static</span> <span class="type">float</span> accZMax = <span class="number">0.5</span>;</span><br><span class="line">	<span class="type">static</span> <span class="type">float</span> sumAcc[<span class="number">3</span>] = &#123;<span class="number">0.f</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(u8 i=<span class="number">0</span>; i&lt;<span class="number">3</span>; i++)</span><br><span class="line">		sumAcc[i] += acc[i];</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">if</span>(acc[<span class="number">2</span>] &lt; accZMin)	accZMin = acc[<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">if</span>(acc[<span class="number">2</span>] &gt; accZMax)	accZMax = acc[<span class="number">2</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(++cnt &gt;= ACCZ_SAMPLE) <span class="comment">/*缓冲区满*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		cnt = <span class="number">0</span>;</span><br><span class="line">		maxError = accZMax - accZMin;</span><br><span class="line">		accZMin = <span class="number">1.5</span>;</span><br><span class="line">		accZMax = <span class="number">0.5</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(maxError &lt; <span class="number">0.015f</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(u8 i=<span class="number">0</span>; i&lt;<span class="number">3</span>; i++)</span><br><span class="line">				baseAcc[i] = sumAcc[i] / ACCZ_SAMPLE;</span><br><span class="line">			</span><br><span class="line">			isGravityCalibrated = <span class="literal">true</span>;</span><br><span class="line">			</span><br><span class="line">			ledseqRun(SYS_LED, seq_calibrated);	<span class="comment">/*校准通过指示灯*/</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(u8 i=<span class="number">0</span>; i&lt;<span class="number">3</span>; i++)		</span><br><span class="line">			sumAcc[i] = <span class="number">0.f</span>;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*计算旋转矩阵*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">imuComputeRotationMatrix</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> q1q1 = q1 * q1;</span><br><span class="line">    <span class="type">float</span> q2q2 = q2 * q2;</span><br><span class="line">    <span class="type">float</span> q3q3 = q3 * q3;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> q0q1 = q0 * q1;</span><br><span class="line">    <span class="type">float</span> q0q2 = q0 * q2;</span><br><span class="line">    <span class="type">float</span> q0q3 = q0 * q3;</span><br><span class="line">    <span class="type">float</span> q1q2 = q1 * q2;</span><br><span class="line">    <span class="type">float</span> q1q3 = q1 * q3;</span><br><span class="line">    <span class="type">float</span> q2q3 = q2 * q3;</span><br><span class="line"></span><br><span class="line">    rMat[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1.0f</span> - <span class="number">2.0f</span> * q2q2 - <span class="number">2.0f</span> * q3q3;</span><br><span class="line">    rMat[<span class="number">0</span>][<span class="number">1</span>] = <span class="number">2.0f</span> * (q1q2 + -q0q3);</span><br><span class="line">    rMat[<span class="number">0</span>][<span class="number">2</span>] = <span class="number">2.0f</span> * (q1q3 - -q0q2);</span><br><span class="line"></span><br><span class="line">    rMat[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">2.0f</span> * (q1q2 - -q0q3);</span><br><span class="line">    rMat[<span class="number">1</span>][<span class="number">1</span>] = <span class="number">1.0f</span> - <span class="number">2.0f</span> * q1q1 - <span class="number">2.0f</span> * q3q3;</span><br><span class="line">    rMat[<span class="number">1</span>][<span class="number">2</span>] = <span class="number">2.0f</span> * (q2q3 + -q0q1);</span><br><span class="line"></span><br><span class="line">    rMat[<span class="number">2</span>][<span class="number">0</span>] = <span class="number">2.0f</span> * (q1q3 + -q0q2);</span><br><span class="line">    rMat[<span class="number">2</span>][<span class="number">1</span>] = <span class="number">2.0f</span> * (q2q3 - -q0q1);</span><br><span class="line">    rMat[<span class="number">2</span>][<span class="number">2</span>] = <span class="number">1.0f</span> - <span class="number">2.0f</span> * q1q1 - <span class="number">2.0f</span> * q2q2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">imuUpdate</span><span class="params">(Axis3f acc, Axis3f gyro, <span class="type">state_t</span> *state , <span class="type">float</span> dt)</span>	<span class="comment">/*数据融合 互补滤波*/</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">float</span> normalise;</span><br><span class="line">	<span class="type">float</span> ex, ey, ez;</span><br><span class="line">	<span class="type">float</span> halfT = <span class="number">0.5f</span> * dt;</span><br><span class="line">	<span class="type">float</span> accBuf[<span class="number">3</span>] = &#123;<span class="number">0.f</span>&#125;;</span><br><span class="line">	Axis3f tempacc = acc;</span><br><span class="line">	</span><br><span class="line">	gyro.x = gyro.x * DEG2RAD;	<span class="comment">/* 度转弧度 */</span></span><br><span class="line">	gyro.y = gyro.y * DEG2RAD;</span><br><span class="line">	gyro.z = gyro.z * DEG2RAD;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 加速度计输出有效时,利用加速度计补偿陀螺仪*/</span></span><br><span class="line">	<span class="keyword">if</span>((acc.x != <span class="number">0.0f</span>) || (acc.y != <span class="number">0.0f</span>) || (acc.z != <span class="number">0.0f</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/*单位化加速计测量值*/</span></span><br><span class="line">		normalise = invSqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z);</span><br><span class="line">		acc.x *= normalise;</span><br><span class="line">		acc.y *= normalise;</span><br><span class="line">		acc.z *= normalise;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/*加速计读取的方向与重力加速计方向的差值，用向量叉乘计算*/</span>定义的一个特殊的向量差</span><br><span class="line">		ex = (acc.y * rMat[<span class="number">2</span>][<span class="number">2</span>] - acc.z * rMat[<span class="number">2</span>][<span class="number">1</span>]);</span><br><span class="line">		ey = (acc.z * rMat[<span class="number">2</span>][<span class="number">0</span>] - acc.x * rMat[<span class="number">2</span>][<span class="number">2</span>]);</span><br><span class="line">		ez = (acc.x * rMat[<span class="number">2</span>][<span class="number">1</span>] - acc.y * rMat[<span class="number">2</span>][<span class="number">0</span>]);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/*误差累计，与积分常数相乘*/</span></span><br><span class="line">		exInt += Ki * ex * dt ;  </span><br><span class="line">		eyInt += Ki * ey * dt ;</span><br><span class="line">		ezInt += Ki * ez * dt ;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/*用叉积误差来做PI修正陀螺零偏，即抵消陀螺读数中的偏移量*/</span></span><br><span class="line">		gyro.x += Kp * ex + exInt;</span><br><span class="line">		gyro.y += Kp * ey + eyInt;</span><br><span class="line">		gyro.z += Kp * ez + ezInt;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/* 一阶近似算法，四元数运动学方程的离散化形式和积分 */</span></span><br><span class="line">	<span class="type">float</span> q0Last = q0;</span><br><span class="line">	<span class="type">float</span> q1Last = q1;</span><br><span class="line">	<span class="type">float</span> q2Last = q2;</span><br><span class="line">	<span class="type">float</span> q3Last = q3;</span><br><span class="line">	q0 += (-q1Last * gyro.x - q2Last * gyro.y - q3Last * gyro.z) * halfT;</span><br><span class="line">	q1 += ( q0Last * gyro.x + q2Last * gyro.z - q3Last * gyro.y) * halfT;</span><br><span class="line">	q2 += ( q0Last * gyro.y - q1Last * gyro.z + q3Last * gyro.x) * halfT;</span><br><span class="line">	q3 += ( q0Last * gyro.z + q1Last * gyro.y - q2Last * gyro.x) * halfT;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*单位化四元数*/</span></span><br><span class="line">	normalise = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);</span><br><span class="line">	q0 *= normalise;</span><br><span class="line">	q1 *= normalise;</span><br><span class="line">	q2 *= normalise;</span><br><span class="line">	q3 *= normalise;</span><br><span class="line">	</span><br><span class="line">	imuComputeRotationMatrix();	<span class="comment">/*计算旋转矩阵*/</span>---更新rMat</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*计算roll pitch yaw 欧拉角*/</span></span><br><span class="line">	state-&gt;attitude.pitch = -asinf(rMat[<span class="number">2</span>][<span class="number">0</span>]) * RAD2DEG; </span><br><span class="line">	state-&gt;attitude.roll = atan2f(rMat[<span class="number">2</span>][<span class="number">1</span>], rMat[<span class="number">2</span>][<span class="number">2</span>]) * RAD2DEG;</span><br><span class="line">	state-&gt;attitude.yaw = atan2f(rMat[<span class="number">1</span>][<span class="number">0</span>], rMat[<span class="number">0</span>][<span class="number">0</span>]) * RAD2DEG;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (!isGravityCalibrated)	<span class="comment">/*未校准*/</span></span><br><span class="line">	&#123;		</span><br><span class="line"><span class="comment">//		accBuf[0] = tempacc.x* rMat[0][0] + tempacc.y * rMat[0][1] + tempacc.z * rMat[0][2];	/*accx*/</span></span><br><span class="line"><span class="comment">//		accBuf[1] = tempacc.x* rMat[1][0] + tempacc.y * rMat[1][1] + tempacc.z * rMat[1][2];	/*accy*/</span></span><br><span class="line">		accBuf[<span class="number">2</span>] = tempacc.x* rMat[<span class="number">2</span>][<span class="number">0</span>] + tempacc.y * rMat[<span class="number">2</span>][<span class="number">1</span>] + tempacc.z * rMat[<span class="number">2</span>][<span class="number">2</span>];	<span class="comment">/*accz*/</span></span><br><span class="line">		calBaseAcc(accBuf);		<span class="comment">/*计算静态加速度*/</span>初始化阶段，使用<span class="number">350</span>个样本初始化baseAcc</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*机体到地球*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">imuTransformVectorBodyToEarth</span><span class="params">(Axis3f * v)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* From body frame to earth frame */</span></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> x = rMat[<span class="number">0</span>][<span class="number">0</span>] * v-&gt;x + rMat[<span class="number">0</span>][<span class="number">1</span>] * v-&gt;y + rMat[<span class="number">0</span>][<span class="number">2</span>] * v-&gt;z;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> y = rMat[<span class="number">1</span>][<span class="number">0</span>] * v-&gt;x + rMat[<span class="number">1</span>][<span class="number">1</span>] * v-&gt;y + rMat[<span class="number">1</span>][<span class="number">2</span>] * v-&gt;z;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> z = rMat[<span class="number">2</span>][<span class="number">0</span>] * v-&gt;x + rMat[<span class="number">2</span>][<span class="number">1</span>] * v-&gt;y + rMat[<span class="number">2</span>][<span class="number">2</span>] * v-&gt;z;</span><br><span class="line"></span><br><span class="line">	<span class="type">float</span> yawRad = atan2f(rMat[<span class="number">1</span>][<span class="number">0</span>], rMat[<span class="number">0</span>][<span class="number">0</span>]);</span><br><span class="line">	<span class="type">float</span> cosy = cosf(yawRad);</span><br><span class="line">	<span class="type">float</span> siny = sinf(yawRad);</span><br><span class="line">	<span class="type">float</span> vx = x * cosy + y * siny;</span><br><span class="line">	<span class="type">float</span> vy = y * cosy - x * siny;	</span><br><span class="line">	</span><br><span class="line">    v-&gt;x = vx;</span><br><span class="line">    v-&gt;y = -vy;</span><br><span class="line">    v-&gt;z = z - baseAcc[<span class="number">2</span>] *  <span class="number">980.f</span>;	<span class="comment">/*去除重力加速度*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*地球到机体*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">imuTransformVectorEarthToBody</span><span class="params">(Axis3f * v)</span></span><br><span class="line">&#123;</span><br><span class="line">    v-&gt;y = -v-&gt;y;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* From earth frame to body frame */</span></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> x = rMat[<span class="number">0</span>][<span class="number">0</span>] * v-&gt;x + rMat[<span class="number">1</span>][<span class="number">0</span>] * v-&gt;y + rMat[<span class="number">2</span>][<span class="number">0</span>] * v-&gt;z;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> y = rMat[<span class="number">0</span>][<span class="number">1</span>] * v-&gt;x + rMat[<span class="number">1</span>][<span class="number">1</span>] * v-&gt;y + rMat[<span class="number">2</span>][<span class="number">1</span>] * v-&gt;z;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> z = rMat[<span class="number">0</span>][<span class="number">2</span>] * v-&gt;x + rMat[<span class="number">1</span>][<span class="number">2</span>] * v-&gt;y + rMat[<span class="number">2</span>][<span class="number">2</span>] * v-&gt;z;</span><br><span class="line"></span><br><span class="line">    v-&gt;x= x;</span><br><span class="line">    v-&gt;y = y;</span><br><span class="line">    v-&gt;z = z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Fast inverse square-root</span></span><br><span class="line"><span class="comment">// See: http://en.wikipedia.org/wiki/Fast_inverse_square_root</span></span><br><span class="line"><span class="type">float</span> <span class="title function_">invSqrt</span><span class="params">(<span class="type">float</span> x)</span>	<span class="comment">/*快速开平方求倒*/</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">float</span> halfx = <span class="number">0.5f</span> * x;</span><br><span class="line">	<span class="type">float</span> y = x;</span><br><span class="line">	<span class="type">long</span> i = *(<span class="type">long</span>*)&amp;y;</span><br><span class="line">	i = <span class="number">0x5f3759df</span> - (i&gt;&gt;<span class="number">1</span>);</span><br><span class="line">	y = *(<span class="type">float</span>*)&amp;i;</span><br><span class="line">	y = y * (<span class="number">1.5f</span> - (halfx * y * y));</span><br><span class="line">	<span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">getIsCalibrated</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> isGravityCalibrated;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="state-estimator-c【位置】"><a href="#state-estimator-c【位置】" class="headerlink" title="state_estimator.c【位置】"></a>state_estimator.c【位置】</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;state_estimator.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;attitude_pid.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;position_pid.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;maths.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;vl53lxx.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stabilizer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sensfusion6.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;optical_flow.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/********************************************************************************	 </span></span><br><span class="line"><span class="comment"> * 本程序只供学习使用，未经作者许可，不得用于其它任何用途</span></span><br><span class="line"><span class="comment"> * ALIENTEK MiniFly</span></span><br><span class="line"><span class="comment"> * 姿态估测代码	</span></span><br><span class="line"><span class="comment"> * 正点原子@ALIENTEK</span></span><br><span class="line"><span class="comment"> * 技术论坛:www.openedv.com</span></span><br><span class="line"><span class="comment"> * 创建日期:2017/5/12</span></span><br><span class="line"><span class="comment"> * 版本：V1.3 </span></span><br><span class="line"><span class="comment"> * 版权所有，盗版必究。</span></span><br><span class="line"><span class="comment"> * Copyright(C) 广州市星翼电子科技有限公司 2014-2024</span></span><br><span class="line"><span class="comment"> * All rights reserved</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 修改说明:</span></span><br><span class="line"><span class="comment"> * 版本V1.3 位置估测代码移植于inav-1.9.0</span></span><br><span class="line"><span class="comment">********************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ACC_LIMIT			(1000.f)<span class="comment">/*加速度限幅 单位cm/s/s*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ACC_LIMIT_MAX		(1800.f)<span class="comment">/*最大加速度限幅 单位cm/s/s*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VELOCITY_LIMIT		(130.f)	<span class="comment">/*速度限幅 单位cm/s*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VELOCITY_LIMIT_MAX	(500.f)	<span class="comment">/*最大速度限幅 单位cm/s*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GRAVITY_CMSS 		(980.f)	<span class="comment">/*重力加速度 单位cm/s/s*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INAV_ACC_BIAS_ACCEPTANCE_VALUE	(GRAVITY_CMSS * 0.25f)   <span class="comment">// Max accepted bias correction of 0.25G - unlikely we are going to be that much off anyway</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> wBaro = <span class="number">0.35f</span>;			<span class="comment">/*气压校正权重*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> wOpflowP = <span class="number">1.0f</span>;		<span class="comment">/*光流位置校正权重*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> wOpflowV = <span class="number">2.0f</span>;		<span class="comment">/*光流速度校正权重*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> wAccBias = <span class="number">0.01f</span>;		<span class="comment">/*加速度校正权重*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">bool</span> isRstHeight = <span class="literal">false</span>;	<span class="comment">/*复位高度*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">bool</span> isRstAll = <span class="literal">true</span>;		<span class="comment">/*复位估测*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> fusedHeight;			<span class="comment">/*融合高度，起飞点为0*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> fusedHeightLpf = <span class="number">0.f</span>;	<span class="comment">/*融合高度，低通*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> startBaroAsl = <span class="number">0.f</span>;	<span class="comment">/*起飞点海拔*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*估测系统*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">estimator_t</span> estimator = </span><br><span class="line">&#123;</span><br><span class="line">	.vAccDeadband = <span class="number">4.0f</span>,</span><br><span class="line">	.accBias[<span class="number">0</span>] =  <span class="number">0.0f</span>,</span><br><span class="line">	.accBias[<span class="number">1</span>] =  <span class="number">0.0f</span>,</span><br><span class="line">	.accBias[<span class="number">2</span>] =  <span class="number">0.0f</span>,</span><br><span class="line">	.acc[<span class="number">0</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.acc[<span class="number">1</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.acc[<span class="number">2</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.vel[<span class="number">0</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.vel[<span class="number">1</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.vel[<span class="number">2</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.pos[<span class="number">0</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.pos[<span class="number">1</span>] = <span class="number">0.0f</span>,</span><br><span class="line">	.pos[<span class="number">2</span>] = <span class="number">0.0f</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Inertial filter, implementation taken from PX4 implementation by Anton Babushkin &lt;rk3dov@gmail.com&gt; */</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">inavFilterPredict</span><span class="params">(<span class="type">int</span> axis, <span class="type">float</span> dt, <span class="type">float</span> acc)</span></span><br><span class="line">&#123;</span><br><span class="line">    estimator.pos[axis] += estimator.vel[axis] * dt + acc * dt * dt / <span class="number">2.0f</span>;</span><br><span class="line">    estimator.vel[axis] += acc * dt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*位置校正*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">inavFilterCorrectPos</span><span class="params">(<span class="type">int</span> axis, <span class="type">float</span> dt, <span class="type">float</span> e, <span class="type">float</span> w)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> ewdt = e * w * dt;</span><br><span class="line">    estimator.pos[axis] += ewdt;</span><br><span class="line">    estimator.vel[axis] += w * ewdt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*速度校正*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">inavFilterCorrectVel</span><span class="params">(<span class="type">int</span> axis, <span class="type">float</span> dt, <span class="type">float</span> e, <span class="type">float</span> w)</span></span><br><span class="line">&#123;</span><br><span class="line">   estimator.vel[axis] += e * w * dt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">positionEstimate</span><span class="params">(sensorData_t* sensorData, <span class="type">state_t</span>* state, <span class="type">float</span> dt)</span> </span><br><span class="line">&#123;	</span><br><span class="line">	<span class="type">static</span> <span class="type">float</span> rangeLpf = <span class="number">0.f</span>;</span><br><span class="line">	<span class="type">static</span> <span class="type">float</span> accLpf[<span class="number">3</span>] = &#123;<span class="number">0.f</span>&#125;;		<span class="comment">/*加速度低通*/</span>	</span><br><span class="line">	<span class="type">float</span> weight = wBaro;</span><br><span class="line"></span><br><span class="line">	<span class="type">float</span> relateHight = sensorData-&gt;baro.asl - startBaroAsl;	<span class="comment">/*气压相对高度*/</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(getModuleID()==OPTICAL_FLOW &amp;&amp; isEnableVl53lxx==<span class="literal">true</span>)	<span class="comment">/*光流模块可用,且使用激光*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		vl53lxxReadRange(&amp;sensorData-&gt;zrange);	<span class="comment">/*读取激光数据*/</span></span><br><span class="line">	</span><br><span class="line"><span class="comment">//		rangeLpf = sensorData-&gt;zrange.distance;</span></span><br><span class="line">		rangeLpf += (sensorData-&gt;zrange.distance - rangeLpf) * <span class="number">0.1f</span>;	<span class="comment">/*低通 单位cm*/</span>		</span><br><span class="line">			</span><br><span class="line">		<span class="type">float</span> quality = sensorData-&gt;zrange.quality;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(quality &lt; <span class="number">0.3f</span>)	<span class="comment">/*低于这个可行度，激光数据不可用*/</span></span><br><span class="line">		&#123;</span><br><span class="line">			quality = <span class="number">0.f</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			weight = quality;</span><br><span class="line">			startBaroAsl = sensorData-&gt;baro.asl - rangeLpf;</span><br><span class="line">		&#125;</span><br><span class="line">		fusedHeight = rangeLpf * quality + (<span class="number">1.0f</span> - quality) * relateHight;<span class="comment">/*融合高度*/</span>	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>	<span class="comment">/*无光流模块*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		fusedHeight = relateHight;	<span class="comment">/*融合高度*/</span></span><br><span class="line">	&#125;</span><br><span class="line">	fusedHeightLpf += (fusedHeight - fusedHeightLpf) * <span class="number">0.1f</span>;	<span class="comment">/*融合高度 低通*/</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(isRstHeight)</span><br><span class="line">	&#123;	</span><br><span class="line">		isRstHeight = <span class="literal">false</span>;</span><br><span class="line">		</span><br><span class="line">		weight = <span class="number">0.95f</span>;		<span class="comment">/*增加权重，快速调整*/</span>	</span><br><span class="line">		</span><br><span class="line">		startBaroAsl = sensorData-&gt;baro.asl;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(getModuleID() == OPTICAL_FLOW)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(sensorData-&gt;zrange.distance &lt; VL53L0X_MAX_RANGE)</span><br><span class="line">			<span class="meta">#<span class="keyword">define</span> VL53L0X_MAX_RANGE			220		<span class="comment">//220cm</span></span></span><br><span class="line">			&#123;</span><br><span class="line">				startBaroAsl -= sensorData-&gt;zrange.distance;</span><br><span class="line">				fusedHeight = sensorData-&gt;zrange.distance;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		estimator.pos[Z] = fusedHeight;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(isRstAll)</span><br><span class="line">	&#123;</span><br><span class="line">		isRstAll = <span class="literal">false</span>;</span><br><span class="line">		</span><br><span class="line">		accLpf[Z] = <span class="number">0.f</span>;	</span><br><span class="line">		fusedHeight  = <span class="number">0.f</span>;</span><br><span class="line">		fusedHeightLpf = <span class="number">0.f</span>;</span><br><span class="line">		startBaroAsl = sensorData-&gt;baro.asl;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(getModuleID() == OPTICAL_FLOW)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(sensorData-&gt;zrange.distance &lt; VL53L0X_MAX_RANGE)</span><br><span class="line">			&#123;</span><br><span class="line">				startBaroAsl -= sensorData-&gt;zrange.distance;</span><br><span class="line">				fusedHeight = sensorData-&gt;zrange.distance;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		estimator.vel[Z] = <span class="number">0.f</span>;</span><br><span class="line">		estimator.pos[Z] = fusedHeight;</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	Axis3f accelBF;</span><br><span class="line">	</span><br><span class="line">	accelBF.x = sensorData-&gt;acc.x * GRAVITY_CMSS - estimator.accBias[X];	<span class="comment">/*加速度*9.8-基础加速度*/</span></span><br><span class="line">	accelBF.y = sensorData-&gt;acc.y * GRAVITY_CMSS - estimator.accBias[Y];</span><br><span class="line">	accelBF.z = sensorData-&gt;acc.z * GRAVITY_CMSS - estimator.accBias[Z];	</span><br><span class="line">	<span class="meta">#<span class="keyword">define</span> GRAVITY_CMSS 		(980.f)	<span class="comment">/*重力加速度 单位cm/s/s*/</span></span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* Rotate vector to Earth frame - from Forward-Right-Down to North-East-Up*/</span></span><br><span class="line">	imuTransformVectorBodyToEarth(&amp;accelBF);	</span><br><span class="line">	</span><br><span class="line">	estimator.acc[X] = applyDeadbandf(accelBF.x, estimator.vAccDeadband);<span class="comment">/*去除死区的加速度*/</span>vAccDeadband=<span class="number">4.0f</span></span><br><span class="line">	<span class="type">float</span> applyDeadbandf(<span class="type">float</span> value, <span class="type">float</span> deadband)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="keyword">if</span> (ABS(value) &lt; deadband) &#123;</span><br><span class="line">	        value = <span class="number">0</span>;</span><br><span class="line">	    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	        value -= deadband;</span><br><span class="line">	    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	        value += deadband;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">return</span> value;</span><br><span class="line">	&#125;</span><br><span class="line">	estimator.acc[Y] = applyDeadbandf(accelBF.y, estimator.vAccDeadband);<span class="comment">/*去除死区的加速度*/</span></span><br><span class="line">	estimator.acc[Z] = applyDeadbandf(accelBF.z, estimator.vAccDeadband);<span class="comment">/*去除死区的加速度*/</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(u8 i=<span class="number">0</span>; i&lt;<span class="number">3</span>; i++)</span><br><span class="line">		accLpf[i] += (estimator.acc[i] - accLpf[i]) * <span class="number">0.1f</span>;	<span class="comment">/*加速度低通*/</span></span><br><span class="line">		</span><br><span class="line">	<span class="type">bool</span> isKeyFlightLand = ((getCommanderKeyFlight()==<span class="literal">true</span>)||(getCommanderKeyland()==<span class="literal">true</span>));	<span class="comment">/*定高飞或者降落状态*/</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(isKeyFlightLand == <span class="literal">true</span>)		<span class="comment">/*定高飞或者降落状态*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		state-&gt;acc.x = constrainf(accLpf[X], -ACC_LIMIT, ACC_LIMIT);	<span class="comment">/*加速度限幅*/</span></span><br><span class="line">		state-&gt;acc.y = constrainf(accLpf[Y], -ACC_LIMIT, ACC_LIMIT);	<span class="comment">/*加速度限幅*/</span></span><br><span class="line">		state-&gt;acc.z = constrainf(accLpf[Z], -ACC_LIMIT, ACC_LIMIT);	<span class="comment">/*加速度限幅*/</span></span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		state-&gt;acc.x = constrainf(estimator.acc[X], -ACC_LIMIT_MAX, ACC_LIMIT_MAX);	<span class="comment">/*最大加速度限幅*/</span></span><br><span class="line">		state-&gt;acc.y = constrainf(estimator.acc[Y], -ACC_LIMIT_MAX, ACC_LIMIT_MAX);	<span class="comment">/*最大加速度限幅*/</span></span><br><span class="line">		state-&gt;acc.z = constrainf(estimator.acc[Z], -ACC_LIMIT_MAX, ACC_LIMIT_MAX);	<span class="comment">/*最大加速度限幅*/</span></span><br><span class="line">	&#125;		</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	<span class="type">float</span> errPosZ = fusedHeight - estimator.pos[Z];</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 位置预估: Z-axis */</span></span><br><span class="line">	inavFilterPredict(Z, dt, estimator.acc[Z]);</span><br><span class="line">	<span class="type">static</span> <span class="type">void</span> <span class="title function_">inavFilterPredict</span><span class="params">(<span class="type">int</span> axis, <span class="type">float</span> dt, <span class="type">float</span> acc)</span></span><br><span class="line">	&#123;</span><br><span class="line">	    estimator.pos[axis] += estimator.vel[axis] * dt + acc * dt * dt / <span class="number">2.0f</span>;</span><br><span class="line">	    estimator.vel[axis] += acc * dt;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 位置校正: Z-axis */</span></span><br><span class="line">	inavFilterCorrectPos(Z, dt, errPosZ, weight);</span><br><span class="line">	<span class="type">float</span> weight = wBaro;</span><br><span class="line">	<span class="type">static</span> <span class="type">float</span> wBaro = <span class="number">0.35f</span>;			<span class="comment">/*气压校正权重*/</span></span><br><span class="line">	<span class="type">static</span> <span class="type">void</span> <span class="title function_">inavFilterCorrectPos</span><span class="params">(<span class="type">int</span> axis, <span class="type">float</span> dt, <span class="type">float</span> e, <span class="type">float</span> w)</span></span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="type">float</span> ewdt = e * w * dt;</span><br><span class="line">	    estimator.pos[axis] += ewdt;</span><br><span class="line">	    estimator.vel[axis] += w * ewdt;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(getModuleID() == OPTICAL_FLOW)	<span class="comment">/*光流模块可用*/</span></span><br><span class="line">	&#123;		</span><br><span class="line">		<span class="type">float</span> opflowDt = dt;</span><br><span class="line">		</span><br><span class="line">		<span class="type">float</span> opResidualX = opFlow.posSum[X] - estimator.pos[X];</span><br><span class="line">		<span class="type">float</span> opResidualY = opFlow.posSum[Y] - estimator.pos[Y];</span><br><span class="line">		<span class="type">float</span> opResidualXVel = opFlow.velLpf[X] - estimator.vel[X];</span><br><span class="line">		<span class="type">float</span> opResidualYVel = opFlow.velLpf[Y] - estimator.vel[Y];</span><br><span class="line">		</span><br><span class="line">		<span class="type">float</span> opWeightScaler = <span class="number">1.0f</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="type">float</span> wXYPos = wOpflowP * opWeightScaler;</span><br><span class="line">		<span class="type">float</span> wXYVel = wOpflowV * sq(opWeightScaler);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/* 位置预估: XY-axis */</span></span><br><span class="line">		inavFilterPredict(X, opflowDt, estimator.acc[X]);</span><br><span class="line">		inavFilterPredict(Y, opflowDt, estimator.acc[Y]);</span><br><span class="line">		<span class="comment">/* 位置校正: XY-axis */</span></span><br><span class="line">		inavFilterCorrectPos(X, opflowDt, opResidualX, wXYPos);</span><br><span class="line">		inavFilterCorrectPos(Y, opflowDt, opResidualY, wXYPos);</span><br><span class="line">		<span class="comment">/* 速度校正: XY-axis */</span></span><br><span class="line">		inavFilterCorrectVel(X, opflowDt, opResidualXVel, wXYVel);</span><br><span class="line">		inavFilterCorrectVel(Y, opflowDt, opResidualYVel, wXYVel);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*加速度偏置校正*/</span></span><br><span class="line">	Axis3f accelBiasCorr = &#123;&#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;&#125;;</span><br><span class="line">	</span><br><span class="line">	accelBiasCorr.z -= errPosZ  * sq(wBaro);</span><br><span class="line">	<span class="type">float</span> accelBiasCorrMagnitudeSq = sq(accelBiasCorr.x) + sq(accelBiasCorr.y) + sq(accelBiasCorr.z);</span><br><span class="line">	<span class="keyword">if</span> (accelBiasCorrMagnitudeSq &lt; sq(INAV_ACC_BIAS_ACCEPTANCE_VALUE)) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/* transform error vector from NEU frame to body frame */</span></span><br><span class="line">		imuTransformVectorEarthToBody(&amp;accelBiasCorr);</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* Correct accel bias */</span></span><br><span class="line">		estimator.accBias[X] += accelBiasCorr.x * wAccBias * dt;</span><br><span class="line">		estimator.accBias[Y] += accelBiasCorr.y * wAccBias * dt;</span><br><span class="line">		estimator.accBias[Z] += accelBiasCorr.z * wAccBias * dt;</span><br><span class="line">	&#125;	</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(isKeyFlightLand == <span class="literal">true</span>)		<span class="comment">/*定高飞或者降落状态*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		state-&gt;velocity.x = constrainf(estimator.vel[X], -VELOCITY_LIMIT, VELOCITY_LIMIT);	<span class="comment">/*速度限幅 VELOCITY_LIMIT*/</span></span><br><span class="line">		state-&gt;velocity.y = constrainf(estimator.vel[Y], -VELOCITY_LIMIT, VELOCITY_LIMIT);	<span class="comment">/*速度限幅 VELOCITY_LIMIT*/</span></span><br><span class="line">		state-&gt;velocity.z = constrainf(estimator.vel[Z], -VELOCITY_LIMIT, VELOCITY_LIMIT);	<span class="comment">/*速度限幅 VELOCITY_LIMIT*/</span></span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		state-&gt;velocity.x = constrainf(estimator.vel[X], -VELOCITY_LIMIT_MAX, VELOCITY_LIMIT_MAX);	<span class="comment">/*最大速度限幅 VELOCITY_LIMIT_MAX*/</span></span><br><span class="line">		state-&gt;velocity.y = constrainf(estimator.vel[Y], -VELOCITY_LIMIT_MAX, VELOCITY_LIMIT_MAX);	<span class="comment">/*最大速度限幅 VELOCITY_LIMIT_MAX*/</span></span><br><span class="line">		state-&gt;velocity.z = constrainf(estimator.vel[Z], -VELOCITY_LIMIT_MAX, VELOCITY_LIMIT_MAX);	<span class="comment">/*最大速度限幅 VELOCITY_LIMIT_MAX*/</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	state-&gt;position.x = estimator.pos[X];</span><br><span class="line">	state-&gt;position.y = estimator.pos[Y];</span><br><span class="line">	state-&gt;position.z = estimator.pos[Z];	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*读取融合高度 单位cm*/</span>	</span><br><span class="line"><span class="type">float</span> <span class="title function_">getFusedHeight</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> fusedHeightLpf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*复位估测高度*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">estRstHeight</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	isRstHeight = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*复位所有估测*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">estRstAll</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	isRstAll = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/5f1e.html">https://bfaner.github.io/posts/5f1e.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/47e3.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">PX4二次开发</div></div></a></div><div class="next-post pull-right"><a href="/posts/aa9e.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">硕士毕业设计</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%92%E8%A1%A5%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.</span> <span class="toc-text">互补滤波</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E8%AF%A6%E6%83%85"><span class="toc-number">1.2.</span> <span class="toc-text">步骤详情</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%9E%E6%97%B6%E8%A7%92%E9%80%9F%E5%BA%A6%E3%80%90%E9%99%80%E8%9E%BA%E4%BB%AA%E6%95%B0%E6%8D%AE%E3%80%91"><span class="toc-number">1.2.1.</span> <span class="toc-text">获取实时角速度【陀螺仪数据】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%8A%A0%E9%80%9F%E5%BA%A6%E8%AE%A1%E8%AF%AF%E5%B7%AE%E3%80%90%E5%8A%A0%E9%80%9F%E5%BA%A6%E8%AE%A1%E4%B8%8E%E5%A7%BF%E6%80%81%E6%B1%82%E5%BE%97%E9%87%8D%E5%8A%9B%E5%8A%A0%E9%80%9F%E5%BA%A6%E3%80%91"><span class="toc-number">1.2.2.</span> <span class="toc-text">计算加速度计误差【加速度计与姿态求得重力加速度】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A7%BF%E6%80%81%E8%A7%92%E9%80%9F%E5%BA%A6%E8%9E%8D%E5%90%88%E5%8A%A0%E9%80%9F%E5%BA%A6%E8%AE%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">姿态角速度融合加速度计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E6%96%B0%E5%9B%9B%E5%85%83%E6%95%B0"><span class="toc-number">1.2.4.</span> <span class="toc-text">求解新四元数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Minifly%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">Minifly的流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">2.1.</span> <span class="toc-text">官方流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E5%87%86%E5%A7%BF%E6%80%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">校准姿态的方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BC"><span class="toc-number">3.</span> <span class="toc-text">推导</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%92%E8%A1%A5%E6%BB%A4%E6%B3%A2%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">互补滤波模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.1.</span> <span class="toc-text">基础模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A7%BF%E6%80%81%E6%8E%A8%E7%AE%97%E7%9A%84%E7%AE%80%E5%8C%96"><span class="toc-number">3.1.2.</span> <span class="toc-text">姿态推算的简化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%92%E8%A1%A5%E6%BB%A4%E6%B3%A2%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E5%8C%96"><span class="toc-number">3.1.3.</span> <span class="toc-text">互补滤波模型的简化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AF%E5%B7%AE%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.</span> <span class="toc-text">误差计算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%94%E4%BE%8B%E7%A7%AF%E5%88%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.1.</span> <span class="toc-text">比例积分设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E9%80%9F%E5%BA%A6%E8%AE%A1%E8%AF%AF%E5%B7%AE"><span class="toc-number">3.2.2.</span> <span class="toc-text">加速度计误差</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%97%E7%9B%98%E8%AF%AF%E5%B7%AE"><span class="toc-number">3.2.3.</span> <span class="toc-text">罗盘误差</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E5%BD%A2%E5%BC%8F"><span class="toc-number">3.2.4.</span> <span class="toc-text">最终形式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0%E6%8E%A8%E7%AE%97%E5%A7%BF%E6%80%81%E8%A7%92"><span class="toc-number">3.3.</span> <span class="toc-text">四元数推算姿态角</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0%E6%8E%A8%E7%AE%97"><span class="toc-number">3.3.1.</span> <span class="toc-text">四元数推算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0%E5%AE%9A%E4%B9%89"><span class="toc-number">3.3.1.1.</span> <span class="toc-text">四元数定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0%E5%AF%BC%E6%95%B0"><span class="toc-number">3.3.1.2.</span> <span class="toc-text">四元数导数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E7%AE%97%E5%A7%BF%E6%80%81%E8%A7%92"><span class="toc-number">3.3.1.3.</span> <span class="toc-text">推算姿态角</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.3.2.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E5%8A%A0%E9%80%9F%E5%BA%A6%E8%BD%AC%E5%A7%BF%E6%80%81%E8%A7%92"><span class="toc-number">3.4.</span> <span class="toc-text">补充加速度转姿态角</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sensfusion6-c%E3%80%90%E5%A7%BF%E6%80%81%E3%80%91"><span class="toc-number">4.1.</span> <span class="toc-text">sensfusion6.c【姿态】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#state-estimator-c%E3%80%90%E4%BD%8D%E7%BD%AE%E3%80%91"><span class="toc-number">4.2.</span> <span class="toc-text">state_estimator.c【位置】</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

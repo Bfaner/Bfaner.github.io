@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>飞机动力模拟计算 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="鸟机【1055】【4.8】第一轮①油门值、电压-转速 ns &amp;#x3D; U*(-0.0373*dp² + 11.8*dp - 93.222) dp：油门值（百分值）    U：电压（伏特）    ns：转速（rpm） ②前进比：桨前进速度与桨尖速度比值 J&amp;#x3D;V&amp;#x2F;ns*D V：空速    ns：转速（RPM*"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/598d"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '飞机动力模拟计算',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:11:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">飞机动力模拟计算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-07T02:08:59.000Z" title="发表于 2021-05-07 10:08:59">2021-05-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:11:08.747Z" title="更新于 2023-04-14 20:11:08">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/%E9%A3%9E%E8%A1%8C%E5%8A%9B%E5%AD%A6/">飞行力学</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="鸟机【1055】"><a href="#鸟机【1055】" class="headerlink" title="鸟机【1055】"></a>鸟机【1055】</h1><h2 id="【4-8】第一轮"><a href="#【4-8】第一轮" class="headerlink" title="【4.8】第一轮"></a>【4.8】第一轮</h2><p>①油门值、电压-转速</p>
+<p>ns = U*(-0.0373*dp² + 11.8*dp - 93.222)</p>
+<p>dp：油门值（百分值）    U：电压（伏特）    ns：转速（rpm）</p>
+<p>②前进比：桨前进速度与桨尖速度比值</p>
+<p>J=V/ns*D</p>
+<p>V：空速    ns：转速（RPM*2PI/60）rad/s    D：螺旋桨直径（米）</p>
+<p>③J-CT</p>
+<p>CT= -0.0623*J² - 0.004*J + 0.0028</p>
+<p>T = CT*rho*ns²*D^4</p>
+<p>rho：kg/m³    ns：rad/s    D:m</p>
+<p>④J-CP</p>
+<p>CP = -0.0471*J² + 0.006*J - 2E-05     【y = -0.3339x3 + 0.0864x2 - 0.0052x + 0.0002】</p>
+<p>P = CP*rho*ns³*D^5</p>
+<p>rho：kg/m³    ns：rad/s    D:m</p>
+<p>⑤J-桨效率</p>
+<p>y1 = -66.302*J² + 17.947*J - 0.0759</p>
+<p>⑥RPM-电机效率</p>
+<p>y2 = -2E-08*RPM² + 0.0003*RPM - 0.4484</p>
+<p>⑦总功率：</p>
+<p>T*V/y1/y2</p>
+<h2 id="【4-9】第二轮"><a href="#【4-9】第二轮" class="headerlink" title="【4.9】第二轮"></a>【4.9】第二轮</h2><p>修改数据：</p>
+<p>③J-CT</p>
+<p>y = -0.0041x² - 0.0101x + 0.003</p>
+<p>⑥RPM-电机效率（加入0截距）</p>
+<p>y = -4E-12x3 + 5E-08x2 - 3E-05x</p>
+<p>【4.10】</p>
+<p>①油门值、电压-转速</p>
+<p>ns = (1.119 * dp + -0.001606 * dp .^2)*(0.2668 + 0.1056 * U)</p>
+<p>dp：油门值（百分值）    U：电压（伏特）    ns：转速（rad/s）</p>
+<p>②前进比：桨前进速度与桨尖速度比值</p>
+<p>J=V/ns/D</p>
+<p>V：空速    ns：转速rad/s    D：螺旋桨直径（米）</p>
+<p>③J-CT</p>
+<p>CTn = -0.08997 * ARn.^2 -0.05982  *ARn +0.1262;</p>
+<p>T = CT*rho*ns²*D^4</p>
+<p>④J-CP</p>
+<p>CPn = -0.04899 * ARn.^2  -0.0005172 * ARn +0.05093;</p>
+<p>P = CP*rho*ns³*D^5</p>
+<p>⑤RPM-电机效率</p>
+<p>eta_emotorn = -5.575e-05 * nn.^2 +0.01122 * nn + 0.2199;</p>
+<p>⑥总功率：</p>
+<p>T*V/y1/y2</p>
+<h2 id="【Final】"><a href="#【Final】" class="headerlink" title="【Final】"></a>【Final】</h2><p>转速RPM，ns=RPM/60=rad/s</p>
+<p><strong>①油门值、电压-转速</strong></p>
+<p><strong>ns</strong> = (-0.001398*<strong>dp</strong>² + 0.9793*<strong>dp</strong>) * (0.1198*<strong>U</strong> + 0.3139)</p>
+<p>dp：油门值（百分值0-100）   U：电压（伏特）    ns：转速 （rad/s）</p>
+<p><strong>②前进比J：桨前进速度与桨尖速度比值</strong></p>
+<p><strong>J</strong>=<strong>V</strong>./<strong>ns</strong>/<strong>D</strong></p>
+<p>V：空速m/s    ns：转速rad/s    D：螺旋桨直径m</p>
+<p><strong>③J-CT</strong></p>
+<p><strong>CT</strong> = -0.08997*<strong>J</strong>² - 0.05982*<strong>J</strong> + 0.1262;</p>
+<p><strong>J</strong>>0.8 : <strong>CT</strong> = 33.627732440735322 * exp(-9.237330525654857*<strong>J</strong>);</p>
+<p><strong>T</strong> = <strong>CT</strong>*<strong>rho</strong>*<strong>ns</strong>²*<strong>D</strong>^4</p>
+<p>【CT(J&gt;0.8) = 33.627732440735322 * exp(-9.237330525654857  * J(J&gt;0.8))】</p>
+<p>rho:空气密度（kg/m³）</p>
+<p><strong>④J-CP</strong></p>
+<p><strong>CP</strong> = -0.04899*<strong>J</strong>²  -0.0005172*<strong>J</strong> +0.05093</p>
+<p><strong>J</strong>>0.9 ： <strong>CP</strong> = 17.555784504963174 * exp(-8.215449239738124*<strong>J</strong>);</p>
+<p><strong>P</strong> = <strong>CP</strong>*<strong>rho</strong>*<strong>ns</strong>³*<strong>D</strong>^5</p>
+<p>【CP(J&gt;0.9) = 17.555784504963174 * exp(-8.215449239738124  * J(J&gt;0.9));】</p>
+<p><strong>⑤ns-电机效率</strong></p>
+<p><strong>e_motor</strong> = -5.575e-05*<strong>ns</strong>² + 0.01122*<strong>ns</strong> + 0.2199</p>
+<p><strong>⑥总功率：</strong></p>
+<p><strong>P_all</strong> = <strong>P</strong> / <strong>e_motor</strong> +5</p>
+<p>仿真所用：【0-100】</p>
+<p>所用：油门dp，电压U</p>
+<p>ns = (-0.001398*dp² + 0.9793*dp) * (0.1198*U + 0.3139)</p>
+<p>RPM = ns*60</p>
+<p>J=V./ns/D</p>
+<p>CT = -0.08997*J² - 0.05982*J + 0.1262</p>
+<p>J&gt;0.8 : CT = 33.627732440735322 * exp(-9.237330525654857*J)</p>
+<p>T = CT*rho*ns²*D^4</p>
+<p>马振宇模型【0-100】</p>
+<p>T = 0.00396279781195390 * (0.206782314084356*<strong>dp</strong>² + 5.38774677571042*<strong>dp</strong> - <strong>V</strong>²)</p>
+<p>Tv = -0.00792559562390780 * V</p>
+<h1 id="旋翼螺旋桨估算"><a href="#旋翼螺旋桨估算" class="headerlink" title="旋翼螺旋桨估算"></a>旋翼螺旋桨估算</h1><p>以下节选自【全权】《多旋翼飞行器设计与控制》P67，第四章</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T & =C_{\mathrm{T}} \rho \cdot\left(\frac{N}{60}\right)^2 D_{\mathrm{p}}^4 \newline
+M & =C_{\mathrm{M}} \rho \cdot\left(\frac{N}{60}\right)^2 D_{\mathrm{p}}^5
+\end{aligned}</script><p>N为转速RPM,Dp为直径m,Bp桨叶数,Hp桨距</p>
+<script type="math/tex; mode=display">
+C_{\mathrm{T}}=f_{C_{\mathrm{T}}}\left(\Theta_{\mathrm{p}}\right) \triangleq 0.25 \pi^3 \lambda \zeta^2 B_{\mathrm{p}} K_0 \frac{\varepsilon \arctan \frac{H_{\mathrm{p}}}{\pi D_{\mathrm{p}}}-\alpha_0}{\pi A+K_0}</script><script type="math/tex; mode=display">
+C_{\mathrm{M}}=f_{C_{\mathrm{M}}}\left(\Theta_{\mathrm{p}}\right) \triangleq \frac{1}{8 A} \pi^2 C_{\mathrm{d}} \zeta^2 \lambda B_{\mathrm{p}}^2 \newline\
+C_{\mathrm{d}}=C_{\mathrm{fd}}+\frac{\pi A K_0^2}{e} \frac{\left(\varepsilon \arctan \frac{H_{\mathrm{p}}}{\pi D_{\mathrm{p}}}-\alpha_0\right)^2}{\left(\pi A+K_0\right)^2}</script><p>对于以上公式，其中参数为：</p>
+<script type="math/tex; mode=display">
+A=5 \sim 8, \varepsilon=0.85 \sim 0.95, \lambda=0.7 \sim 0.9, \zeta=0.4 \sim 0.7, e=0.7 \sim 0.9, C_{\mathrm{fd}}=0.015, \alpha_0=-\frac{\pi}{36} \sim 0, K_0=6.11</script><p>实用性较广的一组参数：</p>
+<p>A=5;ε=0.85;λ=0.75;ζ=0.5;e=0.83;Cfd=0.015;α0=0;K0=6.11</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/598d.html">https://bfaner.github.io/posts/598d.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/bfe8.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">旋翼姿态控制</div></div></a></div><div class="next-post pull-right"><a href="/posts/2f81.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">主控制回路</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B8%9F%E6%9C%BA%E3%80%901055%E3%80%91"><span class="toc-number">1.</span> <span class="toc-text">鸟机【1055】</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%904-8%E3%80%91%E7%AC%AC%E4%B8%80%E8%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">【4.8】第一轮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%904-9%E3%80%91%E7%AC%AC%E4%BA%8C%E8%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">【4.9】第二轮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90Final%E3%80%91"><span class="toc-number">1.3.</span> <span class="toc-text">【Final】</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%8B%E7%BF%BC%E8%9E%BA%E6%97%8B%E6%A1%A8%E4%BC%B0%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text">旋翼螺旋桨估算</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

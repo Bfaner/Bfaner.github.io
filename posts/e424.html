@@ -1,0 +1,467 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>扩展卡尔曼滤波 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="流程位置估计、姿态估计由扩展卡尔曼滤波器完成，扩展卡尔曼滤波将非线性的系统模型线性化，在工作点附近进行一阶线性化，忽略其高阶项导数。 系统状态的预测方程：  \begin{gathered} \hat{x}_k^{-}&amp;#x3D;f\left(x_{k-1}\right)+w_{k-1} \newline P"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/e424"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '扩展卡尔曼滤波',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:58:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">扩展卡尔曼滤波</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-27T01:47:12.000Z" title="发表于 2021-07-27 09:47:12">2021-07-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:58:58.641Z" title="更新于 2023-04-14 20:58:58">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/PX4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">PX4学习笔记</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><p>位置估计、姿态估计由扩展卡尔曼滤波器完成，扩展卡尔曼滤波将非线性的系统模型线性化，在工作点附近进行一阶线性化，忽略其高阶项导数。</p>
+<p>系统状态的预测方程：</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\hat{x}_k^{-}=f\left(x_{k-1}\right)+w_{k-1} \newline
+P_k^{-}=F P_{k-1} F^T+Q
+\end{gathered}</script><p>式中，第一个方程为状态的推算，第二个方程为方差的推算。$x_{k-1}$为上一时刻的状态值，其协方差为$P_{k-1}$；$\hat{x}_k^{-}$为当前时刻的预测值，推算的协方差为$P_k^{-}$；$f(x)$为非线性状态随时间的推算模型，其在$x_{k-1}$处的一阶偏导数为F；$w_{k-1}$为预测过程的噪声，其期望为0，协方差为Q。</p>
+<p>测量值的推算方程：</p>
+<script type="math/tex; mode=display">
+z_k=h\left(\hat{x}_k\right) \approx h\left(\hat{x}_k^{-}\right)+H *\left(x_k-\hat{x}_k^{-}\right)+v_k</script><p>其中，$z_k$为当前时刻的观测量；$h(x)$为状态量到观测量的推算模型，其在$x_k$处一阶偏导数为H；$V_k$为噪声及高阶展开项的误差，其期望为0，协方差为R。</p>
+<p>系统测量值的校正方程：</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+K_k=P_k^{-} H^T\left(H P_k^{-} H^T+R\right)^{-1} \newline
+\hat{X}_k=\widehat{X}_k^{-}+K_k\left(z_k-H \hat{X}_k^{-}\right) \newline
+P_k=\left(I-K_k H\right) P_k^{-}
+\end{gathered}</script><p>式中，$K_k$为扩展卡尔曼滤波的增益，其物理意义为测量值的可信度；$\hat{X}_k$为校正后的状态量，其校正后的协方差为$P_k$。其中第一第二式即推算增益、校正状态的过程，可通过正态分布的融合或者融合的最大概率推导得出。</p>
+<p><img src="e424/image-20230410020542963.png" alt="image-20230410020542963" style="zoom:50%;" /></p>
+<p>在实际应用中，对于姿态角，通常使用高频率的陀螺仪作为姿态推算的依据，而使用加速度计、磁力计、GPS等频率较低的传感器作为姿态的校正输入。对于速度、位置，通常使用加速度计推算，使用GPS、气压计等作为校正输入。这个过程使用扩展卡尔曼滤波得到实时的姿态、位置等数据。</p>
+<h1 id="PX4姿态推算"><a href="#PX4姿态推算" class="headerlink" title="PX4姿态推算"></a>PX4姿态推算</h1><p>Pixhawk推算的变量一共有24个，分别为：四元数q(地轴到体轴)、地轴系速度v、地轴系的位置p、体轴系角度增量  、体轴系速度增量  、罗差  (磁力计与地磁北极之间的夹角)、地磁角  、地轴NE方向空速  ，其中除了四元数4个量、空速2个量之外，其余变量均为3个。上述过程中的变量均为采样周期内的变化量，而未转化为变化率，这是为了避免噪声放大。</p>
+<h2 id="四元数q-地轴到体轴-的推算"><a href="#四元数q-地轴到体轴-的推算" class="headerlink" title="四元数q(地轴到体轴)的推算"></a>四元数q(地轴到体轴)的推算</h2><script type="math/tex; mode=display">
+q_{k+1}=\Delta p_k^* \otimes q_k \otimes \Delta q_k</script><p>式中，$\Delta p_k$为地轴系由k时刻到k+1时刻的四元数变化量，则$\Delta p_k^*$即地轴系由k+1时刻到k时刻的四元数变化量，  为体轴系下的四元数变化量。因为采样时间很短，可认为地轴系坐标没有发生变化，因此</p>
+<script type="math/tex; mode=display">
+q_{k+1}=q_k \otimes \Delta q_k</script><p>陀螺仪的测得角度变化量$\Delta \theta=\left[\Delta \theta_x, \Delta \theta_y, \Delta \theta_z\right]$，则$\Delta q_k$即表示为绕矢量$\left[\Delta \theta_x, \Delta \theta_y, \Delta \theta_z\right]$旋转$\Delta \theta$角度的四元数，可得</p>
+<script type="math/tex; mode=display">
+\Delta \mathrm{q}_{\mathrm{k}}=\left[\cos \frac{\|\Delta \theta\|}{2}, \frac{\Delta \theta_{\mathrm{x}}}{\|\Delta \theta\|} \sin \frac{\Delta \theta_{\mathrm{x}}}{2}, \frac{\Delta \theta_{\mathrm{y}}}{\|\Delta \theta\|} \sin \frac{\Delta \theta_{\mathrm{y}}}{2}, \frac{\Delta \theta_{\mathrm{z}}}{\|\Delta \theta\|} \sin \frac{\Delta \theta_{\mathrm{z}}}{2}\right]</script><p>时间足够小，则变化量也足够小，因此$\Delta q_k=\left[1, \Delta \theta_x / 2, \Delta \theta_y / 2, \Delta \theta_z / 2\right]$。</p>
+<p>而$q_{k+1}=q_k \otimes \Delta q_k=M\left(\Delta q_k\right) \cdot q_k$(修改矩阵以调换乘法顺序)，因此四元数的推测方程为：</p>
+<script type="math/tex; mode=display">
+q_{k+1} \approx\left[\begin{array}{cccc}
+1 & -\Delta \theta_{\mathrm{x}} / 2 & -\Delta \theta_{\mathrm{y}} / 2 & -\Delta \theta_{\mathrm{z}} / 2 \newline
+\Delta \theta_{\mathrm{x}} / 2 & 1 & \Delta \theta_{\mathrm{z}} / 2 & -\Delta \theta_{\mathrm{y}} / 2 \newline
+\Delta \theta_{\mathrm{y}} / 2 & -\Delta \theta_{\mathrm{z}} / 2 & 1 & \Delta \theta_{\mathrm{x}} / 2 \newline
+\Delta \theta_{\mathrm{z}} / 2 & \Delta \theta_{\mathrm{y}} / 2 & -\Delta \theta_{\mathrm{x}} / 2 & 1
+\end{array}\right] \cdot q_k</script><p>四元数推算模型在$q_k$处的一阶导数$F_{q_k}^{q_{k+1}}$如下：</p>
+<script type="math/tex; mode=display">
+F_{q_k}^{q_{k+1}}=\frac{\partial q_{k+1}}{\partial q_k}=\left[\begin{array}{cccc}
+1 & -\Delta \theta_x / 2 & -\Delta \theta_y / 2 & -\Delta \theta_z / 2 \newline
+\Delta \theta_x / 2 & 1 & \Delta \theta_z / 2 & -\Delta \theta_y / 2 \newline
+\Delta \theta_y / 2 & -\Delta \theta_z / 2 & 1 & \Delta \theta_x / 2 \newline
+\Delta \theta_z / 2 & \Delta \theta_y / 2 & -\Delta \theta_x / 2 & 1
+\end{array}\right]</script><h2 id="速度v的推算"><a href="#速度v的推算" class="headerlink" title="速度v的推算"></a>速度v的推算</h2><script type="math/tex; mode=display">
+\dot{v}=L_{g b} \cdot a_m+g_N</script><p>上式忽略地球自转的影响，式中$a_m$为加速度计测量值，$g_N$为体轴系的重力加速度。因此速度的推测方程为：</p>
+<script type="math/tex; mode=display">
+v_{k+1}=v_k+L_{g b} \cdot \Delta v+g_N \cdot \Delta t</script><p>其中，$\Delta v$为从k时刻到k+1时刻加速度计测得的速度增量，$L_{gb}$为体轴系到地轴系的旋转矩阵。速度推算模型在$v_k$处的一阶导数$F_{v_k}^{v_{k+1}}$如下：</p>
+<script type="math/tex; mode=display">
+F_{v_k}^{v_{k+1}}=\frac{\partial v_{k+1}}{\partial v_{k}}=I</script><h2 id="位置p的推算"><a href="#位置p的推算" class="headerlink" title="位置p的推算"></a>位置p的推算</h2><script type="math/tex; mode=display">
+p_{k+1}=p_k+\frac{1}{2}\left(v_k+v_{k+1}\right) \cdot \Delta t</script><p>位置推算模型在$p_k$的一阶导数$F_{p_k}^{p_{k+1}}$为：</p>
+<script type="math/tex; mode=display">
+F_{p_k}^{p_{k+1}}=\frac{\partial p_{k+1}}{\partial p_{k}}=\mathrm{I}</script><p>其余状态的推算方程不再展开叙述。</p>
+<p>上述变量的推测方差$P_k^{-}=F P_{k-1} F^T+Q$，在完成单独每个变量的推算之后，则进行每个变量的校正。</p>
+<h1 id="PX4姿态矫正"><a href="#PX4姿态矫正" class="headerlink" title="PX4姿态矫正"></a>PX4姿态矫正</h1><h2 id="加速度计对四元数的校正"><a href="#加速度计对四元数的校正" class="headerlink" title="加速度计对四元数的校正"></a>加速度计对四元数的校正</h2><script type="math/tex; mode=display">
+v_{k+1}=v_k+L_{g b} \cdot \Delta  {v}+ {g}_N \cdot \Delta t</script><p>其中，$L_g^b$由四元数$q_k$转化得到，因此可以得到四元数对速度的观测矩阵：</p>
+<script type="math/tex; mode=display">
+\mathrm{H}_{q_k}^{\mathrm{v}_{\mathrm{k}+1}}=\frac{\partial \mathrm{v}_{\mathrm{k}+1}}{\partial q_k}=\frac{\partial\left(L_{g b} \cdot \Delta  {v}\right)}{\partial q_k}=2\left[\Phi_1 \Delta  {v}, \Phi_2 \Delta  {v}, \Phi_3 \Delta  {v}\right]^{\prime}</script><p>式中：</p>
+<script type="math/tex; mode=display">
+\Phi_1=\left[\begin{array}{ccc}
+q_0 & -q_3 & q_2 \newline
+q_1 & q_2 & q_3 \newline
+-q_2 & q_1 & q_0 \newline
+-q_3 & -q_0 & q_1
+\end{array}\right], \Phi_2=\left[\begin{array}{ccc}
+q_3 & q_0 & -q_1 \newline
+q_2 & -q_1 & -q_0 \newline
+q_1 & q_2 & q_3 \newline
+q_0 & -q_3 & q_2
+\end{array}\right], \Phi_3=\left[\begin{array}{ccc}
+-q_2 & q_1 & q_0 \newline
+q_3 & q_0 & -q_1 \newline
+-q_0 & q_3 & -q_2 \newline
+q_1 & q_2 & q_3
+\end{array}\right]</script><p>加速度计校正方程：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+K=\frac{P_k^{-}\left(H_{q_k}^{v_{k+1}}\right)^{\prime}}{H_{q_k}^{v_{k+1}} P_k^{-}\left(H_{q_k}^{v_{k+1}}\right)^{\prime}+R_v} \newline
+\hat{X}_k=\hat{X}_k^{-}+K\left(z_v-H_{q_k}^{v_{k+1}} \hat{X}_k^{-}\right) \newline
+P_k=\left(I-K H_{q_k}^{v_{k+1}}\right) P_k^{-}
+\end{array}\right.</script><h2 id="GPS对速度和水平位置的校正"><a href="#GPS对速度和水平位置的校正" class="headerlink" title="GPS对速度和水平位置的校正"></a>GPS对速度和水平位置的校正</h2><p>状态量$z_{GPS}=\left[v_N, v_E, v_D, p_N,p_E\right]$，因此其$H_{GPS}=1$。因此GPS对三个方向的速度及水平位置的校正为：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+K=\frac{P_k^{-} H_{G P S}^T}{H_{G P S} P_k^{-} H_{G P S}^T+R_{G P S}} \newline
+\widehat{X}_k=\widehat{X}_k^{-}+K\left(z_{G P S}-H_{G P S} \widehat{X}_k^{-}\right) \newline
+P_k=\left(I-K H_{G P S}\right) P_k^{-}
+\end{array}\right.</script><p>其余为磁力计、气压计等对状态的校正，原理与上相同。</p>
+<p><img src="e424/image-20230410022404538.png" alt="image-20230410022404538" style="zoom:67%;" /></p>
+<h1 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h1><h2 id="状态预测"><a href="#状态预测" class="headerlink" title="状态预测"></a>状态预测</h2><h3 id="四元数预测"><a href="#四元数预测" class="headerlink" title="四元数预测"></a>四元数预测</h3><p>陀螺仪，采样时间间隔内的角增量(为避免噪声放大，没有将角增量转为角速度)。</p>
+<p>$q_{k+1}=\Delta p_k^{\ast} \otimes q_k \otimes \Delta q_k$ ，其中， $\Delta \mathrm{p}_{\mathrm{k}}^{\ast}$  为 $\Delta p_k$ 的共轭四元数【 $(L_{N_k}^{N_{k+1}})^{\prime} \ast L_{N_k}^{B_k} \ast L_{B_k}^{B_{k+1}}$】</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>k时刻</th>
+<th>k+1时刻</th>
+<th>k时刻到k+1时刻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>机体轴系</td>
+<td>$B_k$</td>
+<td>$B_{k+1}$</td>
+<td>$\Delta q_k$</td>
+</tr>
+<tr>
+<td>NED轴系</td>
+<td>$N_k$</td>
+<td>$N_{k+1}$</td>
+<td>$\Delta p_k$</td>
+</tr>
+<tr>
+<td>NED到体轴系</td>
+<td>$q_k$</td>
+<td>$q_{k+1}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>采样时间间隔短，NED坐标系变化很慢，$\Delta \mathrm{p}_{\mathrm{k}}^* \approx 1$，因此$q_{k+1}=q_k \otimes \Delta q_k$</p>
+<p>其中，$\Delta q_k$为采样时间内的姿态变化四元数，其对应的角度为$\Delta \theta$</p>
+<blockquote>
+<p>由MEMS得到的角度增量：$\Delta \theta=\left[\Delta \theta_{\mathrm{x}}, \Delta \theta_{\mathrm{y}}, \Delta \theta_{\mathrm{z}}\right]=\left[w_x, w_y, w_z\right] \cdot \Delta t$<br>则$\Delta q_k$表示为绕$\left[\Delta \theta_{\mathrm{x}}, \Delta \theta_{\mathrm{y}}, \Delta \theta_{\mathrm{z}}\right]$旋转$\Delta \theta$的四元数</p>
+<script type="math/tex; mode=display">
+\Delta \mathrm{q}_{\mathrm{k}}=\cos \frac{\Delta \theta}{2}+\frac{\Delta \theta}{\|\Delta \theta\|} \sin \frac{\Delta \theta}{2}=\left[\cos \frac{\Delta \theta}{2}, \frac{\Delta \theta_{\mathrm{x}}}{\|\Delta \theta\|} \sin \frac{\Delta \theta_{\mathrm{x}}}{2}, \frac{\Delta \theta_{\mathrm{y}}}{\|\Delta \theta\|} \sin \frac{\Delta \theta_{\mathrm{y}}}{2}, \frac{\Delta \theta_{\mathrm{z}}}{\|\Delta \theta\|} \sin \frac{\Delta \theta_{\mathrm{z}}}{2}\right]</script><p>当 $\Delta \theta$ 足够小，可以得到, $\Delta \mathrm{q}_{\mathrm{k}} \approx\left[1, \frac{\Delta \theta_{\mathrm{x}}}{2}, \frac{\Delta \theta_{\mathrm{y}}}{2}, \frac{\Delta \theta_{\mathrm{z}}}{2}\right]$</p>
+</blockquote>
+<p>因此， $q_{k+1}=q_k \otimes \Delta q_k=M\left(\Delta q_k\right) \cdot q_k$，其中</p>
+<script type="math/tex; mode=display">
+M\left(\Delta q_k\right)=\left[\begin{array}{cccc}
+\Delta q_0 & -\Delta q_1 & -\Delta q_2 & -\Delta q_3 \newline
+\Delta q_1 & \Delta q_0 & \Delta q_3 & -\Delta q_2 \newline
+\Delta q_2 & -\Delta q_3 & \Delta q_0 & \Delta q_1 \newline
+\Delta q_3 & \Delta q_2 & -\Delta q_1 & \Delta q_0
+\end{array}\right] \approx\left[\begin{array}{cccc}
+1 & -\frac{\Delta \theta_{\mathrm{x}}}{2} & -\frac{\Delta \theta_{\mathrm{y}}}{2} & -\frac{\Delta \theta_{\mathrm{z}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{x}}}{2} & 1 & \frac{\Delta \theta_{\mathrm{z}}}{2} & -\frac{\Delta \theta_{\mathrm{y}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{y}}}{2} & -\frac{\Delta \theta_{\mathrm{z}}}{2} & 1 & \frac{\Delta \theta_{\mathrm{x}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{z}}}{2} & \frac{\Delta \theta_{\mathrm{y}}}{2} & -\frac{\Delta \theta_{\mathrm{x}}}{2} & 1
+\end{array}\right]</script><p>陀螺仪有零偏，进行如下处理</p>
+<blockquote>
+<p> $\Delta \theta_b=\left[\Delta \theta_{\mathrm{bx}}, \Delta \theta_{\mathrm{by}}, \Delta \theta_{\mathrm{bz}}\right]$为陀螺仪从k到k+1时刻角增量的偏差</p>
+<p>$\Delta \theta_m=\left[\Delta \theta_{\mathrm{mx}}, \Delta \theta_{\mathrm{my}}, \Delta \theta_{\mathrm{mz}}\right]$为从k到k+1时刻测量得到角增量</p>
+<p>$\Delta \theta_n=\left[\Delta \theta_{\mathrm{nx}}, \Delta \theta_{\mathrm{ny}}, \Delta \theta_{\mathrm{nz}}\right]$为从k到k+1时刻测量得到角增量的噪声</p>
+<p>则，$\Delta \theta=\left[\Delta \theta_{\mathrm{x}}, \Delta \theta_{\mathrm{y}}, \Delta \theta_{\mathrm{z}}\right]=\left[\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}, \Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}, \Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}\right]$</p>
+</blockquote>
+<p>因此，最终的传递方程为：</p>
+<script type="math/tex; mode=display">
+q_{k+1} \approx\left[\begin{array}{cccc}
+1 & -\frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} & -\frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} & -\frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} & \frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} & -\frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} & -\frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} & 1 & \frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} & \frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} & -\frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} & 1
+\end{array}\right] \cdot q_k</script><p>此时，$q_{k+1}=F q_k$</p>
+<script type="math/tex; mode=display">
+F_{q_k}^{q_{k+1}}=\frac{\partial q_{k+1}}{\partial q_k}=\left[\begin{array}{cccc}
+1 & -\frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} & -\frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} & -\frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} \newline
+\frac{1}{2} & \frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} & \frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} & -\frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} & -\frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} & \frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} \newline
+\frac{\Delta \theta_{\mathrm{mz}}-\Delta \theta_{\mathrm{bz}}-\Delta \theta_{\mathrm{nz}}}{2} & \frac{\Delta \theta_{\mathrm{my}}-\Delta \theta_{\mathrm{by}}-\Delta \theta_{\mathrm{ny}}}{2} & -\frac{\Delta \theta_{\mathrm{mx}}-\Delta \theta_{\mathrm{bx}}-\Delta \theta_{\mathrm{nx}}}{2} & 1
+\end{array}\right]</script><p>其对应的协方差传递为：$P_k^{-}=F P_{k-1} F^T+Q$</p>
+<h3 id="速度预测"><a href="#速度预测" class="headerlink" title="速度预测"></a>速度预测</h3><p>NED坐标中，速度方程为$v_N=L_B^N \cdot a_m+g_N-\omega_{i e} \times\left(\omega_{i e} \times p_N\right)-\left(2 \omega_{i e}+\omega_{e n}\right) \times v_N$</p>
+<blockquote>
+<p>其中，$a_m$为加速度计测量值，$[0,0,g]$为NED的重力加速度</p>
+<p>$\omega_{\mathrm{ie}}=[\Omega \cos L, 0,-\Omega \sin L]$为地球自转角速度，$\Omega$地球自转角速度，L为飞行器所在纬度</p>
+<p>$p_N$为地球中心到飞行器的位置矢量，$\omega _{en}$为机体相对于地球的圆锥运动在NED坐标系下的表示</p>
+<blockquote>
+<p> $\omega_{\mathrm{en}}=\left[\frac{\mathrm{v}_{\mathrm{E}}}{\mathrm{R}_0+\mathrm{h}}, \frac{-\mathrm{v}_{\mathrm{N}}}{\mathrm{R}_0+h},-\frac{\mathrm{v}_{\mathrm{E}} \tan L}{\mathrm{R}_0+h}\right]$，$R_0$为地球半径，h为高度</p>
+</blockquote>
+<p>地球自转角速度约7.2921e-5rad/s，地球半径约6378km，速度较低时，$\omega _{en}$和$\omega _{ie}$可以忽略不计</p>
+</blockquote>
+<p>因此，$v_N=L_B^N \cdot a_m+g_N$</p>
+<p>将速度方程离散化：</p>
+<script type="math/tex; mode=display">
+v_{k+1}=v_k+L_B^N \cdot a_m \Delta t+g_N \cdot \Delta t=v_k+L_B^N \cdot \Delta v+g_N \cdot \Delta t</script><blockquote>
+<p>$\Delta v$为从k时刻到k+1时刻加速度计测得的速度增量</p>
+</blockquote>
+<p>加速度计有零偏，进行如下处理</p>
+<blockquote>
+<p> $\Delta v_b=\left[\Delta \mathrm{v}_{\mathrm{bx}}, \Delta \mathrm{v}_{\mathrm{by}}, \Delta \mathrm{v}_{\mathrm{bz}}\right]$为加速度计从k到k+1时刻速度增量的偏差</p>
+<p>$\Delta v_m=\left[\Delta \mathrm{v}_{\mathrm{mx}}, \Delta \mathrm{v}_{\mathrm{my}}, \Delta \mathrm{v}_{\mathrm{mz}}\right]$为从k到k+1时刻测量得到速度增量的噪声</p>
+<p>$\Delta v_n=\left[\Delta \mathrm{v}_{\mathrm{nx}}, \Delta \mathrm{v}_{\mathrm{ny}}, \Delta \mathrm{v}_{\mathrm{nz}}\right]$为从k到k+1时刻测量得到速度增量的噪声<br> 则，$\Delta \mathrm{v}=\left[\Delta \mathrm{v}_{\mathrm{x}}, \Delta \mathrm{v}_{\mathrm{y}}, \Delta \mathrm{v}_{\mathrm{z}}\right]=\left[\Delta \mathrm{v}_{\mathrm{mx}}-\Delta \mathrm{v}_{\mathrm{bx}}-\Delta \mathrm{v}_{\mathrm{nx}}, \Delta \mathrm{v}_{\mathrm{my}}-\Delta \mathrm{v}_{\mathrm{by}}-\Delta \mathrm{v}_{\mathrm{ny}}, \Delta \mathrm{v}_{\mathrm{mz}}-\Delta \mathrm{v}_{\mathrm{bz}}-\Delta \mathrm{v}_{\mathrm{nz}}\right]$</p>
+</blockquote>
+<p>传递方程为：</p>
+<script type="math/tex; mode=display">
+v_{k+1}=v_k+L_B^N \cdot\left[\Delta \mathrm{v}_{\mathrm{mx}}-\Delta \mathrm{v}_{\mathrm{bx}}-\Delta \mathrm{v}_{\mathrm{nx}}, \Delta \mathrm{v}_{\mathrm{my}}-\Delta \mathrm{v}_{\mathrm{by}}-\Delta \mathrm{v}_{\mathrm{ny}}, \Delta \mathrm{v}_{\mathrm{mz}}-\Delta \mathrm{v}_{\mathrm{bz}}-\Delta \mathrm{v}_{\mathrm{nz}}\right]+g_N \cdot \Delta t</script><p>此时，$v_{k+1}=v_k+L_B^N \cdot \Delta v+g_N \cdot \Delta t$</p>
+<script type="math/tex; mode=display">
+\mathrm{F}_{\Delta \mathrm{v}_{\mathrm{b}}}^{\mathrm{v}_{\mathrm{k}+1}}=\frac{\partial \mathrm{v}_{\mathrm{k}+1}}{\partial \Delta \mathrm{v}_{\mathrm{h}}}=\frac{\partial\left(\mathrm{v}_{\mathrm{k}}+\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}+\mathrm{g}_{\mathrm{N}} \cdot \Delta \mathrm{t}\right)}{\partial \Delta \mathrm{v}_{\mathrm{h}}}=\frac{\partial\left(\mathrm{v}_{\mathrm{k}}+\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot\left(\Delta \mathrm{v}_{\mathrm{m}}-\Delta \mathrm{v}_{\mathrm{b}}\right)+\mathrm{g}_{\mathrm{N}} \cdot \Delta \mathrm{t}\right)}{\partial \Delta \mathrm{v}_{\mathrm{h}}}=-\mathrm{L}_{\mathrm{B}}^{\mathrm{N}}</script><script type="math/tex; mode=display">
+\mathrm{F}_{\mathrm{v}_{\mathrm{k}+1}}^{\mathrm{v}_{\mathrm{k}+1}}=\frac{\partial \mathrm{v}_{\mathrm{k}+1}}{\partial \mathrm{v}_{\mathrm{k}}}=\frac{\partial\left(\mathrm{v}_{\mathrm{k}}+\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}+\mathrm{g}_{\mathrm{N}} \cdot \Delta \mathrm{t}\right)}{\partial \mathrm{v}_{\mathrm{k}}}=1</script><h3 id="位置预测"><a href="#位置预测" class="headerlink" title="位置预测"></a>位置预测</h3><p>忽略旋转效应等，可以得到：</p>
+<script type="math/tex; mode=display">
+p_{k+1}=p_k+v_k \cdot \Delta t+\frac{1}{2}\left(L_B^N \cdot a_m+g_N\right) \Delta t^2=p_k+\frac{1}{2} v_k \cdot \Delta t+\frac{1}{2}\left(v_k+L_B^N \cdot \Delta v+g_N \cdot \Delta t\right) \Delta t=p_k+\frac{1}{2}\left(v_k+v_{k+1}\right) \cdot \Delta t</script><p>此时，</p>
+<script type="math/tex; mode=display">
+p_{k+1}=p_k+\frac{1}{2}\left(v_k+v_{k+1}\right) \cdot \Delta t</script><p>可得，</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \mathrm{F}_{\mathrm{v}_{\mathrm{k}}}^{\mathrm{p}_{\mathrm{k}+1}}=\frac{\partial \mathrm{p}_{\mathrm{k}+1}}{\partial \mathrm{v}_{\mathrm{k}}}=\frac{1}{2} I \Delta t \newline
+& \mathrm{~F}_{\mathrm{q}_{\mathrm{k}+1}}^{\mathrm{p}_{\mathrm{k}}}=\frac{\partial \mathrm{p}_{\mathrm{k}+1}}{\partial \mathrm{q}_{\mathrm{k}}}=0 \newline
+& \mathrm{~F}_{\mathrm{p}_{\mathrm{k}}}^{\mathrm{p}_{\mathrm{k}+1}}=\frac{\partial \mathrm{p}_{\mathrm{k}+1}}{\partial \mathrm{p}_{\mathrm{k}}}=1
+\end{aligned}</script><h3 id="协方差预测补充"><a href="#协方差预测补充" class="headerlink" title="协方差预测补充"></a>协方差预测补充</h3><script type="math/tex; mode=display">
+P_k^{-}=F P_{k-1} F^T+Q</script><p>速度→四元数：</p>
+<script type="math/tex; mode=display">
+\mathrm{F}_{q_k}^{\mathrm{v}_{\mathrm{k}+1}}=\frac{\partial \mathrm{v}_{\mathrm{k}+1}}{\partial q_k}=\frac{\partial\left(\mathrm{v}_{\mathrm{k}}+\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}+\mathrm{g}_{\mathrm{N}} \cdot \Delta \mathrm{t}\right)}{\partial q_k}=\frac{\partial\left(\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}\right)}{\partial q_k}</script><p>因此，</p>
+<script type="math/tex; mode=display">
+\mathrm{F}_{q_k}^{\mathrm{v}_{\mathrm{k}+1}}=\frac{\partial \mathrm{v}_{\mathrm{k}+1}}{\partial q_k}=\frac{\partial\left(\mathrm{v}_{\mathrm{k}}+\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}+\mathrm{g}_{\mathrm{N}} \cdot \Delta \mathrm{t}\right)}{\partial q_k}=\frac{\partial\left(\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}\right)}{\partial q_k}</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\mathrm{L}_{\mathrm{B}}^{\mathrm{N}} \cdot \Delta \mathrm{v}=\left[\begin{array}{ccc}
+q_0^2+q_1^2-q_2^2-q_3^2 & 2 q_1 q_2-2 q_0 q_3 & 2 q_0 q_2+2 q_1 q_3 \newline
+2 q_0 q_3+2 q_1 q_2 & q_0^2-q_1^2+q_2^2-q_3^2 & 2 q_2 q_3-2 q_0 q_1 \newline
+2 q_1 q_3-2 q_0 q_2 & 2 q_0 q_1+2 q_2 q_3 & q_0^2-q_1^2-q_2^2+q_3^2
+\end{array}\right]\left[\begin{array}{c}
+\Delta v_x \newline
+\Delta v_y \newline
+\Delta v_z
+\end{array}\right]\newline=\left[\begin{array}{c}
+\left(q_0^2+q_1^2-q_2^2-q_3^2\right) \Delta v_x+\left(2 q_1 q_2-2 q_0 q_3\right) \Delta v_y+\left(2 q_0 q_2+2 q_1 q_3\right) \Delta v_z \newline
+\left(2 q_0 q_3+2 q_1 q_2\right) \Delta v_x+\left(q_0^2-q_1^2+q_2^2-q_3^2\right) \Delta v_y+\left(2 q_2 q_3-2 q_0 q_1\right) \Delta v_z \newline
+\left(2 q_1 q_3-2 q_0 q_2\right) \Delta v_x+\left(2 q_0 q_1+2 q_2 q_3\right) \Delta v_y+\left(q_0^2-q_1^2-q_2^2+q_3^2\right) \Delta v_z
+\end{array}\right]</script><script type="math/tex; mode=display">
+\mathrm{F}_{q_k}^{\mathrm{v}_{\mathrm{k}+1}}=2\left[\begin{array}{cccc}
+q_0 \Delta v_x-q_3 \Delta v_y+q_2 \Delta v_z & q_1 \Delta v_x+q_2 \Delta v_y+q_3 \Delta v_z & -q_2 \Delta v_x+q_1 \Delta v_y+q_0 \Delta v_z & -q_3 \Delta v_x-q_0 \Delta v_y+q_1 \Delta v_z \newline
+q_3 \Delta v_x+q_0 \Delta v_y-q_1 \Delta v_z & q_2 \Delta v_x-q_1 \Delta v_y-q_0 \Delta v_z & q_1 \Delta v_x+q_2 \Delta v_y+q_3 \Delta v_z & q_0 \Delta v_x-q_3 \Delta v_y+q_2 \Delta v_z \newline
+-q_2 \Delta v_x+q_1 \Delta v_y+q_0 \Delta v_z & q_3 \Delta v_x+q_0 \Delta v_y-q_1 \Delta v_z & -q_0 \Delta v_x+q_3 \Delta v_y-q_2 \Delta v_z & q_1 \Delta v_x+q_2 \Delta v_y+q_3 \Delta v_z
+\end{array}\right] \newline 
+=2\left[\Phi_1 \Delta \mathrm{v}, \Phi_2 \Delta \mathrm{v}, \Phi_3 \Delta \mathrm{v}\right]^{\prime}</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\Phi_1=\left[\begin{array}{ccc}
+q_0 & -q_3 & q_2 \newline
+q_1 & q_2 & q_3 \newline
+-q_2 & q_1 & q_0 \newline
+-q_3 & -q_0 & q_1
+\end{array}\right], \Phi_2=\left[\begin{array}{ccc}
+q_3 & q_0 & -q_1 \newline
+q_2 & -q_1 & -q_0 \newline
+q_1 & q_2 & q_3 \newline
+q_0 & -q_3 & q_2
+\end{array}\right], \Phi_3=\left[\begin{array}{ccc}
+-q_2 & q_1 & q_0 \newline
+q_3 & q_0 & -q_1 \newline
+-q_0 & q_3 & -q_2 \newline
+q_1 & q_2 & q_3
+\end{array}\right]</script><h2 id="状态融合"><a href="#状态融合" class="headerlink" title="状态融合"></a>状态融合</h2><h3 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h3><p>观测方程：$\mathrm{z}_{\mathrm{GPS}}=H_{G P S} * x+ 误差$</p>
+<p>其中，$\mathrm{Z}_{\mathrm{GPS}}=\left[\mathrm{v}_{\mathrm{N}}, \mathrm{v}_{\mathrm{E}}, \mathrm{v}_{\mathrm{D}}, \mathrm{p}_{\mathrm{N}}, \mathrm{p}_{\mathrm{E}}\right]$</p>
+<script type="math/tex; mode=display">
+H_{G P S}^{5 * 5}=\frac{\partial \mathrm{z}_{\mathrm{GPS}}}{\partial \mathrm{x}}=\left[\begin{array}{ll}
+\mathrm{I}_{3 * 3} & 0_{3 * 2} \newline
+0_{2 * 3} & \mathrm{I}_{2 * 2}
+\end{array}\right]</script><p> 更新方程：【带”-“为状态预测值】</p>
+<script type="math/tex; mode=display">
+K=\frac{P_k^{-} H_{G P S}^T}{H_{G P S} P_k^{-} H_{G P S}^T+R_{G P S}}</script><p>【$R_{GPS}$为GPS观测的协方差】</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\hat{X}_k=\hat{X}_k^{-}+K\left(z_{G P S}-H_{G P S} \hat{X}_k^{-}\right) \newline
+P_k=\left(I-K H_{G P S}\right) P_k^{-}
+\end{gathered}</script><h3 id="气压计"><a href="#气压计" class="headerlink" title="气压计"></a>气压计</h3><p>观测方程：$\mathrm{z}_{\mathrm{baro}}=H_{baro} * x+ 误差$</p>
+<p>其中，$\mathrm{z}_{\mathrm{baro}}=h$，$H_{\text {baro }}^{1 * 1}=1$</p>
+<p>更新方程：</p>
+<script type="math/tex; mode=display">
+K=\frac{P_k^{-} H_{\text {baro }}^T}{H_{\text {baro }} P_k^{-} H_{\text {baro }}^T+R_{\text {baro }}}</script><p>【$R_{baro}$为气压计观测的协方差】</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\hat{X}_k=\hat{X}_k^{-}+K\left(z_{\text {baro }}-H_{\text {baro }} \hat{X}_k^{-}\right) \newline
+P_k=\left(I-K H_{\text {baro }}\right) P_k^{-}
+\end{gathered}</script></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/e424.html">https://bfaner.github.io/posts/e424.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/c074.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">simulink模型加密</div></div></a></div><div class="next-post pull-right"><a href="/posts/8ed0.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">旋翼位置控制</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PX4%E5%A7%BF%E6%80%81%E6%8E%A8%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text">PX4姿态推算</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0q-%E5%9C%B0%E8%BD%B4%E5%88%B0%E4%BD%93%E8%BD%B4-%E7%9A%84%E6%8E%A8%E7%AE%97"><span class="toc-number">2.1.</span> <span class="toc-text">四元数q(地轴到体轴)的推算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9F%E5%BA%A6v%E7%9A%84%E6%8E%A8%E7%AE%97"><span class="toc-number">2.2.</span> <span class="toc-text">速度v的推算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AEp%E7%9A%84%E6%8E%A8%E7%AE%97"><span class="toc-number">2.3.</span> <span class="toc-text">位置p的推算</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PX4%E5%A7%BF%E6%80%81%E7%9F%AB%E6%AD%A3"><span class="toc-number">3.</span> <span class="toc-text">PX4姿态矫正</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E9%80%9F%E5%BA%A6%E8%AE%A1%E5%AF%B9%E5%9B%9B%E5%85%83%E6%95%B0%E7%9A%84%E6%A0%A1%E6%AD%A3"><span class="toc-number">3.1.</span> <span class="toc-text">加速度计对四元数的校正</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPS%E5%AF%B9%E9%80%9F%E5%BA%A6%E5%92%8C%E6%B0%B4%E5%B9%B3%E4%BD%8D%E7%BD%AE%E7%9A%84%E6%A0%A1%E6%AD%A3"><span class="toc-number">3.2.</span> <span class="toc-text">GPS对速度和水平位置的校正</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BC"><span class="toc-number">4.</span> <span class="toc-text">推导</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E9%A2%84%E6%B5%8B"><span class="toc-number">4.1.</span> <span class="toc-text">状态预测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0%E9%A2%84%E6%B5%8B"><span class="toc-number">4.1.1.</span> <span class="toc-text">四元数预测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B"><span class="toc-number">4.1.2.</span> <span class="toc-text">速度预测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E9%A2%84%E6%B5%8B"><span class="toc-number">4.1.3.</span> <span class="toc-text">位置预测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E6%96%B9%E5%B7%AE%E9%A2%84%E6%B5%8B%E8%A1%A5%E5%85%85"><span class="toc-number">4.1.4.</span> <span class="toc-text">协方差预测补充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E8%9E%8D%E5%90%88"><span class="toc-number">4.2.</span> <span class="toc-text">状态融合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GPS"><span class="toc-number">4.2.1.</span> <span class="toc-text">GPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%94%E5%8E%8B%E8%AE%A1"><span class="toc-number">4.2.2.</span> <span class="toc-text">气压计</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>低通滤波器 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一阶低通滤波器数学表达式 \mathrm{G}(\mathrm{s})&amp;#x3D;\frac{\mathrm{Y}(\mathrm{s})}{\mathrm{X}(\mathrm{s})}&amp;#x3D;\frac{1}{T s+1}离散表达形式 Y(n)&amp;#x3D;\alpha X(n)+(1-\alpha) Y(n-1)，其中\"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/d0a6"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '低通滤波器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:06:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">低通滤波器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-17T01:17:24.000Z" title="发表于 2021-03-17 09:17:24">2021-03-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:06:53.258Z" title="更新于 2023-04-14 20:06:53">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/Minifly/">Minifly</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="一阶低通滤波器"><a href="#一阶低通滤波器" class="headerlink" title="一阶低通滤波器"></a>一阶低通滤波器</h1><h2 id="数学表达式"><a href="#数学表达式" class="headerlink" title="数学表达式"></a>数学表达式</h2><script type="math/tex; mode=display">
+\mathrm{G}(\mathrm{s})=\frac{\mathrm{Y}(\mathrm{s})}{\mathrm{X}(\mathrm{s})}=\frac{1}{T s+1}</script><h2 id="离散表达形式"><a href="#离散表达形式" class="headerlink" title="离散表达形式"></a>离散表达形式</h2><script type="math/tex; mode=display">
+Y(n)=\alpha X(n)+(1-\alpha) Y(n-1)，其中\alpha=\frac{1}{\frac{T}{d t}+1}</script><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rangeLpf += (sensorData-&gt;zrange.distance - rangeLpf) * <span class="number">0.1f</span>;</span><br><span class="line">rangeLpf = rangeLpf*<span class="number">0.9f</span> + sensorData-&gt;zrange.distance * <span class="number">0.1f</span>;</span><br></pre></td></tr></table></figure>
+<p>当α=0.1时，T=9dt，对应的传递函数表达式</p>
+<script type="math/tex; mode=display">
+\mathrm{G}(\mathrm{s})=\frac{\mathrm{Y}(\mathrm{s})}{\mathrm{X}(\mathrm{s})}=\frac{1}{9*dt*s+1}</script><h2 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h2><p>一阶滤波的表达式</p>
+<script type="math/tex; mode=display">
+\mathrm{G}(\mathrm{s})=\frac{\mathrm{Y}(\mathrm{s})}{\mathrm{X}(\mathrm{s})}=\frac{1}{T s+1}</script><p>使用一阶向后差分法</p>
+<script type="math/tex; mode=display">
+S=\frac{1-z^{-1}}{d t}</script><p>可得：</p>
+<script type="math/tex; mode=display">
+\frac{\mathrm{Y}(\mathrm{z})}{\mathrm{X}(\mathrm{z})}=\frac{1}{T \frac{1-z^{-1}}{d t}+1}=\frac{d t}{T\left(1-z^{-1}\right)+d t}</script><p>化简：</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\mathrm{X}(\mathrm{z}) \mathrm{dt}=T\left(1-\mathrm{z}^{-1}\right) \mathrm{Y}(\mathrm{z})+\mathrm{Y}(\mathrm{z}) \mathrm{dt} \newline
+\mathrm{X}(\mathrm{z})=\frac{T}{d t} \mathrm{Y}(\mathrm{z})-\frac{T}{d t} \mathrm{Y}(\mathrm{z}) z^{-1}+\mathrm{Y}(\mathrm{z}) \newline
+\left(\frac{T}{d t}+1\right) \mathrm{Y}(\mathrm{n})=\frac{T}{d t} \mathrm{Y}(\mathrm{n}-1)-\mathrm{X}(\mathrm{n}) 
+\end{gathered}</script><script type="math/tex; mode=display">
+\mathrm{Y}(\mathrm{n})=\frac{\frac{T}{d t}}{\frac{T}{d t}+1} \mathrm{Y}(\mathrm{n}-1)-\frac{1}{\frac{T}{d t}+1} \mathrm{X}(\mathrm{n})</script><p>令</p>
+<script type="math/tex; mode=display">
+\frac{1}{\frac{T}{d t}+1}=\alpha, \frac{\frac{T}{d t}}{\frac{T}{d t}+1}=1-\alpha，则T=\frac{1-\alpha}{\alpha} d t</script><p>因此，最终表达式为：</p>
+<script type="math/tex; mode=display">
+Y(n)=\alpha X(n)+(1-\alpha) Y(n-1)，其中\alpha=\frac{1}{\frac{T}{d t}+1}</script><h1 id="二阶低通滤波器"><a href="#二阶低通滤波器" class="headerlink" title="二阶低通滤波器"></a>二阶低通滤波器</h1><h2 id="数学表达式-1"><a href="#数学表达式-1" class="headerlink" title="数学表达式"></a>数学表达式</h2><script type="math/tex; mode=display">
+G_{2-\text { order }}(\mathrm{s})=\frac{w_c^2}{s^2+2 \xi w_c s+w_c^2}</script><p>其中，$w_c$为二阶低通滤波截止频率，$\xi$为阻尼比。</p>
+<h2 id="离散表达形式-1"><a href="#离散表达形式-1" class="headerlink" title="离散表达形式"></a>离散表达形式</h2><script type="math/tex; mode=display">
+Y(n)=\frac{b_0 X(n)+2 b_0 X(n-1)+b_0 X(n-2)-a_1 Y(n-1)-a_2 Y(n-2)}{a_0}</script><h2 id="推导-1"><a href="#推导-1" class="headerlink" title="推导"></a>推导</h2><p>二阶滤波的表达式</p>
+<script type="math/tex; mode=display">
+G_{2-\text { order }}(\mathrm{s})=\frac{w_c^2}{s^2+2 \xi w_c s+w_c^2}</script><p>使用双线性变换法</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \mathbf{s}=\frac{\mathbf{2}}{ {T}} * \frac{\mathbf{z}-\mathbf{1}}{ {z}+\mathbf{1}}=2 * f_s * \frac{z-1}{z+1}\left[z=e^{s T}=\frac{e^{\frac{1}{2} s T}}{e^{-\frac{1}{2} s T}}(\text { 泰勒展开 })=\frac{1+\frac{1}{2} s T}{1-\frac{1}{2} s T}\right] \newline
+& G_{2-\operatorname{order}}(z)=\frac{w_c^2}{\left(\frac{2}{T} \frac{z-1}{z+1}\right)^2+2 \xi w_c\left(\frac{2}{T} \frac{z-1}{z+1}\right)+w_c^2} \newline
+& G_{2-\operatorname{order}}(z)=\frac{w_c^2 T_{s w}^2\left(z^2+2 z+1\right)}{z^2\left(w_c^2 T_{s w}^2+4 \xi w_c T_{s w}+4\right)+z\left(2 w_c^2 T_{s w}^2-8\right)+\left(w_c^2 T_{s w}^2-4 \xi w_c T_{s w}+4\right)} \newline
+&
+\end{aligned}</script><p>令$b_0={w}_{c}^2 {T}_{s w}^2$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& {a}_{0}={w}_{c}^2 {T}_{s w}^2+{4} {w}_{c} {T}_{s w}+4 , a_1=2{w}_{c}^2 {T}_{s w}^2-{8}, {a}_2={w}_{c}^2 {T}_{s w}^2-{4} {w}_{c} {T}_{s w}+{4} \newline
+& G_{2-\text { order }}(z)=\frac{b_0(z^2+2 z+1)}{a_0 z^2+a_1 z+a_2}=\frac{b_0(z^{-2}+2 z^{-1}+1)}{a_0+a_1 z^{-1}+a_2 z^{-2}}
+\end{aligned}</script><p>根据z变换</p>
+<script type="math/tex; mode=display">
+\frac{Y(n-1)}{Y(n)}=z^{-1}, \frac{Y(n-2)}{Y(n)}=z^{-2}</script><p>带入上式中，得</p>
+<script type="math/tex; mode=display">
+\frac{Y(n)}{X(n)}=\frac{b_0\left(z^{-2}+2 z^{-1}+1\right)}{a_0+a_1 z^{-1}+a_2 z^{-2}}\newline
+\left[a_0+a_1 z^{-1}+a_2 z^{-2}\right] Y(n)=\left[\mathbf{b}_0\left(z^{-2}+2 z^{-1}+1\right)\right] X(n)</script><p>最终得到</p>
+<script type="math/tex; mode=display">
+Y(n)=\frac{b_0 X(n)+2 b_0 X(n-1)+b_0 X(n-2)-a_1 Y(n-1)-a_2 Y(n-2)}{a_0}</script><h1 id="巴特沃斯低通滤波器"><a href="#巴特沃斯低通滤波器" class="headerlink" title="巴特沃斯低通滤波器"></a>巴特沃斯低通滤波器</h1><h2 id="数学表达式-2"><a href="#数学表达式-2" class="headerlink" title="数学表达式"></a>数学表达式</h2><script type="math/tex; mode=display">
+H_{a n}(\mathrm{~s})=\frac{1}{a_0+a_1 s+a_2 s^2+\cdots+a_n s^n}</script><p>参数的归一化表，带入系数可得到：截止频率为1弧度（$\frac 1 {2\pi}Hz$ ）的滤波器</p>
+<p><img src="d0a6/image-20230401194641845.png" alt="image-20230401194641845" style="zoom:50%;" /></p>
+<h2 id="二阶巴特沃斯的数学表达式"><a href="#二阶巴特沃斯的数学表达式" class="headerlink" title="二阶巴特沃斯的数学表达式"></a>二阶巴特沃斯的数学表达式</h2><script type="math/tex; mode=display">
+H_{a n}(\mathrm{~s})=\frac{1}{s^2+1.414 s+1}</script><p>如果要得到任意截止频率$w_c$的二阶滤波器，将s替换为$\frac s {w_a}$</p>
+<script type="math/tex; mode=display">
+H_{a n}(\mathrm{~s})=\frac{1}{\frac{s^2}{w_a^2}+1.414 \frac{s}{w_a}+1}</script><h2 id="离散表达形式-2"><a href="#离散表达形式-2" class="headerlink" title="离散表达形式"></a>离散表达形式</h2><script type="math/tex; mode=display">
+Y(z)=b_0 X(z)+b_1 X(z-1)+b_2 X(z-2)-a_1 Y(z-1)+a_2 Y(z-2)</script><p>其中</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \Omega=\tan \left(\pi \frac{f_d}{f_s}\right), c=\Omega^2+1.414 \Omega+1 \newline
+& b_0=\frac{B_0}{c}=\frac{\Omega^2}{c}, b_1=\frac{B_1}{c}=\frac{2 \Omega^2}{c}, b_2=\frac{B_2}{c}=\frac{\Omega^2}{c}, a_1=\frac {A_1} c=\frac{2 \Omega^2-2}{c}, a_2=\frac {A_2} c=\frac{\Omega^2-1.414 \Omega+1}{c}
+\end{aligned}</script><p>简化后的代码形式为</p>
+<p><img src="d0a6/image-20230401201900969.png" alt="image-20230401201900969" style="zoom:50%;" /></p>
+<script type="math/tex; mode=display">
+延迟0 = 当前值 - 延迟1*a1 - 延迟2*a2 \newline
+输出 = 延迟0*b0 + 延迟1*b1 + 延迟2*b \newline
+延迟2 = 延迟1 \newline
+延迟1 = 延迟0</script><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> fr = sample_freq/cutoff_freq;</span><br><span class="line"><span class="type">float</span> ohm = tanf(M_PI_F/fr);</span><br><span class="line"><span class="type">float</span> c = <span class="number">1.0f</span>+<span class="number">2.0f</span>*cosf(M_PI_F/<span class="number">4.0f</span>)*ohm+ohm*ohm;</span><br><span class="line">lpfData-&gt;b0 = ohm*ohm/c;</span><br><span class="line">lpfData-&gt;b1 = <span class="number">2.0f</span>*lpfData-&gt;b0;</span><br><span class="line">lpfData-&gt;b2 = lpfData-&gt;b0;</span><br><span class="line">lpfData-&gt;a1 = <span class="number">2.0f</span>*(ohm*ohm<span class="number">-1.0f</span>)/c;</span><br><span class="line">lpfData-&gt;a2 = (<span class="number">1.0f</span><span class="number">-2.0f</span>*cosf(M_PI_F/<span class="number">4.0f</span>)*ohm+ohm*ohm)/c;</span><br></pre></td></tr></table></figure>
+<h2 id="离散化频率与数字频率不同"><a href="#离散化频率与数字频率不同" class="headerlink" title="离散化频率与数字频率不同"></a>离散化频率与数字频率不同</h2><p>如果我们直接使用双线性变换进行离散化之后，会发现转换前的模拟滤波器和转换后的数字滤波器的幅频响应曲线并不一样。这是因为双线性变换中，数字截止角频率$w_d$和模拟截止角频率$w_a$的关系是非线性的。</p>
+<p>对于s域来说，在模拟截止频率为$f_a$时有：</p>
+<script type="math/tex; mode=display">
+s=j w_a=j * 2 \pi * f_a</script><p>对于z域来说，在数字截止频率为$f_d$的情况下，$z=e^{sT}$ 其中, $s=jw_d$，$w_d=2\pi*f_d$ ，$T=1/f_s$，则有</p>
+<script type="math/tex; mode=display">
+Z=e^{s T}=e^{j 2 \pi \frac{f_d}{f_s}}</script><p>带入双线性变换</p>
+<script type="math/tex; mode=display">
+s=\frac{2}{T} * \frac{z-1}{z+1}=2 f_s \frac{e^{j 2 \pi \frac{f_d}{f_s}}-1}{e^{j 2 \pi \frac{f_d}{f_s}}+1}=2 f_s \frac{e^{j \pi \frac{f_d}{f_s}}-e^{-j \pi \frac{f_d}{f_s}}}{e^{j \pi \frac{f_d}{f_s}}+e^{-j \pi \frac{f_d}{f_s}}}=j 2 f_s \tan \left(\pi \frac{f_d}{f_s}\right)【{e}^{jx}=\cos {x}+{i} \sin x】</script><p>因此</p>
+<script type="math/tex; mode=display">
+f_a=\frac{f_s}{\pi} \tan \left(\pi \frac{f_d}{f_s}\right)</script><h2 id="滤波器的设计与推导"><a href="#滤波器的设计与推导" class="headerlink" title="滤波器的设计与推导"></a>滤波器的设计与推导</h2><ol>
+<li>根据我们想要的数字滤波频率得到我们想要的模拟滤波器频率</li>
+<li>根据期望的模拟截止频率，将滤波器去归一化。</li>
+<li>进行双线性变换</li>
+<li>写成代码</li>
+</ol>
+<p>如果期望的数字滤波器截止频率为$f_d$，对应的模拟滤波器截止角频率$w_{a}$为：</p>
+<script type="math/tex; mode=display">
+w_a=2 \pi f_a=2 f_s \tan \left(\pi \frac{f_d}{f_s}\right)</script><p>采用双线性变换法$s=\frac{2}{T} * \frac{z-1}{z+1}$，并将s改为$s/w_a$，则</p>
+<script type="math/tex; mode=display">
+\frac{s}{w_a}=\frac{2 * f_s * \frac{z-1}{z+1}}{2 f_s \tan \left(\pi \frac{f_d}{f_s}\right)}=\frac{\frac{z-1}{z+1}}{\tan \left(\pi \frac{f_d}{f_s}\right)}</script><p>截止频率为$s/w_{a}$的二阶巴特沃斯表达式为</p>
+<script type="math/tex; mode=display">
+H(s)=\frac{1}{\frac{s^2}{w_a^2}+1.414 \frac{s}{w_a}+1}</script><p>将$s/w_{a}$代入可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& H(z)=\frac{1}{\left(\frac{\frac{z-1}{Z+1}}{\tan \left(\pi \frac{f_d}{f_s}\right)}\right)^2+1.414\left(\frac{\frac{z-1}{Z+1}}{\tan \left(\pi \frac{f_d}{f_s}\right)}\right)+1}=\frac{\left(\tan \left(\pi \frac{f_d}{f_s}\right)\right)^2}{\left(\frac{z-1}{z+1}\right)^2+1.414\left(\frac{z-1}{z+1}\right) \tan \left(\pi \frac{f_d}{f_s}\right)+\left(\tan \left(\pi \frac{f_d}{f_s}\right)\right)^2} \newline
+& =\frac{\left(\tan \left(\pi \frac{f_d}{f_s}\right)\right)^2}{\left(\frac{1-z^{-1}}{1+z^{-1}}\right)^2+1.414\left(\frac{1-z^{-1}}{1+z^{-1}}\right) \tan \left(\pi \frac{f_d}{f_s}\right)+\left(\tan \left(\pi \frac{f_d}{f_s}\right)\right)^2} \newline
+& =\frac{\left(1+z^{-1}\right)^2\left(\tan \left(\pi \frac{f_d}{f_s}\right)\right)^2}{\left(1-z^{-1}\right)^2+1.414\left(1-z^{-1}\right)\left(1+z^{-1}\right) \tan \left(\pi \frac{f_d}{f_s}\right)+\left(\tan \left(\pi \frac{f_d}{f_s}\right)\right)^2\left(1-z^{-1}\right)^2}
+\end{aligned}</script><p>令$\Omega=\tan \left(\pi \frac{f_d}{f_s}\right)$，可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& H(z)=\frac{Y(z)}{X(z)}=\frac{\left(1+z^{-1}\right)^2 \Omega^2}{\left(1-z^{-1}\right)^2+1.414\left(1-z^{-1}\right)\left(1+z^{-1}\right) \Omega+\Omega^2\left(1-z^{-1}\right)^2} \newline
+& =\frac{\left(1+2 z^{-1}+z^{-2}\right) \Omega^2}{\left(1-2 z^{-1}+z^{-2}\right)+1.414\left(1-z^{-2}\right) \Omega+\Omega^2\left(1-2 z^{-1}+z^{-2}\right)} \newline
+& =\frac{\Omega^2+2 \Omega^2 z^{-1}+\Omega^2 z^{-2}}{z^{-2}\left(\Omega^2-1.414 \Omega+1\right)+z^{-1}\left(2 \Omega^2-2\right)+\left(\Omega^2+1.414 \Omega+1\right)}
+\end{aligned}</script><p>再令，$B_0=\Omega^2, B_1=2 \Omega^2, B_2=\Omega^2, c=\Omega^2+1.414 \Omega+1, A_1=2 \Omega^2-2, A_2=\Omega^2-1.414 \Omega+1$，得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \mathrm{H}(\mathrm{z})=\frac{\mathrm{Y}(\mathrm{z})}{X(z)}=\frac{ {B}_{\mathbf{0}}+ {B}_1 z^{-1}+ {B}_{\mathbf{2}} z^{-2}}{c+ {A}_1 z^{-1}+ {A}_{\mathbf{2}} z^{-2}} \newline
+& \mathrm{Y}(\mathrm{z})=\frac{ {B}_{\mathbf{0}}}{c} X(z)+\frac{ {B}_{\mathbf{1}}}{c} X(z-1)+\frac{ {B}_{\mathbf{2}}}{c} X(z-2)-\frac{ {A}_{\mathbf{1}}}{c} Y(z-1)+\frac{ {A}_{\mathbf{2}}}{c} Y(z-2)
+\end{aligned}</script><p>因此，最终表达式为：</p>
+<script type="math/tex; mode=display">
+Y(z)=b_0 X(z)+b_1 X(z-1)+b_2 X(z-2)-a_1 Y(z-1)+a_2 Y(z-2)</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \Omega=\tan \left(\pi \frac{f_d}{f_s}\right), c=\Omega^2+1.414 \Omega+1 \newline
+& b_0=\frac{B_0}{c}=\frac{\Omega^2}{c}, b_1=\frac{B_1}{c}=\frac{2 \Omega^2}{c}, b_2=\frac{B_2}{c}=\frac{\Omega^2}{c}, a_1=\frac {A_1} c=\frac{2 \Omega^2-2}{c}, a_2=\frac {A_2} c=\frac{\Omega^2-1.414 \Omega+1}{c}
+\end{aligned}</script><h2 id="代码及简化"><a href="#代码及简化" class="headerlink" title="代码及简化"></a>代码及简化</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> fr = sample_freq/cutoff_freq;</span><br><span class="line"><span class="type">float</span> ohm = tanf(M_PI_F/fr);</span><br><span class="line"><span class="type">float</span> c = <span class="number">1.0f</span>+<span class="number">2.0f</span>*cosf(M_PI_F/<span class="number">4.0f</span>)*ohm+ohm*ohm;</span><br><span class="line">lpfData-&gt;b0 = ohm*ohm/c;</span><br><span class="line">lpfData-&gt;b1 = <span class="number">2.0f</span>*lpfData-&gt;b0;</span><br><span class="line">lpfData-&gt;b2 = lpfData-&gt;b0;</span><br><span class="line">lpfData-&gt;a1 = <span class="number">2.0f</span>*(ohm*ohm<span class="number">-1.0f</span>)/c;</span><br><span class="line">lpfData-&gt;a2 = (<span class="number">1.0f</span><span class="number">-2.0f</span>*cosf(M_PI_F/<span class="number">4.0f</span>)*ohm+ohm*ohm)/c;</span><br><span class="line">lpfData-&gt;delay_element_1 = <span class="number">0.0f</span>;</span><br><span class="line">lpfData-&gt;delay_element_2 = <span class="number">0.0f</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="d0a6/image-20230401201625245.png" alt="image-20230401201625245" style="zoom:50%;" /></p>
+<p><img src="d0a6/image-20230401201707115.png" alt="image-20230401201707115" style="zoom:67%;" /></p>
+<p>修改结构，结果相同</p>
+<p><img src="d0a6/image-20230401201753136.png" alt="image-20230401201753136" style="zoom:50%;" /></p>
+<p>共用延时模块</p>
+<p><img src="d0a6/image-20230401201821866.png" alt="image-20230401201821866" style="zoom:50%;" /></p>
+<p>此时，经过简化的代码为</p>
+<p><img src="d0a6/image-20230401201900969.png" alt="image-20230401201900969" style="zoom:50%;" /></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">lpf2pApply</span><span class="params">(lpf2pData* lpfData, <span class="type">float</span> sample)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">float</span> delay_element_0 = sample - lpfData-&gt;delay_element_1 * lpfData-&gt;a1 - lpfData-&gt;delay_element_2 * lpfData-&gt;a2;</span><br><span class="line">	<span class="keyword">if</span> (!isfinite(delay_element_0)) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// don&#x27;t allow bad values to propigate via the filter</span></span><br><span class="line">		delay_element_0 = sample;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">float</span> output = delay_element_0 * lpfData-&gt;b0 + lpfData-&gt;delay_element_1 * lpfData-&gt;b1 + lpfData-&gt;delay_element_2 * lpfData-&gt;b2;</span><br><span class="line"></span><br><span class="line">	lpfData-&gt;delay_element_2 = lpfData-&gt;delay_element_1;</span><br><span class="line">	lpfData-&gt;delay_element_1 = delay_element_0;</span><br><span class="line">	<span class="keyword">return</span> output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/d0a6.html">https://bfaner.github.io/posts/d0a6.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/fee9.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">四元数</div></div></a></div><div class="next-post pull-right"><a href="/posts/3ae2.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">传感器</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E9%98%B6%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">一阶低通滤波器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">数学表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E8%A1%A8%E8%BE%BE%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">离散表达形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BC"><span class="toc-number">1.3.</span> <span class="toc-text">推导</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E9%98%B6%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">二阶低通滤波器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F-1"><span class="toc-number">2.1.</span> <span class="toc-text">数学表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E8%A1%A8%E8%BE%BE%E5%BD%A2%E5%BC%8F-1"><span class="toc-number">2.2.</span> <span class="toc-text">离散表达形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BC-1"><span class="toc-number">2.3.</span> <span class="toc-text">推导</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%B4%E7%89%B9%E6%B2%83%E6%96%AF%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">巴特沃斯低通滤波器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F-2"><span class="toc-number">3.1.</span> <span class="toc-text">数学表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E9%98%B6%E5%B7%B4%E7%89%B9%E6%B2%83%E6%96%AF%E7%9A%84%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">二阶巴特沃斯的数学表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E8%A1%A8%E8%BE%BE%E5%BD%A2%E5%BC%8F-2"><span class="toc-number">3.3.</span> <span class="toc-text">离散表达形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E5%8C%96%E9%A2%91%E7%8E%87%E4%B8%8E%E6%95%B0%E5%AD%97%E9%A2%91%E7%8E%87%E4%B8%8D%E5%90%8C"><span class="toc-number">3.4.</span> <span class="toc-text">离散化频率与数字频率不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%A4%E6%B3%A2%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%8E%A8%E5%AF%BC"><span class="toc-number">3.5.</span> <span class="toc-text">滤波器的设计与推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%8F%8A%E7%AE%80%E5%8C%96"><span class="toc-number">3.6.</span> <span class="toc-text">代码及简化</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

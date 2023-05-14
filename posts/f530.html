@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>固定翼姿态控制 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="控制逻辑襟翼控制123flap_control&amp;#x3D;0.5*(1+manual.flap) * flap_scale&amp;#x2F;&amp;#x2F;自动起飞、降落：flap_control &amp;#x3D; 1*flap_scale*land_scale(takeoff_scale) 襟副翼控制123flaperon_control&amp;#x3D;0.5*("><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/f530"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '固定翼姿态控制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:09:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">固定翼姿态控制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-26T08:54:50.000Z" title="发表于 2021-03-26 16:54:50">2021-03-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:09:38.685Z" title="更新于 2023-04-14 20:09:38">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/PX4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">PX4学习笔记</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="控制逻辑"><a href="#控制逻辑" class="headerlink" title="控制逻辑"></a>控制逻辑</h1><h2 id="襟翼控制"><a href="#襟翼控制" class="headerlink" title="襟翼控制"></a>襟翼控制</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flap_control=<span class="number">0.5</span>*(<span class="number">1</span>+manual.flap) * flap_scale</span><br><span class="line"><span class="comment">//自动起飞、降落：</span></span><br><span class="line">flap_control = <span class="number">1</span>*flap_scale*<span class="built_in">land_scale</span>(takeoff_scale)</span><br></pre></td></tr></table></figure>
+<h2 id="襟副翼控制"><a href="#襟副翼控制" class="headerlink" title="襟副翼控制"></a>襟副翼控制</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flaperon_control=<span class="number">0.5</span>*(<span class="number">1</span>+manual.aux2) * flaperon_scale</span><br><span class="line"><span class="comment">//自动降落：</span></span><br><span class="line">flaperon_control=<span class="number">1</span>*flaperon_scale</span><br></pre></td></tr></table></figure>
+<h2 id="角度控制—得到角速度值"><a href="#角度控制—得到角速度值" class="headerlink" title="角度控制—得到角速度值"></a>角度控制—得到角速度值</h2><h3 id="滚转控制"><a href="#滚转控制" class="headerlink" title="滚转控制"></a>滚转控制</h3><script type="math/tex; mode=display">
+\dot{\phi}_{s p}=\left(\phi_{s p}-\phi\right) / t_c</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">roll_error = ctl_data.oll_setpoint ctl_data.roll</span><br><span class="line">rate_setpoint = roll_error / _tc【_tc(<span class="number">0.1f</span>)】</span><br></pre></td></tr></table></figure>
+<h3 id="俯仰控制"><a href="#俯仰控制" class="headerlink" title="俯仰控制"></a>俯仰控制</h3><script type="math/tex; mode=display">
+\dot{\theta}_{s p}=\left(\theta_{s p}-\theta\right) / t_c</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pitch_error = ctl_data.pitch_setpoint ctl_data.pitch</span><br><span class="line">rate_setpoint =  pitch_error / _tc</span><br></pre></td></tr></table></figure>
+<h3 id="偏航控制【协调转弯】"><a href="#偏航控制【协调转弯】" class="headerlink" title="偏航控制【协调转弯】"></a>偏航控制【协调转弯】</h3><ol>
+<li><p>根据滚转角得到偏航角速度：</p>
+<script type="math/tex; mode=display">
+\dot{\psi}_{s p}=\frac{g}{U} * \tan (\varphi) * \cos (\theta)</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rate_setpoint = <span class="built_in">tanf</span>(constrained_roll) * <span class="built_in">cosf</span>(ctl_data.pitch) * CONSTANTS_ONE_G / ctl_data.airspeed;</span><br><span class="line"><span class="comment">//其中，constrained_roll为roll的限幅值0~80、100~180，避免roll=90°</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>偏航角速度为0：</p>
+<script type="math/tex; mode=display">
+\dot{\psi}_{s p}=0</script></li>
+<li><p>轮子【地面】:</p>
+<script type="math/tex; mode=display">
+\dot{\psi}_{s p}=\left( {\psi}_{s p}- {\psi}\right) /  {t}_c</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yaw_error = <span class="built_in">wrap_pi</span>(ctl_data.yaw_setpoint ctl_data.yaw);</span><br><span class="line">rate_setpoint =  yaw_error / _tc;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="角速度控制—得到舵量"><a href="#角速度控制—得到舵量" class="headerlink" title="角速度控制—得到舵量"></a>角速度控制—得到舵量</h2><h3 id="滚转控制-1"><a href="#滚转控制-1" class="headerlink" title="滚转控制"></a>滚转控制</h3><ol>
+<li><p>坐标转换：</p>
+<script type="math/tex; mode=display">
+p_{s p}=\dot{\phi}_{s p}-\dot{\psi}_{s p} \sin \theta</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roll_bodyrate_setpoint = ctl_data.roll_rate_setpoint <span class="built_in">sinf</span>(ctl_data.pitch) * ctl_data.yaw_rate_setpoint;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PI控制：</p>
+<script type="math/tex; mode=display">
+\Delta p=p_{s p}-p \newline
+integrator = integrator +K_i * \Delta p * d t * IAS_{scaler} \newline
+\delta a=p_{s p} * K_{f f} * IAS_{scaler} +IAS_{scaler}^2 * K_p * \Delta p+ integrator</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">roll_rate_error = roll_bodyrate_setpoint ctl_data.body_x_rate;</span><br><span class="line">    </span><br><span class="line">id = _rate_error * dt * ctl_data.scaler;</span><br><span class="line">_integrator = math::<span class="built_in">constrain</span>(_integrator + id * _k_i, -_integrator_max, _integrator_max);</span><br><span class="line"></span><br><span class="line">_last_output = _bodyrate_setpoint * _k_ff * ctl_data.scaler +_rate_error * _k_p * ctl_data.scaler * ctl_data.scaler+ _integrator;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="俯仰控制-1"><a href="#俯仰控制-1" class="headerlink" title="俯仰控制"></a>俯仰控制</h3><ol>
+<li><p>坐标转换：</p>
+<script type="math/tex; mode=display">
+q_{s p}=\dot{\theta}_{s p} \cos \phi+\dot{\psi}_{s p} \cos \theta \sin \phi</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pitch_bodyrate_setpoint = <span class="built_in">cosf</span>(ctl_data.roll) * pitch_rate_setpoint + <span class="built_in">cosf</span>(ctl_data.pitch) * <span class="built_in">sinf</span>(ctl_data.roll) * ctl_data.yaw_rate_setpoint;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PI控制：</p>
+<script type="math/tex; mode=display">
+\Delta q=q_{s p}-q \newline
+integrator = integrator +K_i * \Delta q * d t * IAS_{scaler} \newline
+\delta e=q_{s p} * K_{f f} * IAS_{scaler} +IAS_{scaler}^2 * K_p * \Delta q+ integrator</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pitch_rate_error = pitch_bodyrate_setpoint ctl_data.body_y_rate;</span><br><span class="line"></span><br><span class="line">id = _rate_error * dt * ctl_data.scaler;</span><br><span class="line">_integrator = math::<span class="built_in">constrain</span>(_integrator + id * _k_i, -_integrator_max, _integrator_max);</span><br><span class="line"></span><br><span class="line">_last_output = _bodyrate_setpoint * _k_ff * ctl_data.scaler +_rate_error * _k_p * ctl_data.scaler * ctl_data.scaler+ _integrator;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="轮子控制【判断】"><a href="#轮子控制【判断】" class="headerlink" title="轮子控制【判断】"></a>轮子控制【判断】</h3><script type="math/tex; mode=display">
+\Delta \dot \psi=\dot \psi_{s p}-r \newline
+integrator = integrator +K_i * \Delta \dot \psi * d t * IAS_{scaler} \newline
+\delta r=\Delta \dot \psi_{s p} * K_{f f} * GS_{scaler} + GS_{scaler}^2 * (K_p * \Delta \dot \psi+ integrator)</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yaw_rate_error = yaw_bodyrate_setpoint ctl_data.body_z_rate;</span><br><span class="line"></span><br><span class="line">id = yaw_rate_error * dt * ctl_data.groundspeed_scaler;</span><br><span class="line"></span><br><span class="line">_integrator = math::<span class="built_in">constrain</span>(_integrator + id * _k_i, -_integrator_max, _integrator_max);</span><br><span class="line"></span><br><span class="line">_last_output = yaw_rate_setpoint * _k_ff * ctl_data.groundspeed_scaler + ctl_data.groundspeed_scaler * ctl_data.groundspeed_scaler * (yaw_rate_error * _k_p + _integrator);</span><br></pre></td></tr></table></figure>
+<h3 id="偏航控制【判断非轮子控制】"><a href="#偏航控制【判断非轮子控制】" class="headerlink" title="偏航控制【判断非轮子控制】"></a>偏航控制【判断非轮子控制】</h3><ol>
+<li><p>坐标转换：</p>
+<script type="math/tex; mode=display">
+r_{s p}=-\dot{\theta}_{s p} \sin \phi+\dot{\psi}_{s p} \cos \theta \cos \phi</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yaw_bodyrate_setpoint = -<span class="built_in">sinf</span>(ctl_data.roll) * ctl_data.pitch_rate_setpoint + <span class="built_in">cosf</span>(ctl_data.roll) * <span class="built_in">cosf</span>(ctl_data.pitch) * yaw_rate_setpoint;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>空速设置【未使用】：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">airspeed=ctl_data.airspeed;</span><br><span class="line"><span class="comment">//如果(空速无穷大)</span></span><br><span class="line">airspeed=<span class="number">0.5</span>*(ctl_data.airspeed_min + ctl_data.airspeed_max);</span><br><span class="line"><span class="comment">//否则如果(空速&lt;最小速度)</span></span><br><span class="line">airspeed=ctl_data.airspeed_min;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PI控制：</p>
+<script type="math/tex; mode=display">
+\Delta r=r_{s p}-r \newline
+integrator = integrator +K_i * \Delta r * d t * IAS_{scaler} \newline
+\delta r=GS_{scaler}^2 * (r_{s p} * K_{f f} + K_p * \Delta r+ integrator)</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yaw_rate_error = yaw_bodyrate_setpoint ctl_data.body_z_rate;</span><br><span class="line"></span><br><span class="line">id = _rate_error * dt;</span><br><span class="line">integrator = math::<span class="built_in">constrain</span>(_integrator + id * _k_i, -_integrator_max, _integrator_max);</span><br><span class="line"></span><br><span class="line">last_output = (_bodyrate_setpoint * _k_ff + _rate_error * _k_p + _integrator) * ctl_data.scaler * ctl_data.scaler;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="代码流程"><a href="#代码流程" class="headerlink" title="代码流程"></a>代码流程</h1><p><code>FixedwingAttitudeControl::run()</code></p>
+<ol>
+<li><p>订阅消息<br>_att_sub姿态</p>
+</li>
+<li><p>循环</p>
+<blockquote>
+<p>如果参数更新，则复制参数【orb_check】</p>
+<p>等待数据att_sub，超时则continue;错误则报错并continue【px4_warn】</p>
+<p>perf_begin(_loop_perf)开始</p>
+<p>如果姿态改变，进入下面</p>
+<blockquote>
+<p>1.时间、步长更新，如果步长&gt;1，dt=0.01<br>2.复制att_sub信息<br>3.计算四元素、DCM</p>
+<blockquote>
+<p>计算姿态转换矩阵DCM等【R包括欧拉角、四元素、旋转矩阵】<br>如果是尾座式无人机，根据坐标变换DCM</p>
+</blockquote>
+<p>4.更新信息</p>
+<blockquote>
+<p>vehicle_attitude_setpoint_poll();<br>vehicle_attitude_setpoint_poll();<br>vehicle_control_mode_poll();<br>vehicle_manual_poll();<br>global_pos_poll();<br>vehicle_status_poll();<br>vehicle_land_detected_poll();</p>
+</blockquote>
+<p>5.状态确认</p>
+<p>6.襟翼控制control_flaps(deltaT)</p>
+<p>7.如果(control_rates_enabled)</p>
+<blockquote>
+<p>①空速更新<br>②地速计算<br>③准备工作【积分清零等】<br>④姿态控制【判断是否进入】<br>⑤角速度控制<br>⑥发布</p>
+</blockquote>
+<p>8.输出调整</p>
+</blockquote>
+<p>perf_begin(_loop_perf)开始</p>
+</blockquote>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/f530.html">https://bfaner.github.io/posts/f530.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/c408.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">固定翼位置控制</div></div></a></div><div class="next-post pull-right"><a href="/posts/5eac.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">KTYY</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="toc-number">1.</span> <span class="toc-text">控制逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A5%9F%E7%BF%BC%E6%8E%A7%E5%88%B6"><span class="toc-number">1.1.</span> <span class="toc-text">襟翼控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A5%9F%E5%89%AF%E7%BF%BC%E6%8E%A7%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">襟副翼控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%92%E5%BA%A6%E6%8E%A7%E5%88%B6%E2%80%94%E5%BE%97%E5%88%B0%E8%A7%92%E9%80%9F%E5%BA%A6%E5%80%BC"><span class="toc-number">1.3.</span> <span class="toc-text">角度控制—得到角速度值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%9A%E8%BD%AC%E6%8E%A7%E5%88%B6"><span class="toc-number">1.3.1.</span> <span class="toc-text">滚转控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AF%E4%BB%B0%E6%8E%A7%E5%88%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">俯仰控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%8F%E8%88%AA%E6%8E%A7%E5%88%B6%E3%80%90%E5%8D%8F%E8%B0%83%E8%BD%AC%E5%BC%AF%E3%80%91"><span class="toc-number">1.3.3.</span> <span class="toc-text">偏航控制【协调转弯】</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%92%E9%80%9F%E5%BA%A6%E6%8E%A7%E5%88%B6%E2%80%94%E5%BE%97%E5%88%B0%E8%88%B5%E9%87%8F"><span class="toc-number">1.4.</span> <span class="toc-text">角速度控制—得到舵量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%9A%E8%BD%AC%E6%8E%A7%E5%88%B6-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">滚转控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AF%E4%BB%B0%E6%8E%A7%E5%88%B6-1"><span class="toc-number">1.4.2.</span> <span class="toc-text">俯仰控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AE%E5%AD%90%E6%8E%A7%E5%88%B6%E3%80%90%E5%88%A4%E6%96%AD%E3%80%91"><span class="toc-number">1.4.3.</span> <span class="toc-text">轮子控制【判断】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%8F%E8%88%AA%E6%8E%A7%E5%88%B6%E3%80%90%E5%88%A4%E6%96%AD%E9%9D%9E%E8%BD%AE%E5%AD%90%E6%8E%A7%E5%88%B6%E3%80%91"><span class="toc-number">1.4.4.</span> <span class="toc-text">偏航控制【判断非轮子控制】</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">代码流程</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

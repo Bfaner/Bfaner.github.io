@@ -1,0 +1,551 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>模态分析与飞行品质 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="模态分析纵向 \left\{\begin{array}{c} \frac{d \Delta U}{d t}&amp;#x3D;X_u \Delta u+X_\alpha \Delta \alpha+X_{\delta e} \Delta \delta e+X_{\delta p} \Delta \delta p-g"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/46d8"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '模态分析与飞行品质',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:10:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">模态分析与飞行品质</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-17T00:05:54.000Z" title="发表于 2021-05-17 08:05:54">2021-05-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:10:39.902Z" title="更新于 2023-04-14 20:10:39">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/%E9%A3%9E%E8%A1%8C%E5%8A%9B%E5%AD%A6/">飞行力学</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="模态分析"><a href="#模态分析" class="headerlink" title="模态分析"></a>模态分析</h1><h2 id="纵向"><a href="#纵向" class="headerlink" title="纵向"></a>纵向</h2><script type="math/tex; mode=display">
+\left\{\begin{array}{c}
+\frac{d \Delta U}{d t}=X_u \Delta u+X_\alpha \Delta \alpha+X_{\delta e} \Delta \delta e+X_{\delta p} \Delta \delta p-g \cos \gamma_0 \Delta \theta \newline
+\frac{d \Delta \alpha}{d t}=-Z_u \Delta u-Z_\alpha \Delta \alpha+\Delta q+Z_{\delta e} \Delta \delta e+Z_{\delta p} \Delta \delta p-\frac{g \sin \gamma_0}{U_0} \Delta \theta \newline
+\frac{d \Delta q}{d t}=M_u \Delta u+M_\alpha \Delta \alpha+M_{\dot{\alpha}} \Delta \dot{\alpha}+M_q \Delta q+M_{\delta e} \Delta \delta e \newline
+\frac{d \Delta \theta}{d t}=\Delta q
+\end{array}\right.</script><script type="math/tex; mode=display">
+{\left[\begin{array}{c}
+\Delta \dot{U} \newline
+\Delta \dot{\alpha} \newline
+\Delta \dot{q} \newline
+\Delta \dot{\theta}
+\end{array}\right]=\left[\begin{array}{cccc}
+X_u & X_\alpha+g \cos \gamma_0 & 0 & -g \cos \gamma_0 \newline
+\frac{-Z_u}{1+Z_{\dot{\alpha}}} & \frac{-\left(Z_\alpha-\left(g \sin \gamma_0\right) / U_0\right)}{1+Z_{\dot{\alpha}}} & \frac{1-Z_q}{1+Z_{\dot{\alpha}}} & \frac{-\left(g \sin \gamma_0\right) / U_0}{1+Z_{\dot{\alpha}}} \newline
+M_u-\frac{M_{\dot{\alpha}} * Z_u}{1+Z_{\dot{\alpha}}} & M_\alpha-\frac{M_{\dot{\alpha}} *\left(Z_\alpha-\left(g \sin \gamma_0\right) / U_0\right)}{1+Z_{\dot{\alpha}}} & M_q+\frac{M_{\dot{\alpha}}\left(1-Z_q\right)}{1+Z_{\dot{\alpha}}} & -\frac{M_{\dot{\alpha}} g \sin \gamma_0 / U_0}{1+Z_{\dot{\alpha}}} \newline
+0 & 0 & 1 & 0
+\end{array}\right]\left[\begin{array}{l}
+\Delta U \newline
+\Delta \alpha \newline
+\Delta q \newline
+\Delta \theta
+\end{array}\right]}</script><script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\Delta \dot{U} \newline
+\Delta \dot{\alpha} \newline
+\Delta \dot{q} \newline
+\Delta \dot{\theta}
+\end{array}\right]=\left[\begin{array}{cccc}
+X_u & X_\alpha+g & 0 & -g \newline
+-Z_u & -Z_\alpha & 1 & 0 \newline
+M_u & M_\alpha & M_q & 0 \newline
+0 & 0 & 1 & 0
+\end{array}\right]\left[\begin{array}{l}
+\Delta U \newline
+\Delta \alpha \newline
+\Delta q \newline
+\Delta \theta
+\end{array}\right]</script><h3 id="短周期分析"><a href="#短周期分析" class="headerlink" title="短周期分析"></a>短周期分析</h3><p>短时间内，迎角与俯仰角速度迅速变化</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\Delta \dot{\alpha} \newline
+\Delta \dot{q}
+\end{array}\right]=\left[\begin{array}{cc}
+-Z_\alpha & 1 \newline
+M_\alpha-M_{\dot{\alpha}} Z_\alpha & M_q+M_{\dot{\alpha}}
+\end{array}\right]\left[\begin{array}{l}
+\Delta \alpha \newline
+\Delta q
+\end{array}\right]</script><p>A矩阵的特征根：</p>
+<script type="math/tex; mode=display">
+{\left[\begin{array}{cc}
+S+Z_\alpha & -1 \newline
+-M_\alpha+M_{\dot{\alpha}} Z_\alpha & S-M_q-M_{\dot{\alpha}}
+\end{array}\right]
+=(S+Z_\alpha)(S-M_q-M_{\dot{\alpha}})-M_\alpha+M_{\dot{\alpha}} Z_\alpha}</script><script type="math/tex; mode=display">
+S^2+\left(Z_\alpha-M_q-M_{\dot{\alpha}}\right) S-Z_\alpha M_q-M_\alpha=S^2+2 \zeta w_n S+w_n^2</script><p>由此可得：</p>
+<p>$w_n=\sqrt{-Z_\alpha M_q-M_\alpha} \propto-C_{L \alpha} * C_{m q}-C_{m \alpha}$</p>
+<p>【其中$C_{mq}&lt;0,C_{m\alpha&lt;0}$，因此$C_{mq}$与$C_{m\alpha}$的绝对值越大，频率越大】</p>
+<p>$2 \zeta w_n=Z_\alpha-M_q-M_{\dot{\alpha}}$</p>
+<p>【其中$C_{mq}&lt;0,C_{m\dot\alpha&lt;0}$，因此$C_{mq}$与$C_{m\dot\alpha}$的绝对值越大，总阻尼越大】</p>
+<h3 id="长周期分析"><a href="#长周期分析" class="headerlink" title="长周期分析"></a>长周期分析</h3><p>长时间后，迎角与力矩基本平衡，忽略迎角的变化和力矩的变化</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\Delta \dot{U} \newline
+\Delta \dot{\alpha} \newline
+\Delta \dot{\theta}
+\end{array}\right]=\left[\begin{array}{cc}
+X_u & -g \newline
+-Z_u & 0 \newline
+0 & 0
+\end{array}\right]\left[\begin{array}{c}
+\Delta U \newline
+\Delta \theta
+\end{array}\right]</script><p>即</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\Delta \dot{U} \newline
+\Delta \dot{\alpha}
+\end{array}\right]=\left[\begin{array}{cc}
+X_u & -g \newline
+-Z_u & 0 
+\end{array}\right]\left[\begin{array}{c}
+\Delta U \newline
+\Delta \theta
+\end{array}\right]</script><p>A矩阵的特征根：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{cc}
+S-X_u & -g \newline
+-Z_u & S 
+\end{array}\right]
+=S(S-X_u)-gZ_u</script><script type="math/tex; mode=display">
+S^2-X_uS-gZ_u=S^2+2 \zeta w_n S+w_n^2</script><p>由此可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& w_n=\sqrt{-g Z_u} \propto-C_{L u} \newline
+& 2 \zeta w_n = - X_u \propto-C_{D u} \newline
+\end{aligned}</script><p>其中：$X_u=\frac{-\left(C_{D U}+2 C_{D 0}\right) q_0 S}{m U_0}, Z_u=\frac{\left(C_{L U}+2 C_{L 0}\right) q_0 S}{m U_0}, M_u=\frac{\left(C_{M U}+2 C_{M 0}\right) q_0 S c}{I_y U_0}$</p>
+<h2 id="横侧向"><a href="#横侧向" class="headerlink" title="横侧向"></a>横侧向</h2><script type="math/tex; mode=display">
+\left\{\begin{array}{c}
+\Delta F_y=Y_\beta \Delta \beta+Y_p \Delta p+Y_r \Delta r+G \cos \theta_0 \Delta \phi+Y_{\delta T} \Delta \delta T \newline
+\Delta L=L_\beta \Delta \beta+L_p \Delta p+L_r \Delta r+L_{\delta T} \Delta \delta T \newline
+\Delta N=N_\beta \Delta \beta+N_p \Delta p+N_r \Delta r+N_{\delta T} \Delta \delta T \newline
+\frac{d \Delta \phi}{d t}=\Delta p+\tan \theta_0 \Delta r
+\end{array}\right.</script><script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\Delta \dot{\beta} \newline
+\Delta \dot{p} \newline
+\Delta \dot{r} \newline
+\Delta \dot{\phi}
+\end{array}\right]=\left[\begin{array}{cccc}
+\bar{Y}_\beta & \bar{Y}_p+\alpha_* & \bar{Y}_r-1 & g \cos \theta_* / V_* \newline
+\bar{L}_\beta & \bar{L}_p & \bar{L}_r & 0 \newline
+\bar{N}_\beta & \bar{N}_p & \bar{N}_r & 0 \newline
+0 & 1 & \tan \theta_* & 0
+\end{array}\right]\left[\begin{array}{c}
+\Delta \beta \newline
+\Delta p \newline
+\Delta r \newline
+\Delta \phi
+\end{array}\right]</script><script type="math/tex; mode=display">
+\left[\begin{array}{c}
+\Delta \dot{\beta} \newline
+\Delta \dot{p} \newline
+\Delta \dot{r} \newline
+\Delta \dot{\phi}
+\end{array}\right]=\left[\begin{array}{cccc}
+\bar{Y}_\beta & \bar{Y}_p & \bar{Y}_r-1 & g / V_* \newline
+\bar{L}_\beta & \bar{L}_p & \bar{L}_r & 0 \newline
+\bar{N}_\beta & \bar{N}_p & \bar{N}_r & 0 \newline
+0 & 1 & \tan \theta_* & 0
+\end{array}\right]\left[\begin{array}{c}
+\Delta \beta \newline
+\Delta p \newline
+\Delta r \newline
+\Delta \phi
+\end{array}\right]</script><p>简化推导太难了，直接放结果</p>
+<h3 id="荷兰滚"><a href="#荷兰滚" class="headerlink" title="荷兰滚"></a>荷兰滚</h3><script type="math/tex; mode=display">
+2{\zeta _d}{\omega _{nd}} =  - \left( { { {\bar N}_r} + { {\bar Y}_\beta }} \right) + \frac{ { { {\bar L}_\beta }}}{ { { {\bar N}_\beta }}}\left( { - { {\bar N}_p} + \frac{g}{V}} \right) \newline
+\frac{ { { {\bar L}_\beta }}}{ { { {\bar N}_\beta }}} = \frac{ { {C_{l\beta }} \cdot {I_x}}}{ { {C_{n\beta }} \cdot {I_z}}}</script><p>【$\bar N_r&lt;0,\bar Y_\beta&lt;0$，即第一项大于0；$\bar L_\beta&lt;0$,$\bar N_p&lt;0$，因此第二项小于0】</p>
+<p>【$\bar N_r$、$\bar Y_\beta$的绝对值越大，$\bar N_p$的绝对值越小，$\frac{ {\bar L}_\beta }{ {\bar N}_\beta }$的绝对值越小，总阻尼越大】</p>
+<p>$\bar L_r&gt;0$越大，荷兰滚阻尼增大；$\bar L_p&lt;0$，$\bar N_p&lt;0$，绝对值增大会略微增加荷兰滚阻尼</p>
+<h3 id="螺旋模态"><a href="#螺旋模态" class="headerlink" title="螺旋模态"></a>螺旋模态</h3><p>对于四阶方程$a_0s^4+a_1s^3+a_2s^2+a_3s+a_4=0$</p>
+<p>忽略高阶项得到：$a_3s+a_4=0$</p>
+<p>得到：$s=-\frac{a_4}{a_3}$</p>
+<p>【$\bar N_r$的绝对值越大，螺旋模态越稳定】</p>
+<p>$\bar L_r&gt;0$越大，螺旋模态时间常数减小；$\bar L_p&lt;0$，$\bar N_p&lt;0$，绝对值增大会略微增加螺旋时间常数</p>
+<h3 id="滚转收敛模态"><a href="#滚转收敛模态" class="headerlink" title="滚转收敛模态"></a>滚转收敛模态</h3><script type="math/tex; mode=display">
+\lambda_R=\frac{C_{l p} b_1}{I_x} \newline
+T_R=-\frac{1}{\lambda_R}</script><p>$C_{lp}$是正比于的$C_{L\alpha}$，大迎角会发散</p>
+<h1 id="飞行品质等级"><a href="#飞行品质等级" class="headerlink" title="飞行品质等级"></a>飞行品质等级</h1><h2 id="纵向品质等级"><a href="#纵向品质等级" class="headerlink" title="纵向品质等级"></a>纵向品质等级</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>短周期模态</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>飞行阶段</td>
+<td>航行阶段</td>
+<td></td>
+<td>起落阶段</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>最大</td>
+<td>最小</td>
+<td>最大</td>
+<td>最小</td>
+</tr>
+<tr>
+<td>等级1</td>
+<td>2</td>
+<td>0.3</td>
+<td>1.3</td>
+<td>0.35</td>
+</tr>
+<tr>
+<td>等级2</td>
+<td>2</td>
+<td>0.2</td>
+<td>2</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>等级3</td>
+<td>—-</td>
+<td>0.15</td>
+<td>—-</td>
+<td>0.15</td>
+</tr>
+<tr>
+<td><strong>长周期模态</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>等级1</td>
+<td></td>
+<td>ξ&gt;0.04</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>等级2</td>
+<td></td>
+<td>ξ&gt;0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>等级3</td>
+<td></td>
+<td>T2&gt;55s</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="46d8/短周期.png" alt="短周期" style="zoom:80%;" /></p>
+<img src="/posts/46d8/%E9%95%BF%E5%91%A8%E6%9C%9F.png" class="" title="长周期">
+<h2 id="横侧向品质等级"><a href="#横侧向品质等级" class="headerlink" title="横侧向品质等级"></a>横侧向品质等级</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>滚转收敛模态要求</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>巡航状态</td>
+<td>等级1</td>
+<td>等级2</td>
+<td>等级3</td>
+</tr>
+<tr>
+<td>时间常数</td>
+<td>1.4</td>
+<td>3</td>
+<td>10</td>
+</tr>
+<tr>
+<td><strong>荷兰滚模态要求</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>巡航状态</td>
+<td>ξ最小值</td>
+<td>ξωn最小值</td>
+<td>ωn最小值</td>
+</tr>
+<tr>
+<td>等级1</td>
+<td>0.19</td>
+<td>0.35</td>
+<td>1</td>
+</tr>
+<tr>
+<td>等级2</td>
+<td>0.02</td>
+<td>0.05</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>等级3</td>
+<td>0.02</td>
+<td>—-</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td><strong>螺旋模态要求</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>巡航状态</td>
+<td>等级1</td>
+<td>等级2</td>
+<td>等级3</td>
+</tr>
+<tr>
+<td>倍幅时间</td>
+<td>12s</td>
+<td>8s</td>
+<td>4s</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="46d8/荷兰滚.png" alt="荷兰滚" style="zoom: 80%;" /></p>
+<p><img src="46d8/滚转.png" alt="滚转" style="zoom: 80%;" /></p>
+<p><img src="46d8/螺旋.png" alt="螺旋" style="zoom: 80%;" /></p>
+<h2 id="操纵性"><a href="#操纵性" class="headerlink" title="操纵性"></a>操纵性</h2><p><strong>纵向</strong>静操纵性：增加每过载的舵偏量</p>
+<script type="math/tex; mode=display">
+\frac{\partial \delta_e}{\partial n_n}=-\frac{\left(\frac{\partial C m}{\partial C L}+\frac{C_{m q} \rho S c_A}{2 m}\right) m g}{C_{m \delta_e \bar{q} S}}</script><h1 id="伯德图"><a href="#伯德图" class="headerlink" title="伯德图"></a>伯德图</h1><h2 id="开环系统的三个频段"><a href="#开环系统的三个频段" class="headerlink" title="开环系统的三个频段"></a>开环系统的三个频段</h2><p>低频段是指伯德图在第一个转折频率之前的区间，该段区间由开环增益和积分环节决定；中频段是指Bode图在截止频率$w_c$附近的区间；高频段是指频率 $w&gt;10w_c$的区间。</p>
+<h3 id="低频段【系统稳定精度】"><a href="#低频段【系统稳定精度】" class="headerlink" title="低频段【系统稳定精度】"></a>低频段【系统稳定精度】</h3><p>该低频段的斜率愈小，位置愈高，对应于系统积分环节的数目愈多，开环增益K值愈大。故其闭环系统在满足稳定的条件下，其稳态误差愈小，系统的稳态精度愈高。</p>
+<h3 id="中频段【系统动态性能】"><a href="#中频段【系统动态性能】" class="headerlink" title="中频段【系统动态性能】"></a>中频段【系统动态性能】</h3><p>该中频段斜率小于-60，则很难使闭环系统稳定；若等于-40，所占频率区间不宜过宽，则闭环系统可能稳定，即使稳定，其相稳定裕度也较小，系统的平稳性较差；如果中频段斜率为-20，且占据较宽的频段区间，一般说来，不仅可以保证系统稳定，而且可以使相稳定裕度增大，取得较好的平稳性。同时以提高截止频率来保证系统要求的快速性。</p>
+<h3 id="高频段【系统抗干扰】"><a href="#高频段【系统抗干扰】" class="headerlink" title="高频段【系统抗干扰】"></a>高频段【系统抗干扰】</h3><p>系统开环对数幅频在高频段的幅值，直接反映了系统对输入高频干扰信号的抑制能力。高频特性的分贝值愈低，系统抗干扰能力愈强。</p>
+<p><img src="46d8/伯德图.png" alt="伯德图" style="zoom:100%;" /></p>
+<h2 id="闭环系统的稳定性"><a href="#闭环系统的稳定性" class="headerlink" title="闭环系统的稳定性"></a>闭环系统的稳定性</h2><p>控制系统的<strong>带宽</strong>一般指闭环系统的bode图中幅频特性曲线下降到－3分贝所对应的频率，注意这里是闭环系统的幅频特性，不是分析稳定性用的开环系统幅频特性。</p>
+<p>控制系统的带宽主要由其闭环传递函数的零极点决定，反映了当参考信号高于此频率后时，系统将无法以正常幅度跟踪，因而带宽越大，系统能响应的频率也越快。</p>
+<h1 id="飞行力学评估的主要内容"><a href="#飞行力学评估的主要内容" class="headerlink" title="飞行力学评估的主要内容"></a>飞行力学评估的主要内容</h1><p><strong>飞行性能</strong></p>
+<p>1.飞行包线</p>
+<p>平飞的速度高度包线</p>
+<p>失速-最大推力</p>
+<p>平飞的速度过载包线</p>
+<p>给定过载，</p>
+<p>2.平飞性能</p>
+<p>3km海拔，不同速度下的推力、功率、迎角、舵量、航时航程</p>
+<p>3.无动力下滑性能20→3</p>
+<p>最大滑翔比</p>
+<p>等速度下滑</p>
+<p>4.爬升性能</p>
+<p>巡航状态、最大油门所达到的最大爬升性能</p>
+<p>5.定常盘旋性能</p>
+<p>过载与滚转角的关系</p>
+<p>0km不同滚转角、速度对应的盘旋半径、盘旋角速度</p>
+<p>3km不同滚转角、速度对应的盘旋半径、盘旋角速度</p>
+<p><strong>飞行品质</strong></p>
+<p>1.静稳定性</p>
+<p>纵向稳定性—稳定裕度</p>
+<p>横侧向稳定性</p>
+<p>2.纵向模态</p>
+<p>短周期模态阻尼比和CAP—5个高度、3个速度</p>
+<p>长周期模态阻尼比—5个高度、3个速度</p>
+<p>3.横航向模态</p>
+<p>荷兰滚阻尼、频率</p>
+<p>滚转收敛</p>
+<p>螺旋模态</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/46d8.html">https://bfaner.github.io/posts/46d8.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/8ed0.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">旋翼位置控制</div></div></a></div><div class="next-post pull-right"><a href="/posts/aa9e.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">空投比赛相关</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E6%80%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">模态分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%B5%E5%90%91"><span class="toc-number">1.1.</span> <span class="toc-text">纵向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%AD%E5%91%A8%E6%9C%9F%E5%88%86%E6%9E%90"><span class="toc-number">1.1.1.</span> <span class="toc-text">短周期分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%BF%E5%91%A8%E6%9C%9F%E5%88%86%E6%9E%90"><span class="toc-number">1.1.2.</span> <span class="toc-text">长周期分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%AA%E4%BE%A7%E5%90%91"><span class="toc-number">1.2.</span> <span class="toc-text">横侧向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8D%B7%E5%85%B0%E6%BB%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">荷兰滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9E%BA%E6%97%8B%E6%A8%A1%E6%80%81"><span class="toc-number">1.2.2.</span> <span class="toc-text">螺旋模态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%9A%E8%BD%AC%E6%94%B6%E6%95%9B%E6%A8%A1%E6%80%81"><span class="toc-number">1.2.3.</span> <span class="toc-text">滚转收敛模态</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A3%9E%E8%A1%8C%E5%93%81%E8%B4%A8%E7%AD%89%E7%BA%A7"><span class="toc-number">2.</span> <span class="toc-text">飞行品质等级</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%B5%E5%90%91%E5%93%81%E8%B4%A8%E7%AD%89%E7%BA%A7"><span class="toc-number">2.1.</span> <span class="toc-text">纵向品质等级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%AA%E4%BE%A7%E5%90%91%E5%93%81%E8%B4%A8%E7%AD%89%E7%BA%A7"><span class="toc-number">2.2.</span> <span class="toc-text">横侧向品质等级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E7%BA%B5%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text">操纵性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%AF%E5%BE%B7%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">伯德图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E7%8E%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%89%E4%B8%AA%E9%A2%91%E6%AE%B5"><span class="toc-number">3.1.</span> <span class="toc-text">开环系统的三个频段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8E%E9%A2%91%E6%AE%B5%E3%80%90%E7%B3%BB%E7%BB%9F%E7%A8%B3%E5%AE%9A%E7%B2%BE%E5%BA%A6%E3%80%91"><span class="toc-number">3.1.1.</span> <span class="toc-text">低频段【系统稳定精度】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%A2%91%E6%AE%B5%E3%80%90%E7%B3%BB%E7%BB%9F%E5%8A%A8%E6%80%81%E6%80%A7%E8%83%BD%E3%80%91"><span class="toc-number">3.1.2.</span> <span class="toc-text">中频段【系统动态性能】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E9%A2%91%E6%AE%B5%E3%80%90%E7%B3%BB%E7%BB%9F%E6%8A%97%E5%B9%B2%E6%89%B0%E3%80%91"><span class="toc-number">3.1.3.</span> <span class="toc-text">高频段【系统抗干扰】</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E7%8E%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-number">3.2.</span> <span class="toc-text">闭环系统的稳定性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A3%9E%E8%A1%8C%E5%8A%9B%E5%AD%A6%E8%AF%84%E4%BC%B0%E7%9A%84%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="toc-number">4.</span> <span class="toc-text">飞行力学评估的主要内容</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>NAS工具 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Syncthing安装与使用github下载地址 https:&amp;#x2F;&amp;#x2F;github.com&amp;#x2F;syncthing&amp;#x2F;syncthing&amp;#x2F;releases Windows界面软件: SyncTrayzor https:&amp;#x2F;&amp;#x2F;github.com&amp;#x2F;canton7&amp;#x2F;SyncTrayzor linux：nohup ."><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/a828"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'NAS工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-12 23:03:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">NAS工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-25T16:33:16.000Z" title="发表于 2023-04-26 00:33:16">2023-04-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-12T15:03:11.749Z" title="更新于 2023-05-12 23:03:11">2023-05-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/%E5%B7%A5%E5%85%B7/">工具</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="Syncthing"><a href="#Syncthing" class="headerlink" title="Syncthing"></a>Syncthing</h1><h2 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h2><p><a target="_blank" rel="noopener" href="https://github.com/syncthing/syncthing/releases">github下载地址</a> <a target="_blank" rel="noopener" href="https://github.com/syncthing/syncthing/releases">https://github.com/syncthing/syncthing/releases</a></p>
+<p>Windows界面软件: <a target="_blank" rel="noopener" href="https://github.com/canton7/SyncTrayzor">SyncTrayzor</a> <a target="_blank" rel="noopener" href="https://github.com/canton7/SyncTrayzor">https://github.com/canton7/SyncTrayzor</a></p>
+<p>linux：<code>nohup ./syncthing &amp;</code></p>
+<ul>
+<li><p>默认管理界面 IP:8384 访问。</p>
+</li>
+<li><p>添加设备：查看“设备ID”，并在另一台设备“添加远程设备”，输入对应的ID。</p>
+</li>
+<li><p>添加同步文件夹：“添加文件夹”，设置本地存放路径、同步的设备。</p>
+</li>
+</ul>
+<p>A&lt;=&gt;B，两台设备之间互相同步，需要两台设备同时在线。</p>
+<p>A&lt;=&gt;C&lt;=&gt;B，如果有一台不关机的设备C，可以充当文件服务器。</p>
+<p>配置完成后，便可以同步文件。Syncthing 官方提供了发现服务器与中继服务器，同时也可以搭建自己的发现服务器与中级服务器。</p>
+<h2 id="中继服务器"><a href="#中继服务器" class="headerlink" title="中继服务器"></a>中继服务器</h2><p>中继服务器是指在网络中传输数据时，起到转发信息的作用的服务器。在上述传输过程中，并不是直连的，传输会经过中继服务器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">            中继服务器</span><br><span class="line">           ↕         ↕</span><br><span class="line">A &lt;= -- =&gt; C &lt;= -- =&gt;B</span><br><span class="line">↕          ↕</span><br><span class="line">  中继服务器</span><br></pre></td></tr></table></figure>
+<p>Syncthing Relay Server 搭建中继服务器：<a target="_blank" rel="noopener" href="https://github.com/syncthing/relaysrv">https://github.com/syncthing/relaysrv</a></p>
+<p><code>./strelaysrv -pools= -listen=:8888</code>  运行，需开放8888端口。</p>
+<img src="/posts/a828/image-20230426121057342.png" class="" title="image-20230426121057342">
+<p><img src="a828/image-20230426121321452.png" alt="image-20230426121321452" style="zoom:30%;" /></p>
+<h2 id="发现服务器"><a href="#发现服务器" class="headerlink" title="发现服务器"></a>发现服务器</h2><p>发现服务器是指在网络中寻找其他设备或服务的服务器。Syncthing节点在启动时会向指定的发现服务器发送请求，以获取其他节点的信息。当其它节点也向同一个发现服务器发送请求时，发现服务器会将这些节点的信息返回给它们，从而实现节点之间的相互发现和连接。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">发现服务器</span><br><span class="line">↕   ↕   ↕</span><br><span class="line">A   B   C</span><br></pre></td></tr></table></figure>
+<p><code>./stdiscosrv</code> 运行，需开放8443端口。</p>
+<h1 id="frp内网穿透"><a href="#frp内网穿透" class="headerlink" title="frp内网穿透"></a>frp内网穿透</h1><p>frp是一款基于Golang开发的高性能的内网穿透工具，可以实现将内网中的服务映射到公网上，从而实现公网访问内网服务的功能。</p>
+<p>frp主要包含三个组件：frps、frpc和frpctl。</p>
+<ul>
+<li>frps：是服务端组件，用于在公网上监听客户端请求，并将请求转发到内网中的目标服务。</li>
+<li>frpc：是客户端组件，用于在内网中与frps建立连接，并将内网中的服务通过frps映射到公网上。</li>
+<li>frpctl：是命令行工具，用于管理和监控frps和frpc的状态。</li>
+</ul>
+<p>frp支持TCP和UDP协议，可以用于穿透HTTP、HTTPS、SSH、FTP等各种协议。</p>
+<h2 id="frps"><a href="#frps" class="headerlink" title="frps"></a>frps</h2><p>有公网的服务器使用frps。</p>
+<p><code>/home/frp/frps -c /home/frp/frps.ini</code> ，<code>frps.ini</code>为配置文件。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="comment"># frp监听的端口,用于客户端和服务端连接的端口，自己指定</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="comment"># 授权码，用于客户端和服务端连接的口令，自己指定</span></span><br><span class="line"><span class="attr">token</span> = xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># frp管理后台端口，请按自己需求更改</span></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="number">7500</span></span><br><span class="line"><span class="comment"># frp管理后台用户名和密码，请改成自己的</span></span><br><span class="line"><span class="attr">dashboard_user</span> = xxx</span><br><span class="line"><span class="attr">dashboard_pwd</span> = xxx</span><br><span class="line"><span class="attr">enable_prometheus</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># http端口映射，访问时，需要域名+端口号</span></span><br><span class="line"><span class="comment"># vhost_http_port = 800</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># frp日志配置</span></span><br><span class="line"><span class="attr">log_file</span> = /var/log/frps.log</span><br><span class="line"><span class="attr">log_level</span> = info</span><br><span class="line"><span class="attr">log_max_days</span> = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="frpc"><a href="#frpc" class="headerlink" title="frpc"></a>frpc</h2><p>局域网的电脑使用frpc。</p>
+<p><code>/home/bf/frp/frpc -c /home/bf/frp/frpc.ini</code>，<code>frpc.ini</code>为配置文件。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 客户端配置</span></span><br><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = xx.xx.xx.xx</span><br><span class="line"><span class="comment"># 与frps.ini的bind_port一致</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="comment"># 与frps.ini的token一致</span></span><br><span class="line"><span class="attr">token</span> = xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置ssh服务</span></span><br><span class="line"><span class="section">[ssh]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="comment"># 内网ip</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">192.168</span>.<span class="number">31.218</span> </span><br><span class="line"><span class="comment"># 内网端口</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="comment"># 公网端口</span></span><br><span class="line"><span class="attr">remote_port</span> = xxx</span><br><span class="line"></span><br><span class="line"><span class="section">[web-800]</span></span><br><span class="line"><span class="comment"># web为http，使用tcp协议也可以访问</span></span><br><span class="line"><span class="comment"># http只能配置一个，但是tcp可以配置多个</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">192.168</span>.<span class="number">31.218</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">80</span></span><br><span class="line"><span class="attr">remote_port</span> = xxx</span><br><span class="line"></span><br><span class="line"><span class="section">[web-8082]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">192.168</span>.<span class="number">31.218</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">8082</span></span><br><span class="line"><span class="comment"># custom_domains = 121.37.108.114</span></span><br><span class="line"><span class="attr">remote_port</span> = xxx</span><br></pre></td></tr></table></figure>
+<h1 id="阿里云盘"><a href="#阿里云盘" class="headerlink" title="阿里云盘"></a>阿里云盘</h1><h2 id="ubuntu安装docker版本"><a href="#ubuntu安装docker版本" class="headerlink" title="ubuntu安装docker版本"></a>ubuntu安装docker版本</h2><p><code>https://github.com/tickstep/aliyunpan/releases</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull tickstep/aliyunpan-sync:v0.2.7 <span class="comment">#同步备份功能</span></span><br><span class="line">docker pull tickstep/aliyunpan-webdav:v0.2.7 <span class="comment">#webdav服务</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">docker-compose.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">webdav:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">tickstep/aliyunpan-webdav:v0.2.7</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">aliyunpan-webdav</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">23077</span><span class="string">:23077</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="comment"># refresh token用于登录</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALIYUNPAN_REFRESH_TOKEN=1a8b81db2df2414da488354cd7b2exxx</span></span><br><span class="line">      <span class="comment"># webdav 登录用户名</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALIYUNPAN_AUTH_USER=bfaner</span></span><br><span class="line">      <span class="comment"># webdav 登录密码</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALIYUNPAN_AUTH_PASSWORD=bf520999</span></span><br><span class="line">      <span class="comment"># webdav 网盘模式，支持：rw-读写，ro-只读</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALIYUNPAN_WEBDAV_MODE=rw</span></span><br><span class="line">      <span class="comment"># 指定网盘文件夹作为webdav服务根目录</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALIYUNPAN_PAN_DIR=.</span></span><br><span class="line">      <span class="comment"># 上传下载链接类型：1-默认 2-阿里ECS环境(ECS必须是经典网络类型)</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALIYUNPAN_TRANSFER_URL_TYPE=1</span></span><br></pre></td></tr></table></figure>
+<p><img src="a828/image-20230512230257662.png" alt="image-20230512230257662" style="zoom:30%;" /></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/a828.html">https://bfaner.github.io/posts/a828.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/2117.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">django衣橱</div></div></a></div><div class="next-post pull-right"><a href="/posts/fa89.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">px4半物理仿真</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Syncthing"><span class="toc-number">1.</span> <span class="toc-text">Syncthing</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">安装与使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E7%BB%A7%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">中继服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">发现服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">2.</span> <span class="toc-text">frp内网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#frps"><span class="toc-number">2.1.</span> <span class="toc-text">frps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#frpc"><span class="toc-number">2.2.</span> <span class="toc-text">frpc</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text">阿里云盘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu%E5%AE%89%E8%A3%85docker%E7%89%88%E6%9C%AC"><span class="toc-number">3.1.</span> <span class="toc-text">ubuntu安装docker版本</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

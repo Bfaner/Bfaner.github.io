@@ -1,0 +1,1859 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>气动估算软件 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="AVLAVL 3.30 User Primer last update 18 Aug 10 Mark Drela, MIT Aero &amp;amp; Astro Harold Youngren, Aerocraft, Inc. History&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D; AVL (Athena Vortex Latt"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/f48b"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '气动估算软件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:10:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">气动估算软件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-11T07:58:37.000Z" title="发表于 2021-04-11 15:58:37">2021-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:10:54.054Z" title="更新于 2023-04-14 20:10:54">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/%E9%A3%9E%E8%A1%8C%E5%8A%9B%E5%AD%A6/">飞行力学</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="AVL"><a href="#AVL" class="headerlink" title="AVL"></a>AVL</h1><p>AVL 3.30 User Primer last update 18 Aug 10</p>
+<p>Mark Drela, MIT Aero &amp; Astro</p>
+<p>Harold Youngren, Aerocraft, Inc.</p>
+<h2 id="History"><a href="#History" class="headerlink" title="History"></a>History</h2><p>=======</p>
+<p>AVL (Athena Vortex Lattice) 1.0 was originally written by Harold Youngren</p>
+<p>circa 1988 for the MIT Athena TODOR aero software collection. The code was</p>
+<p>based on classic work by Lamar (NASA codes), E. Lan and L. Miranda (VORLAX)</p>
+<p>and a host of other investigators. Numerous modifications have since been</p>
+<p>added by Mark Drela and Harold Youngren, to the point where only stubborn</p>
+<p>traces of the original Athena code remain.</p>
+<h2 id="General-Description"><a href="#General-Description" class="headerlink" title="General Description"></a>General Description</h2><p>===================</p>
+<p>AVL 3.xx now has a large number of features intended for rapid</p>
+<p>aircraft configuration analysis. The major features are as follows:</p>
+<p>Aerodynamic components</p>
+<p>Lifting surfaces</p>
+<p>Slender bodies</p>
+<p>Configuration description</p>
+<p>Keyword-driven geometry input file</p>
+<p>Defined sections with linear interpolation</p>
+<p>Section properties</p>
+<p>camberline is NACA xxxx, or from airfoil file</p>
+<p>control deflections</p>
+<p>parabolic profile drag polar, Re-scaling</p>
+<p>Scaling, translation, rotation of entire surface or body</p>
+<p>Duplication of entire surface or body</p>
+<p>Singularities</p>
+<p>Horseshoe vortices (surfaces)</p>
+<p>Source+doublet lines (bodies)</p>
+<p>Finite-core option</p>
+<p>Discretization</p>
+<p>Uniform</p>
+<p>Sine</p>
+<p>Cosine</p>
+<p>Blend</p>
+<p>Control deflections</p>
+<p>Via normal-vector tilting</p>
+<p>Leading edge flaps</p>
+<p>Trailing edge flaps</p>
+<p>Hinge lines independent of discretization</p>
+<p>General freestream description</p>
+<p>alpha,beta flow angles</p>
+<p>p,q,r aircraft rotation components</p>
+<p>Subsonic Prandtl-Glauert compressibility treatment</p>
+<p>Surfaces can be defined to “see” only perturbation velocities</p>
+<p>(not freestream) to allow simulation of</p>
+<p>ground effect</p>
+<p>wind tunnel wall interference</p>
+<p>influence of other nearby aircraft</p>
+<p>Aerodynamic outputs</p>
+<p>Direct forces and moments</p>
+<p>Trefftz-plane</p>
+<p>Derivatives of forces and moments, w.r.t freestream, rotation, controls</p>
+<p>In body or stability axes</p>
+<p>Trim calculation</p>
+<p>Operating variables</p>
+<p>alpha,beta</p>
+<p>p,q,r</p>
+<p>control deflections</p>
+<p>Constraints</p>
+<p>direct constraints on variables</p>
+<p>indirect constraints via specified CL, moments</p>
+<p>Multiple trim run cases can be defined</p>
+<p>Saving of trim run case setups for later recall</p>
+<p>Optional mass definition file (only for trim setup, eigenmode analysis)</p>
+<p>User-chosen units</p>
+<p>Itemized component location, mass, inertias</p>
+<p>Trim setup of constraints</p>
+<p>level or banked horizontal flight</p>
+<p>steady pitch rate (looping) flight</p>
+<p>Eigenmode analysis</p>
+<p>Rigid-body analysis with quasi-steady aero model</p>
+<p>Display of eigenvalue root progression with a parameter</p>
+<p>Display of eigenmode motion in real time</p>
+<p>Output of dynamic system matrices</p>
+<h2 id="Vortex-Lattice-Modeling-Principles"><a href="#Vortex-Lattice-Modeling-Principles" class="headerlink" title="Vortex-Lattice Modeling Principles"></a>Vortex-Lattice Modeling Principles</h2><p>==================================</p>
+<p>Like any computational method, AVL has limitations on what it can do.</p>
+<p>These must be kept in mind in any given application.</p>
+<h3 id="Configurations"><a href="#Configurations" class="headerlink" title="Configurations"></a>Configurations</h3><hr>
+<p>A vortex-lattice model like AVL is best suited for aerodynamic configurations</p>
+<p>which consist mainly of thin lifting surfaces at small angles of attack</p>
+<p>and sideslip. These surfaces and their trailing wakes are represented</p>
+<p>as single-layer vortex sheets, discretized into horseshoe vortex filaments,</p>
+<p>whose trailing legs are assumed to be parallel to the x-axis. AVL provides</p>
+<p>the capability to also model slender bodies such as fuselages and nacelles</p>
+<p>via source+doublet filaments. The resulting force and moment predictions</p>
+<p>are consistent with slender-body theory, but the experience with this model</p>
+<p>is relatively limited, and hence modeling of bodies should be done with</p>
+<p>caution. If a fuselage is expected to have little influence on the</p>
+<p>aerodynamic loads, it’s simplest to just leave it out of the AVL model.</p>
+<p>However, the two wings should be connected by a fictitious wing portion</p>
+<p>which spans the omitted fuselage.</p>
+<h3 id="Unsteady-flow"><a href="#Unsteady-flow" class="headerlink" title="Unsteady flow"></a>Unsteady flow</h3><hr>
+<p>AVL assumes quasi-steady flow, meaning that unsteady vorticity shedding</p>
+<p>is neglected. More precisely, it assumes the limit of small reduced frequency,</p>
+<p>which means that any oscillatory motion (e.g. in pitch) must be slow enough</p>
+<p>so that the period of oscillation is much longer than the time it takes</p>
+<p>the flow to traverse an airfoil chord. This is true for virtually any</p>
+<p>expected flight maneuver. Also, the roll, pitch, and yaw rates used</p>
+<p>in the computations must be slow enough so that the resulting relative</p>
+<p>flow angles are small. This can be judged by the dimensionless</p>
+<p>rotation rate parameters, which should fall within the following</p>
+<p>practical limits.</p>
+<p>-0.10 \&lt; pb/2V \&lt; 0.10</p>
+<p>-0.03 \&lt; qc/2V \&lt; 0.03</p>
+<p>-0.25 \&lt; rb/2V \&lt; 0.25</p>
+<p>These limits represent extremely violent aircraft motion, and are unlikely</p>
+<p>to exceeded in any typical flight situation, except possibly during</p>
+<p>low-airspeed aerobatic maneuvers. In any case, if any of these</p>
+<p>parameters falls outside of these limits, the results should be</p>
+<p>interpreted with caution.</p>
+<h3 id="Compressibility"><a href="#Compressibility" class="headerlink" title="Compressibility"></a>Compressibility</h3><hr>
+<p>Compressibility is treated in AVL using the classical Prandtl-Glauert (PG)</p>
+<p>transformation, which converts the PG equation to the Laplace equation,</p>
+<p>which can then be solved by the basic incompressible method. This</p>
+<p>is equivalent to the compressible continuity equation, with the assumptions</p>
+<p>of irrotationality and linearization about the freestream. The forces</p>
+<p>are computed by applying the Kutta-Joukowsky relation to each vortex,</p>
+<p>this remaining valid for compressible flow.</p>
+<p>The linearization assumes small perturbations (thin surfaces) and is not</p>
+<p>completely valid when velocity perturbations from the free-stream become</p>
+<p>large. The relative importance of compressible effects can be judged by</p>
+<p>the PG factor 1/B = 1/sqrt(1 - M^2), where “M” is the freestream Mach</p>
+<p>number. A few values are given in the table, which shows the expected</p>
+<p>range of validity.</p>
+<p>M 1/B</p>
+<hr>
+<p>0.0 1.000 |</p>
+<p>0.1 1.005 |</p>
+<p>0.2 1.021 |</p>
+<p>0.3 1.048 |- PG expected valid</p>
+<p>0.4 1.091 |</p>
+<p>0.5 1.155 |</p>
+<p>0.6 1.250 |</p>
+<p>0.7 1.400 PG suspect (transonic flow likely)</p>
+<p>0.8 1.667 PG unreliable (transonic flow certain)</p>
+<p>0.9 2.294 PG hopeless</p>
+<p>For swept-wing configurations, the validity of the PG model</p>
+<p>is best judged using the wing-perpendicular Mach number</p>
+<p>Mperp = M cos(sweep)</p>
+<p>Since Mperp \&lt; M, swept-wing cases can be modeled up to higher</p>
+<p>M values than unswept cases. For example, a 45 degree swept wing</p>
+<p>operating at freestream M = 0.8 has</p>
+<p>Mperp = 0.8 * cos(45) = 0.566</p>
+<p>which is still within the expected range of PG validity</p>
+<p>in the above table. So reasonable results can be expected</p>
+<p>from AVL for this case.</p>
+<p>When doing velocity parameter sweeps at the lowest Mach numbers,</p>
+<p>say below M = 0.2, it is best to simply hold M = 0. This will</p>
+<p>greatly speed up the calculations, since changing the Mach number</p>
+<p>requires recomputation and re-factorization of the VL influence matrix,</p>
+<p>which consumes most of the computational effort. If the Mach number</p>
+<p>is held fixed, this computation needs to be done only once.</p>
+<h3 id="Input-Files"><a href="#Input-Files" class="headerlink" title="Input Files"></a>Input Files</h3><p>===========</p>
+<p>AVL works with three input files, all in plain text format. Ideally</p>
+<p>these all have a common arbitrary prefix “xxx”, and the following extensions:</p>
+<p>xxx.avl required main input file defining the configuration geometry</p>
+<p>xxx.mass optional file giving masses and inertias, and dimensional units</p>
+<p>xxx.run optional file defining the parameter for some number of run cases</p>
+<p>The user provides files xxx.avl and xxx.mass, which are typically created</p>
+<p>using any text editor. Sample files are provided for use as templates.</p>
+<p>The xxx.run file is written by AVL itself with a user command.</p>
+<p>It can be manually edited, although this is not really necessary</p>
+<p>since it is more convenient to edit the contents in AVL and then</p>
+<p>write out the file again.</p>
+<h3 id="Geometry-Input-File-—-xxx-avl"><a href="#Geometry-Input-File-—-xxx-avl" class="headerlink" title="Geometry Input File — xxx.avl"></a>Geometry Input File — xxx.avl</h3><p>==============================</p>
+<p>This file describes the vortex lattice geometry and aerodynamic</p>
+<p>section properties. Sample input files are in the /runs subdirectory.</p>
+<p>Coordinate system</p>
+<hr>
+<p>The geometry is described in the following Cartesian system:</p>
+<p>X downstream</p>
+<p>Y out the right wing</p>
+<p>Z up</p>
+<p>The freestream must be at a reasonably small angle to the X axis</p>
+<p>(alpha and beta must be small), since the trailing vorticity</p>
+<p>is oriented parallel to the X axis. The length unit used in</p>
+<p>this file is referred to as “Lunit”. This is arbitrary,</p>
+<p>but must be the same throughout this file.</p>
+<p><strong>File format</strong></p>
+<hr>
+<p><strong>Header data</strong></p>
+<p>- - - - - -</p>
+<p>The input file begins with the following information in the first 5 non-blank,</p>
+<p>non-comment lines:</p>
+<p>Abc… | case title</p>
+<p># | comment line begins with “#” or “!”</p>
+<p>0.0 | Mach</p>
+<p>1 0 0.0 | iYsym iZsym Zsym</p>
+<p>4.0 0.4 0.1 | Sref Cref Bref</p>
+<p>0.1 0.0 0.0 | Xref Yref Zref</p>
+<p>0.020 | CDp (optional)</p>
+<p>Mach = default freestream Mach number for Prandtl-Glauert correction</p>
+<p>iYsym = 1 case is symmetric about Y=0 , (X-Z plane is a solid wall)</p>
+<p>= -1 case is antisymmetric about Y=0, (X-Z plane is at const. Cp)</p>
+<p>= 0 no Y-symmetry is assumed</p>
+<p>iZsym = 1 case is symmetric about Z=Zsym , (X-Y plane is a solid wall)</p>
+<p>= -1 case is antisymmetric about Z=Zsym, (X-Y plane is at const. Cp)</p>
+<p>= 0 no Z-symmetry is assumed (Zsym ignored)</p>
+<p>Sref = reference area used to define all coefficients (CL, CD, Cm, etc)</p>
+<p>Cref = reference chord used to define pitching moment (Cm)</p>
+<p>Bref = reference span used to define roll,yaw moments (Cl,Cn)</p>
+<p>X,Y,Zref = default location about which moments and rotation rates are defined</p>
+<p>(if doing trim calculations, XYZref must be the CG location,</p>
+<p>which can be imposed with the MSET command described later)</p>
+<p>CDp = default profile drag coefficient added to geometry, applied at XYZref</p>
+<p>(assumed zero if this line is absent, for previous-version compatibility)</p>
+<p>The default Mach, XYZref, and CDp values are superseded by the values</p>
+<p>in the .run file (described later), if it is present. They can also</p>
+<p>be changed at runtime.</p>
+<p>Only the half (non-image) geometry must be input if symmetry is specified.</p>
+<p>Ground effect is simulated with iZsym = 1, and Zsym = location of ground.</p>
+<p>Forces are not calculated on the image/anti-image surfaces.</p>
+<p>Sref and Bref are assumed to correspond to the total geometry.</p>
+<p>In practice there is little reason to run Y-symmetric image cases,</p>
+<p>unless one is desperate for CPU savings.</p>
+<p><strong>Surface and Body data</strong></p>
+<p>- - - - - - - - - - -</p>
+<p>The remainder of the file consists of a set of keywords and associated data.</p>
+<p>Each keyword expects a certain number of lines of data to immediately follow</p>
+<p>it, the exception being inline-coordinate keyword AIRFOIL which is followed</p>
+<p>by an arbitrary number of coordinate data lines. The keywords must also be</p>
+<p>nested properly in the hierarchy shown below. Only the first four characters</p>
+<p>of each keyword are actually significant, the rest are just a mnemonic.</p>
+<p>SURFACE</p>
+<p>COMPONENT (or INDEX)</p>
+<p>YDUPLICATE</p>
+<p>SCALE</p>
+<p>TRANSLATE</p>
+<p>ANGLE</p>
+<p>NOWAKE</p>
+<p>NOALBE</p>
+<p>NOLOAD</p>
+<p>SECTION</p>
+<p>SECTION</p>
+<p>NACA</p>
+<p>SECTION</p>
+<p>AIRFOIL</p>
+<p>CLAF</p>
+<p>CDCL</p>
+<p>SECTION</p>
+<p>AFILE</p>
+<p>CONTROL</p>
+<p>CONTROL</p>
+<p>BODY</p>
+<p>YDUPLICATE</p>
+<p>SCALE</p>
+<p>TRANSLATE</p>
+<p>BFILE</p>
+<p>SURFACE</p>
+<p>YDUPLICATE</p>
+<p>SECTION</p>
+<p>SECTION</p>
+<p>SURFACE</p>
+<p>.</p>
+<p>.</p>
+<p>etc.</p>
+<p>The COMPONENT (or INDEX), YDUPLICATE, SCALE, TRANSLATE, and ANGLE keywords</p>
+<p>can all be used together. If more than one of these appears for</p>
+<p>a surface, the last one will be used and the previous ones ignored.</p>
+<p>At least two SECTION keywords must be used for each surface.</p>
+<p>The NACA, AIRFOIL, AFILE, keywords are alternatives.</p>
+<p>If more than one of these appears after a SECTION keyword,</p>
+<p>the last one will be used and the previous ones ignored. i.e.</p>
+<p>SECTION</p>
+<p>NACA</p>
+<p>AFILE</p>
+<p>is equivalent to</p>
+<p>SECTION</p>
+<p>AFILE</p>
+<p>Multiple CONTROL keywords can appear after a SECTION keyword and data</p>
+<p>Surface-definition keywords and data formats</p>
+<p>- - - - - - - - - - - - - - - - - - - - - - -</p>
+<p>*****</p>
+<p>SURFACE | (keyword)</p>
+<p>Main Wing | surface name string</p>
+<p>12 1.0 20 -1.5 | Nchord Cspace [ Nspan Sspace ]</p>
+<p>The SURFACE keyword declares that a surface is being defined until</p>
+<p>the next SURFACE or BODY keyword, or the end of file is reached.</p>
+<p>A surface does not really have any significance to the underlying</p>
+<p>AVL vortex lattice solver, which only recognizes the overall</p>
+<p>collection of all the individual horseshoe vortices. SURFACE</p>
+<p>is provided only as a configuration-defining device, and also</p>
+<p>as a means of defining individual surface forces. This is</p>
+<p>necessary for structural load calculations, for example.</p>
+<p>Nchord = number of chordwise horseshoe vortices placed on the surface</p>
+<p>Cspace = chordwise vortex spacing parameter (described later)</p>
+<p>Nspan = number of spanwise horseshoe vortices placed on the surface [optional]</p>
+<p>Sspace = spanwise vortex spacing parameter (described later) [optional]</p>
+<p>If Nspan and Sspace are omitted (i.e. only Nchord and Cspace are present on line),</p>
+<p>then the Nspan and Sspace parameters will be expected for each section interval,</p>
+<p>as described later.</p>
+<p>*****</p>
+<p>COMPONENT | (keyword) or INDEX</p>
+<p>3 | Lcomp</p>
+<p>This optional keywords COMPONENT (or INDEX for backward compatibility)</p>
+<p>allows multiple input SURFACEs to be grouped together into a composite</p>
+<p>virtual surface, by assigning each of the constituent surfaces the same</p>
+<p>Lcomp value. Application examples are:</p>
+<p>- A wing component made up of a wing and a winglet.</p>
+<p>- A T-tail component made up of horizontal and vertical tail surfaces.</p>
+<p>A common Lcomp value instructs AVL to _not_ use a finite-core model</p>
+<p>for the influence of a horseshoe vortex and a control point which lies</p>
+<p>on the same component, as this would seriously corrupt the calculation.</p>
+<p>If each COMPONENT is specified via only a single SURFACE block,</p>
+<p>then the COMPONENT (or INDEX) declaration is unnecessary.</p>
+<p>*****</p>
+<p>YDUPLICATE | (keyword)</p>
+<p>0.0 | Ydupl</p>
+<p>The YDUPLICATE keyword is a convenient shorthand device for creating</p>
+<p>another surface which is a geometric mirror image of the one</p>
+<p>being defined. The duplicated surface is _not_ assumed to be</p>
+<p>an aerodynamic image or anti-image, but is truly independent.</p>
+<p>A typical application would be for cases which have geometric</p>
+<p>symmetry, but not aerodynamic symmetry, such as a wing in yaw.</p>
+<p>Defining the right wing together with YDUPLICATE will conveniently</p>
+<p>create the entire wing.</p>
+<p>The YDUPLICATE keyword can _only_ be used if iYsym = 0 is specified.</p>
+<p>Otherwise, the duplicated real surface will be identical to the</p>
+<p>implied aerodynamic image surface, and velocities will be computed</p>
+<p>directly on the line-vortex segments of the images. This will</p>
+<p>almost certainly produce an arithmetic fault.</p>
+<p>The duplicated surface gets the same Lsurf value as the parent surface,</p>
+<p>so they are considered to be the same physical surface. There is</p>
+<p>no significant effect on the results if they are in reality</p>
+<p>two physical surfaces.</p>
+<p>Ydupl = Y position of X-Z plane about which the current surface is</p>
+<p>reflected to make the duplicate geometric-image surface.</p>
+<p>*****</p>
+<p>SCALE | (keyword)</p>
+<p>1.0 1.0 0.8 | Xscale Yscale Zscale</p>
+<p>The SCALE allows convenient rescaling for the entire surface.</p>
+<p>The scaling is applied before the TRANSLATE operation described below.</p>
+<p>Xscale,Yscale,Zscale = scaling factors applied to all x,y,z coordinates</p>
+<p>(chords are also scaled by Xscale)</p>
+<p>*****</p>
+<p>TRANSLATE | (keyword)</p>
+<p>10.0 0.0 0.5 | dX dY dZ</p>
+<p>The TRANSLATE keyword allows convenient relocation of the entire</p>
+<p>surface without the need to change the Xle,Yle,Zle locations</p>
+<p>for all the defining sections. A body can be translated without</p>
+<p>the need to modify the body shape coordinates.</p>
+<p>dX,dY,dZ = offset added on to all X,Y,Z values in this surface.</p>
+<p>*****</p>
+<p>ANGLE | (keyword)</p>
+<p>2.0 | dAinc</p>
+<p>The ANGLE keyword allows convenient changing of the incidence angle</p>
+<p>of the entire surface without the need to change the Ainc values</p>
+<p>for all the defining sections. The rotation is performed about</p>
+<p>the spanwise axis projected onto the y-z plane.</p>
+<p>dAinc = offset added on to the Ainc values for all the defining sections</p>
+<p>in this surface</p>
+<p>*****</p>
+<p>NOWAKE | (keyword)</p>
+<p>The NOWAKE keyword specifies that this surface is to NOT shed a wake,</p>
+<p>so that its strips will not have their Kutta conditions imposed.</p>
+<p>Such a surface will have a near-zero net lift, but it will still</p>
+<p>generate a nonzero moment.</p>
+<p>*****</p>
+<p>NOALBE | (keyword)</p>
+<p>The NOALBE keyword specifies that this surface is unaffected by</p>
+<p>freestream direction changes specified by the alpha,beta angles</p>
+<p>and p,q,r rotation rates. This surface then reacts to only to</p>
+<p>the perturbation velocities of all the horseshoe vortices and</p>
+<p>sources and doublets in the flow.</p>
+<p>This allows the SURFACE/NOALBE object to model fixed surfaces such</p>
+<p>as a ground plane, wind tunnel walls, or a nearby other aircraft</p>
+<p>which is at a fixed flight condition.</p>
+<p>*****</p>
+<p>NOLOAD | (keyword)</p>
+<p>The NOLOAD keyword specifies that the force and moment on this surface</p>
+<p>is to NOT be included in the overall forces and moments of the configuration.</p>
+<p>This is typically used together with NOALBE, since the force on a ground</p>
+<p>plane or wind tunnel walls certainly is not to be considered as part</p>
+<p>of the aircraft force of interest.</p>
+<p>*****</p>
+<p>The following keyword declarations would be used in envisioned applications.</p>
+<p>1) Non-lifting fuselage modeled by its side-view and top-view profiles.</p>
+<p>This will capture the moment of the fuselage reasonably well.</p>
+<p>NOWAKE</p>
+<p>2) Another nearby aircraft, with both aircraft maneuvering together.</p>
+<p>This would be for trim calculation in formation flight.</p>
+<p>NOALBE</p>
+<p>NOLOAD</p>
+<p>3) Another nearby aircraft, with only the primary aircraft maneuvering.</p>
+<p>This would be for a flight-dynamics analysis in formation flight.</p>
+<p>NOLOAD</p>
+<p>4) Nearby wind tunnel walls or ground plane.</p>
+<p>NOALBE</p>
+<p>NOLOAD</p>
+<p>*****</p>
+<p>SECTION | (keyword)</p>
+<p>0.0 5.0 0.2 0.50 1.50 5 -2.0 | Xle Yle Zle Chord Ainc [ Nspan Sspace ]</p>
+<p>The SECTION keyword defines an airfoil-section camber line at some</p>
+<p>spanwise location on the surface.</p>
+<p>Xle,Yle,Zle = airfoil’s leading edge location</p>
+<p>Chord = the airfoil’s chord (trailing edge is at Xle+Chord,Yle,Zle)</p>
+<p>Ainc = incidence angle, taken as a rotation (+ by RH rule) about</p>
+<p>the surface’s spanwise axis projected onto the Y-Z plane.</p>
+<p>Nspan = number of spanwise vortices until the next section [ optional ]</p>
+<p>Sspace = controls the spanwise spacing of the vortices [ optional ]</p>
+<p>Nspan and Sspace are used here only if the overall Nspan and Sspace</p>
+<p>for the whole surface is not specified after the SURFACE keyword.</p>
+<p>The Nspan and Sspace for the last section in the surface are always ignored.</p>
+<p>Note that Ainc is used only to modify the flow tangency boundary</p>
+<p>condition on the airfoil camber line, and does not rotate the geometry</p>
+<p>of the airfoil section itself. This approximation is consistent with</p>
+<p>linearized airfoil theory.</p>
+<p>The local chord and incidence angle are linearly interpolated between</p>
+<p>defining sections. Obviously, at least two sections (root and tip)</p>
+<p>must be specified for each surface.</p>
+<p>The default airfoil camber line shape is a flat plate. The NACA, AIRFOIL,</p>
+<p>and AFIL keywords, described below, are available to define non-flat</p>
+<p>camber lines. If one of these is used, it must immediately follow</p>
+<p>the data line of the SECTION keyword.</p>
+<p>All the sections in the surface must be defined in order across the span.</p>
+<p>*****</p>
+<p>NACA | (keyword)</p>
+<p>4300 | section NACA camberline</p>
+<p>The NACA keyword sets the camber line to the NACA 4-digit shape specified</p>
+<p>*****</p>
+<p>AIRFOIL X1 X2 |(keyword) [ optional x/c range ]</p>
+<p>1.0 0.0 | x/c(1) y/c(1)</p>
+<p>0.98 0.002 | x/c(2) y/c(2)</p>
+<p>. . | . .</p>
+<p>. . | . .</p>
+<p>. . | . .</p>
+<p>1.0 -0.01 | x/c(N) y/c(N)</p>
+<p>The AIRFOIL keyword declares that the airfoil definition is input</p>
+<p>as a set of x/c, y/c pairs.</p>
+<p>x/c,y/c = airfoil coordinates</p>
+<p>The x/c, y/c coordinates run from TE, to LE, back to the TE again</p>
+<p>in either direction. These corrdinates are splined, and the slope</p>
+<p>of the camber y(x) function is obtained from the middle y/c values</p>
+<p>between top and bottom. The number of points N is deterimined</p>
+<p>when a line without two readable numbers is encountered.</p>
+<p>If present, the optional X1 X2 parameters indicate that only the</p>
+<p>x/c range X1..X2 from the coordinates is to be assigned to the surface.</p>
+<p>If the surface is a 20%-chord flap, for example, then X1 X2</p>
+<p>would be 0.80 1.00. This allows the camber shape to be easily</p>
+<p>assigned to any number of surfaces in piecewise manner.</p>
+<p>*****</p>
+<p>AFILE X1 X2 | (keyword) [ optional x/c range ]</p>
+<p>filename | filename string</p>
+<p>The AFILE keyword is essentially the same as AIRFOIL, except</p>
+<p>that the x/c,y/c pairs are generated from a standard (XFOIL-type)</p>
+<p>set of airfoil coordinates contained in the file “filename”.</p>
+<p>The first line of this file is assumed to contain a string</p>
+<p>with the name of the airfoil (as written out with XFOIL’s SAVE</p>
+<p>command). If the path/filename has embedded blanks</p>
+<p>double quotes should be used to delimit the string.</p>
+<p>The optional X1 X2 parameters are used as in AIRFOIL.</p>
+<p>*****</p>
+<p>DESIGN | (keyword)</p>
+<p>DName Wdes | design parameter name, local weight</p>
+<p>This declares that the section angle Ainc is to be virtually</p>
+<p>perturbed by a design parameter, with name DName and local</p>
+<p>Wdes.</p>
+<p>For example, declarations for design variables “twist1” and “bias1”</p>
+<p>DESIGN</p>
+<p>twist1 -0.5</p>
+<p>DESIGN</p>
+<p>bias1 1.0</p>
+<p>Give an effective (virtual) section incidence that is set using the “twist1”</p>
+<p>and “bias1” design variables as:</p>
+<p>Ainc_total = Ainc - 0.5*twist1_value + 1.0*bias_value</p>
+<p>where twist1_value and bias1_value are design parameters specified at runtime.</p>
+<p>The sensitivities of the flow solution to design variable changes</p>
+<p>can be displayed at any time during program execution. Hence,</p>
+<p>design variables can be used to quickly investigate the effects</p>
+<p>of twist changes on lift, moments, induced drag, etc.</p>
+<p>Declaring the same design parameter with varying weights for multiple</p>
+<p>sections in a surface allows the design parameter to represent a convenient</p>
+<p>“design mode”, such as linear washout, which influences all sections.</p>
+<p>*****</p>
+<p>CONTROL | (keyword)</p>
+<p>elevator 1.0 0.6 0. 1. 0. 1.0 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>The CONTROL keyword declares that a hinge deflection at this section</p>
+<p>is to be governed by one or more control variables. An arbitrary</p>
+<p>number of control variables can be used, limited only by the array</p>
+<p>limit NDMAX.</p>
+<p>The data line quantities are…</p>
+<p>name name of control variable</p>
+<p>gain control deflection gain, units: degrees deflection / control variable</p>
+<p>Xhinge x/c location of hinge.</p>
+<p>If positive, control surface extent is Xhinge..1 (TE surface)</p>
+<p>If negative, control surface extent is 0..-Xhinge (LE surface)</p>
+<p>XYZhvec vector giving hinge axis about which surface rotates</p>
+<p>+ deflection is + rotation about hinge by righthand rule</p>
+<p>Specifying XYZhvec = 0. 0. 0. puts the hinge vector along the hinge</p>
+<p>SgnDup sign of deflection for duplicated surface</p>
+<p>An elevator would have SgnDup = +1</p>
+<p>An aileron would have SgnDup = -1</p>
+<p>Control derivatives will be generated for all control variables</p>
+<p>which are declared.</p>
+<p>More than one variable can contribute to the motion at a section.</p>
+<p>For example, for the successive declarations</p>
+<p>CONTROL</p>
+<p>aileron 1.0 0.7 0. 1. 0. -1.0</p>
+<p>CONTROL</p>
+<p>flap 0.3 0.7 0. 1. 0. 1.0</p>
+<p>the overall deflection will be</p>
+<p>control_surface_deflection = 1.0 * aileron + 0.3 * flap</p>
+<p>The same control variable can be used on more than one surface.</p>
+<p>For example the wing sections might have</p>
+<p>CONTROL</p>
+<p>flap 0.3 0.7 0. 1. 0. 1.0</p>
+<p>and the horizontal tail sections might have</p>
+<p>CONTROL</p>
+<p>flap 0.03 0.5 0. 1. 0. 1.0</p>
+<p>with the latter simulating 10:1 flap -&gt; elevator mixing.</p>
+<p>A partial-span control surface is specified by declaring</p>
+<p>CONTROL data only at the sections where the control surface</p>
+<p>exists, including the two end sections. For example,</p>
+<p>the following wing defined with three sections (i.e. two panels)</p>
+<p>has a flap over the inner panel, and an aileron over the</p>
+<p>outer panel.</p>
+<p>SECTION</p>
+<p>0.0 0.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>flap 1.0 0.80 0. 0. 0. 1 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>SECTION</p>
+<p>0.0 8.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>flap 1.0 0.80 0. 0. 0. 1 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>CONTROL</p>
+<p>aileron 1.0 0.85 0. 0. 0. -1 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>SECTION</p>
+<p>0.2 12.0 0.0 1.5 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 1.0 0.85 0. 0. 0. -1 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>The control gain for a control surface does not need to be equal</p>
+<p>at each section. Spanwise stations between sections receive a gain</p>
+<p>which is linearly interpolated from the two bounding sections.</p>
+<p>This allows specification of flexible-surface control systems.</p>
+<p>For example, the following surface definition models wing warping</p>
+<p>which is linear from root to tip. Note that the “hinge” is at x/c=0.0,</p>
+<p>so that the entire chord rotates in response to the aileron deflection.</p>
+<p>SECTION</p>
+<p>0.0 0.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 0.0 0. 0. 0. 0. -1 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>SECTION</p>
+<p>0.2 12.0 0.0 1.5 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 1.0 0. 0. 0. 0. -1 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>Non-symmetric control effects, such as Aileron Differential, can be specified</p>
+<p>by a non-unity SgnDup magnitude. For example,</p>
+<p>SECTION</p>
+<p>0.0 6.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 1.0 0.7 0. 0. 0. -2.0 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>SECTION</p>
+<p>0.0 10.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 1.0 0.7 0. 0. 0. -2.0 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>will result in the duplicated aileron having a deflection opposite and</p>
+<p>2.0 times larger than the defined aileron. Note that this will have</p>
+<p>the proper effect only in one direction. In the example above, the</p>
+<p>two aileron surfaces deflect as follows:</p>
+<p>Right control surface: 1.0*aileron = 1.0*aileron</p>
+<p>Left control surface: 1.0*aileron*(-2.0) = -2.0*aileron</p>
+<p>which is the usual way Aileron Differential is implemented if “aileron” is positive.</p>
+<p>To get the same effect with a negative “aileron” control change,</p>
+<p>the definitions would have to be as follows.</p>
+<p>SECTION</p>
+<p>0.0 6.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 2.0 0.7 0. 0. 0. -0.5 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>SECTION</p>
+<p>0.0 10.0 0.0 2.0 0.0 | Xle Yle Zle Chord Ainc</p>
+<p>CONTROL</p>
+<p>aileron 2.0 0.7 0. 0. 0. -0.5 | name, gain, Xhinge, XYZhvec, SgnDup</p>
+<p>This then gives:</p>
+<p>Right control surface: 2.0*aileron = -2.0*(-aileron)</p>
+<p>Left control surface: 2.0*aileron*(-0.5) = 1.0*(-aileron)</p>
+<p>which is the correct mirror image of the previous case if “aileron” is negative.</p>
+<p>*****</p>
+<p>CLAF | (keyword)</p>
+<p>CLaf | dCL/da scaling factor</p>
+<p>This scales the effective dcl/da of the section airfoil as follows:</p>
+<p>dcl/da = 2 pi CLaf</p>
+<p>The implementation is simply a chordwise shift of the control point</p>
+<p>relative to the bound vortex on each vortex element.</p>
+<p>The intent is to better represent the lift characteristics</p>
+<p>of thick airfoils, which typically have greater dcl/da values</p>
+<p>than thin airfoils. A good estimate for CLaf from 2D potential</p>
+<p>flow theory is</p>
+<p>CLaf = 1 + 0.77 t/c</p>
+<p>where t/c is the airfoil’s thickness/chord ratio. In practice,</p>
+<p>viscous effects will reduce the 0.77 factor to something less.</p>
+<p>Wind tunnel airfoil data or viscous airfoil calculations should</p>
+<p>be consulted before choosing a suitable CLaf value.</p>
+<p>If the CLAF keyword is absent for a section, CLaf defaults to 1.0,</p>
+<p>giving the usual thin-airfoil lift slope dcl/da = 2 pi.</p>
+<p>*****</p>
+<p>CDCL | (keyword)</p>
+<p>CL1 CD1 CL2 CD2 CL3 CD3 | CD(CL) function parameters</p>
+<p>The CDCL keyword specifies a simple profile-drag CD(CL) function</p>
+<p>for this section. The function is parabolic between CL1..CL2 and</p>
+<p>CL2..CL3, with rapid increases in CD below CL1 and above CL3.</p>
+<p>See the SUBROUTINE CDCL header (in cdcl.f) for more details.</p>
+<p>The CD(CL) function is interpolated for stations in between</p>
+<p>defining sections. Hence, the CDCL declaration on any surface</p>
+<p>must be used either for all sections or for none.</p>
+<p><strong>Body-definition keywords and data formats</strong></p>
+<p>- - - - - - - - - - - - - - - - - - - - -</p>
+<p>*****</p>
+<p>BODY | (keyword)</p>
+<p>Fuselage | body name string</p>
+<p>15 1.0 | Nbody Bspace</p>
+<p>The BODY keyword declares that a body is being defined until</p>
+<p>the next SURFACE or BODY keyword, or the end of file is reached.</p>
+<p>A body is modeled with a source+doublet line along its axis,</p>
+<p>in accordance with slender-body theory.</p>
+<p>Nbody = number of source-line nodes</p>
+<p>Bspace = lengthwise node spacing parameter (described later)</p>
+<p>*****</p>
+<p>YDUPLICATE | (keyword)</p>
+<p>0.0 | Ydupl</p>
+<p>Same function as for a surface, described earlier.</p>
+<p>*****</p>
+<p>SCALE | (keyword)</p>
+<p>1.0 1.0 0.8 | Xscale Yscale Zscale</p>
+<p>Same function as for a surface, described earlier.</p>
+<p>*****</p>
+<p>TRANSLATE | (keyword)</p>
+<p>10.0 0.0 0.5 | dX dY dZ</p>
+<p>Same function as for a surface, described earlier.</p>
+<p>*****</p>
+<p>BFILE | (keyword)</p>
+<p>filename | filename string</p>
+<p>This specifies the shape of the body as an “airfoil” file</p>
+<p>which gives the top or side view of the body, which is</p>
+<p>assumed to have a round cross-section. Hence, the diameter</p>
+<p>of the body is the difference between the top and bottom</p>
+<p>Y values. Bodies which are not round must be approximated</p>
+<p>with an equivalent round body which has roughly the same</p>
+<p>cross-sectional areas. If the path/filename has embedded blanks</p>
+<p>double quotes should be used to delimit the string.</p>
+<p>Vortex Lattice Spacing Distributions</p>
+<hr>
+<p>Discretization of the geometry into vortex lattice panels</p>
+<p>is controlled by the spacing parameters described earlier:</p>
+<p>Sspace, Cspace, Bspace</p>
+<p>These must fall in the range -3.0 … +3.0 , and they</p>
+<p>determine the spanwise and lengthwise horseshoe vortex</p>
+<p>or body line node distributions as follows:</p>
+<p>parameter spacing</p>
+<hr>
+<p>3.0 equal | | | | | | | | |</p>
+<p>2.0 sine || | | | | | | |</p>
+<p>1.0 cosine || | | | | | ||</p>
+<p>0.0 equal | | | | | | | | |</p>
+<p>-1.0 cosine || | | | | | ||</p>
+<p>-2.0 -sine | | | | | | | ||</p>
+<p>-3.0 equal | | | | | | | | |</p>
+<p>Sspace (spanwise) : first section ==&gt; last section</p>
+<p>Cspace (chordwise) : leading edge ==&gt; trailing edge</p>
+<p>Bspace (lengthwise): frontmost point ==&gt; rearmost point</p>
+<p>An intermediate parameter value will result in a blended distribution.</p>
+<p>The most efficient distribution (best accuracy for a given number of</p>
+<p>vortices) is usually the cosine (1.0) chordwise and spanwise. If the</p>
+<p>wing does not have a significant chord slope discontinuity at the</p>
+<p>centerline, such as a straight, elliptical, or slightly tapered wing,</p>
+<p>then the -sine (-2.0) distribution from root to tip will be more</p>
+<p>efficient. This is equivalent to a cosine distribution across the</p>
+<p>whole span. The basic rule is that a tight chordwise distribution</p>
+<p>is needed at the leading and trailing edges, and a tight spanwise</p>
+<p>distribution is needed wherever the circulation is changing rapidly,</p>
+<p>such as taper breaks, and especially at flap breaks and wingtips.</p>
+<p>A number of vortex-spacing rules must be followed to get good results</p>
+<p>from AVL, or any other vortex-lattice method:</p>
+<p>1) In a standard VL method, a trailing vortex leg must not pass</p>
+<p>close to a downstream control point, else the solution will be garbage.</p>
+<p>In practice, this means that surfaces which are lined up along</p>
+<p>the x direction (i.e. have the same or nearly the same y,z coordinates),</p>
+<p>MUST have the same spanwise vortex spacing. AVL relaxes this requirement</p>
+<p>by employing a finite core size for each vortex on a surface which is</p>
+<p>influencing a control point in another aurface (unless the two surfaces</p>
+<p>share the same COMPONENT declaration). This feature can be disabled</p>
+<p>by setting the core size to zero in the OPER sub-menu, Option</p>
+<p>sub-sub-menu, command C. This reverts AVL to the standard AVL method.</p>
+<p>2) Spanwise vortex spacings should be “smooth”, with no sudden</p>
+<p>changes in spanwise strip width. Adjust Nspan and Sspace parameters</p>
+<p>to get a smooth distribution. Spacing should be bunched at</p>
+<p>dihedral and chord breaks, control surface ends, and especially</p>
+<p>at wing tips. If a single spanwise spacing distribution is specified</p>
+<p>for a surface with multiple sections, the spanwise distribution</p>
+<p>will be fudged as needed to ensure that a point falls exactly</p>
+<p>on the section location. Increase the number of spanwise points</p>
+<p>if the spanwise spacing looks ragged because of this fudging.</p>
+<p>3) If a surface has a control surface on it, an adequate number</p>
+<p>of chordwise vortices Nchord should be used to resolve the</p>
+<p>discontinuity in the camberline angle at the hingeline. It is</p>
+<p>possible to define the control surface as a separate SURFACE</p>
+<p>entity. Cosine chordwise spacings then produce bunched points</p>
+<p>exactly at the hinge line, giving the best accuracy. The two</p>
+<p>surfaces must be given the same COMPONENT and the same spanwise point</p>
+<p>spacing for this to work properly. Such extreme measures are</p>
+<p>rarely necessary in practice, however. Using a single surface</p>
+<p>with extra chordwise spacing is usually sufficient.</p>
+<p>4) When attempting to increase accuracy by using more vortices,</p>
+<p>it is in general necessary to refine the vortex spacings in both</p>
+<p>the spanwise AND in the chordwise direction. Refining only</p>
+<p>along one direction may not converge to the correct result,</p>
+<p>especially locally wherever the bound vortex line makes a sudden bend,</p>
+<p>such as a dihedral break, or at the center of a swept wing.</p>
+<p>In some special configurations, such as an unswept planar wing,</p>
+<p>the chordwise spacing may not need to be refined at all to</p>
+<p>get good accuracy, but for most cases the chordwise spacing</p>
+<p>will be significant.</p>
+<h3 id="Mass-Input-File-—-xxx-mass"><a href="#Mass-Input-File-—-xxx-mass" class="headerlink" title="Mass Input File — xxx.mass"></a>Mass Input File — xxx.mass</h3><p>===========================</p>
+<p>This optional file describes the mass and inertia properties of the</p>
+<p>configuration. It also defines units to be used for run case setup.</p>
+<p>These units may want to be different than those used to define</p>
+<p>the geometry. Sample input xxx.mass files are in the /runs subdirectory.</p>
+<p>Coordinate system</p>
+<hr>
+<p>The geometry axes used in the xxx.mass file are exactly the same as those used</p>
+<p>in the xxx.avl file.</p>
+<p><strong>File format</strong></p>
+<hr>
+<p>A sample file for an RC glider is shown below. Comment lines begin with a “#”.</p>
+<p>Everything after and including a “!” is ignored. Blank lines are ignored.</p>
+<p># SuperGee</p>
+<p>#</p>
+<p># Dimensional unit and parameter data.</p>
+<p># Mass &amp; Inertia breakdown.</p>
+<p># Names and scalings for units to be used for trim and eigenmode calculations.</p>
+<p># The Lunit and Munit values scale the mass, xyz, and inertia table data below.</p>
+<p># Lunit value will also scale all lengths and areas in the AVL input file.</p>
+<p>Lunit = 0.0254 m</p>
+<p>Munit = 0.001 kg</p>
+<p>Tunit = 1.0 s</p>
+<p>#————————————-</p>
+<p># Gravity and density to be used as default values in trim setup (saves runtime typing).</p>
+<p># Must be in the unit names given above (i.e. m,kg,s).</p>
+<p>g = 9.81</p>
+<p>rho = 1.225</p>
+<p>#————————————-</p>
+<p># Mass &amp; Inertia breakdown.</p>
+<p># x y z is location of item’s own CG.</p>
+<p># Ixx… are item’s inertias about item’s own CG.</p>
+<p>#</p>
+<p># x,y,z system here must be exactly the same one used in the .avl input file</p>
+<p># (same orientation, same origin location, same length units)</p>
+<p>#</p>
+<p># mass x y z Ixx Iyy Izz [ Ixy Ixz Iyz ]</p>
+<p>* 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.</p>
+<p>+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.</p>
+<p>58.0 3.34 12.0 1.05 4400 180 4580 ! right wing</p>
+<p>58.0 3.34 -12.0 1.05 4400 180 4580 ! left wing</p>
+<p>16.0 -5.2 0.0 0.0 0 80 80 ! fuselage pod</p>
+<p>18.0 13.25 0.0 0.0 0 700 700 ! boom+rods</p>
+<p>22.0 -7.4 0.0 0.0 0 0 0 ! battery</p>
+<p>2.0 -2.5 0.0 0.0 0 0 0 ! jack</p>
+<p>9.0 -3.8 0.0 0.0 0 0 0 ! RX</p>
+<p>9.0 -5.1 0.0 0.0 0 0 0 ! rud servo</p>
+<p>6.0 -5.9 0.0 0.0 0 0 0 ! ele servo</p>
+<p>9.0 2.6 1.0 0.0 0 0 0 ! R wing servo</p>
+<p>9.0 2.6 -1.0 0.0 0 0 0 ! L wing servo</p>
+<p>2.0 1.0 0.0 0.5 0 0 0 ! wing connector</p>
+<p>1.0 3.0 0.0 0.0 0 0 0 ! wing pins</p>
+<p>6.0 29.0 0.0 1.0 70 2 72 ! stab</p>
+<p>6.0 33.0 0.0 2.0 35 39 4 ! rudder</p>
+<p>0.0 -8.3 0.0 0.0 0 0 0 ! nose wt.</p>
+<p>Units</p>
+<p>- - -</p>
+<p>The first three lines</p>
+<p>Lunit = 0.0254 m</p>
+<p>Munit = 0.001 kg</p>
+<p>Tunit = 1.0 s</p>
+<p>give the magnitudes and names of the units to be used for run case setup</p>
+<p>and possibly for eigenmode calculations. In this example, standard SI units</p>
+<p>(m,kg,s) are chosen. But the data in xxx.avl and xxx.mass is given in units</p>
+<p>of Lunit = 1 inch, which is therefore declared here to be equal to “0.0254 m”.</p>
+<p>If the data was given in centimeters, the statement would read</p>
+<p>Lunit = 0.01 m</p>
+<p>and if it was given directly in meters, it would read</p>
+<p>Lunit = 1.0 m</p>
+<p>Similarly, Munit used here in this file is the gram, but since the kilogram (kg)</p>
+<p>is to be used for run case calculations, the Munit declaration is</p>
+<p>Munit = 0.001 kg</p>
+<p>If the masses here were given in ounces, the declaration would be</p>
+<p>Munit = 0.02835 kg</p>
+<p>The third line gives the time unit name and magnitude.</p>
+<p>If any of the three unit lines is absent, that unit’s magnitude will</p>
+<p>be set to 1.0, and the unit name will simply remain as “Lunit”,</p>
+<p>“Munit”, or “Tunit”.</p>
+<p>Constants</p>
+<p>- - - - -</p>
+<p>The 4th and 5th lines give the default gravitational acceleration and</p>
+<p>air density, in the units given above. If these statements are absent,</p>
+<p>these constants default to 1.0, and will need to be changed manually at runtime.</p>
+<p>Mass, Position, and Inertia Data</p>
+<p>- - - - - - - - - - - - - - - - -</p>
+<p>A line which begins with a “*“ specifies multipliers to be applied</p>
+<p>to all subsequent data. If such a line is absent, these default to 1.</p>
+<p>A line which begins with a “+” specifies added constants to be applied</p>
+<p>to all subsequent data. If such a line is absent, these default to 0.</p>
+<p>Lines whith only numbers are interpreted as mass, position, and inertia data.</p>
+<p>Each such line contains values for</p>
+<p>mass x y z Ixx Iyy Izz Ixz</p>
+<p>as described in the file comments above. Note that the inertias are</p>
+<p>taken about that item’s own mass centroid given by x,y,z. The finer</p>
+<p>the mass breakdown, the less important these self-inertias become.</p>
+<p>Additional multiplier or adder lines can be put anywhere in the data lines,</p>
+<p>and these then re-define these mulipliers and adders for all subsequent lines.</p>
+<p>For example:</p>
+<p># mass x y z Ixx Iyy Izz Ixz</p>
+<p>* 1.2 1. 1. 1. 1. 1. 1. 1.</p>
+<p>+ 0. 0.2 0. 0. 0. 0. 0. 0.</p>
+<p>58.0 3.34 12.0 1.05 4400 180 4580 0. ! right wing</p>
+<p>58.0 3.34 -12.0 1.05 4400 180 4580 0. ! left wing</p>
+<p>* 1. 1. 1. 1. 1. 1. 1. 1.</p>
+<p>+ 0. 0. 0. 0. 0. 0. 0. 0.</p>
+<p>16.0 -5.2 0.0 0.0 0 80 80 0. ! fuselage pod</p>
+<p>18.0 13.25 0.0 0.0 0 700 700 0. ! boom+rods</p>
+<p>22.0 -7.4 0.0 0.0 0 0 0 0. ! battery</p>
+<p>Data lines 1-2 have all their masses scaled up by 1.2, and their locations</p>
+<p>shifted by delta(x) = 0.2. Data lines 3-5 revert back to the defaults.</p>
+<h3 id="Run-Case-Save-File-—-xxx-run"><a href="#Run-Case-Save-File-—-xxx-run" class="headerlink" title="Run-Case Save File — xxx.run"></a>Run-Case Save File — xxx.run</h3><p>=============================</p>
+<p>This file is generated by AVL itself. It can be edited with a text editor,</p>
+<p>although this is not really necessary. The parameter values in the file</p>
+<p>can be changed using AVL’s menus, and the file can then be written again.</p>
+<p>Manipulating and using the contents of the run file will be described later.</p>
+<h3 id="Program-Execution"><a href="#Program-Execution" class="headerlink" title="Program Execution"></a>Program Execution</h3><p>=================</p>
+<p>AVL is executed with the “xxx” descriptor as an argument:</p>
+<p>% avl xxx</p>
+<p>If the three filenames do not obey the recommended xxx.avl xxx.run xxx.mass</p>
+<p>syntax, the full filenames can be given explicitly:</p>
+<p>% avl avl_file run_file mass_file</p>
+<p>As the data files are read and processed, a considerable</p>
+<p>data dump is displayed. If any file has a bad format,</p>
+<p>the offending data line is displayed, and AVL will stop</p>
+<p>if the error is fatal.</p>
+<p>After the files are processed, the user is put into</p>
+<p>the main AVL menu:</p>
+<p>==========================================================</p>
+<p>Quit Exit program</p>
+<p>.OPER Compute operating-point run cases</p>
+<p>.MODE Eigenvalue analysis of run cases</p>
+<p>LOAD f Read configuration input file</p>
+<p>MASS f Read mass distribution file</p>
+<p>CASE f Read run case file</p>
+<p>CINI Clear and initialize run cases</p>
+<p>MSET i Apply mass file data to stored run case(s)</p>
+<p>.PLOP Plotting options</p>
+<p>NAME s Specify new configuration name</p>
+<p>AVL c&gt;</p>
+<p>The uppercase words in the menu are commands. They will</p>
+<p>also be shown in uppercase in the examples below, but</p>
+<p>they are not case sensitive when typed.</p>
+<p>OPER Routine — Flow Analysis</p>
+<p>=============================</p>
+<p>The OPER command will then bring up the main operating menu:</p>
+<p>Operation of run case 1/7: 0 deg. bank</p>
+<p>==========================================================</p>
+<p>variable constraint</p>
+<hr>
+<p>A lpha -&gt; CL = 0.7000</p>
+<p>B eta -&gt; Cl roll mom = 0.000</p>
+<p>R oll rate -&gt; pb/2V = 0.000</p>
+<p>P itch rate -&gt; qc/2V = 0.000</p>
+<p>Y aw rate -&gt; rb/2V = 0.000</p>
+<p>D1 elevator -&gt; Cm pitchmom = 0.000</p>
+<p>D2 rudder -&gt; Cn yaw mom = 0.000</p>
+<hr>
+<p>C1 set level or banked horizontal flight constraints</p>
+<p>C2 set steady pitch rate (looping) flight constraints</p>
+<p>M odify parameters</p>
+<p>“#” select run case L ist defined run cases</p>
+<p>+ add new run case S ave run cases to file</p>
+<p>- delete run case F etch run cases from file</p>
+<p>N ame current run case W rite forces to file</p>
+<p>eX ecute run case I nitialize variables</p>
+<p>G eometry plot T refftz Plane plot</p>
+<p>ST stability derivatives FT total forces</p>
+<p>SB body-axis derivatives FN surface forces</p>
+<p>RE reference quantities FS strip forces</p>
+<p>DE design changes FE element forces</p>
+<p>O ptions FB body forces</p>
+<p>HM hinge moments</p>
+<p>VM strip shear,moment</p>
+<p>.OPER (case 1/7) c&gt;</p>
+<p>Geometry Plotting</p>
+<p>- - - - - - - - -</p>
+<p>Before a first flow solution is attempted, the geometry</p>
+<p>should be examined in the geometry plot sub-menu, entered</p>
+<p>with the G command:</p>
+<p>G</p>
+<p>=========================================</p>
+<p>K eystroke mode V iewpoint</p>
+<p>A nnotate plot O ptions</p>
+<p>H ardcopy plot S elect surfaces</p>
+<p>Z oom U nzoom</p>
+<p>CH ordline T CA amber F</p>
+<p>CN tlpoint F TR ailing legs F</p>
+<p>BO ound leg T NO rmal vector F</p>
+<p>LO ading F AX es, xyz ref. T</p>
+<p>Geometry plot command:</p>
+<p>The eight bottom commands followed by T or F are toggles,</p>
+<p>which enable/disable plotting of various stuff of interest.</p>
+<p>The loading vector plotting controlled by the LO toggle</p>
+<p>requires that a converged flow solution is available.</p>
+<p>The K command enters a sub-sub menu which allows interactive rotation</p>
+<p>of the aircraft to a suitable viewing angle, zooming, distortion for</p>
+<p>perspective, etc.</p>
+<hr>
+<p>Type keys in graphics window…</p>
+<p>L eft R ight (Azimuth )</p>
+<p>U p D own (Elevation)</p>
+<p>C lear</p>
+<p>Z oom on curs. N ormal size</p>
+<p>I ngress O utgress</p>
+<p>H ardcopy A nnotate plot</p>
+<p>…\<space> to exit</p>
+<hr>
+<p>These commands must be typed with the cursor in the graphics window,</p>
+<p>and their action is performed immediately. All other menus work in</p>
+<p>the usual text window.</p>
+<p>Calculation Setup</p>
+<p>- - - - - - - - -</p>
+<p>A flow calculation involves a number of _operating variables_ which</p>
+<p>are additional unknowns determined as part of the calculation.</p>
+<p>The left column in the top block of the OPER menu lists the available</p>
+<p>operating variables (alpha, beta, … rudder):</p>
+<p>==========================================================</p>
+<p>variable constraint</p>
+<hr>
+<p>A lpha -&gt; alpha = 3.000</p>
+<p>B eta -&gt; beta = 0.000</p>
+<p>R oll rate -&gt; pb/2V = 0.000</p>
+<p>P itch rate -&gt; qc/2V = 0.000</p>
+<p>Y aw rate -&gt; rb/2V = 0.000</p>
+<p>D1 elevator -&gt; elevator = 0.000</p>
+<p>D2 rudder -&gt; rudder = 0.000</p>
+<hr>
+<p>and the right column gives the constraint for each variable.</p>
+<p>The default constraints are simple direct constraints as shown above.</p>
+<p>Variables can also be constrained indirectly. For example,</p>
+<p>typing the alpha command “A” produces the list of available</p>
+<p>constraints for selection:</p>
+<p>Select command c&gt; a</p>
+<p>constraint value</p>
+<p>- - - - - - - - - - - - - - - - -</p>
+<p>-&gt; A alpha = 3.000</p>
+<p>B beta = 0.000</p>
+<p>R pb/2V = 0.000</p>
+<p>P qc/2V = 0.000</p>
+<p>Y rb/2V = 0.000</p>
+<p>C CL = 0.000</p>
+<p>S CY = 0.000</p>
+<p>RM Cl roll mom = 0.000</p>
+<p>PM Cm pitchmom = 0.000</p>
+<p>YM Cn yaw mom = 0.000</p>
+<p>D1 elevator = 0.000</p>
+<p>D2 rudder = 0.000</p>
+<p>Select new constraint,value for alpha c&gt;</p>
+<p>The arrow indicates the current constraint. A new constraint</p>
+<p>and value can be specified. Typing</p>
+<p>C 0.7</p>
+<p>at the above prompt will make alpha be implicitly constrained</p>
+<p>by the condition CL = 0.7, as now indicated by the new main menu:</p>
+<p>=========================================</p>
+<p>variable constraint</p>
+<hr>
+<p>A lpha -&gt; CL = 0.7000</p>
+<p>B eta -&gt; beta = 0.000</p>
+<p>R oll rate -&gt; pb/2V = 0.000</p>
+<p>P itch rate -&gt; qc/2V = 0.000</p>
+<p>Y aw rate -&gt; rb/2V = 0.000</p>
+<p>D1 elevator -&gt; elevator = 0.000</p>
+<p>D2 rudder -&gt; rudder = 0.000</p>
+<hr>
+<p>.</p>
+<p>.</p>
+<p>A constraint can be used no more than once.</p>
+<p>For convenience, a variable, its constraint, and the constraint value</p>
+<p>can all be specified on one line at the OPER prompt. For example…</p>
+<p>D1 PM 0</p>
+<p>D2 YM 0</p>
+<p>sets the constraint on d1 (elevator) to be zero pitching moment,</p>
+<p>and the constraint on d2 (rudder) to be zero yawing moment.</p>
+<p>Normally, aileron is constrained by a zero rolling moment.</p>
+<p>For a rudder/elevator aircraft, as implied by the above menu</p>
+<p>without aileron, a nonzero sideslip is determined by the</p>
+<p>zero rolling moment constraint:</p>
+<p>B RM 0</p>
+<p>This will be well-posed only if the aircraft’s roll moment</p>
+<p>is sufficiently dependent on the sideslip angle (i.e. if it has</p>
+<p>sufficient dihedral effect).</p>
+<p>Flow Solution</p>
+<p>- - - - - - -</p>
+<p>Once all the appropriate constraints are set up, the solution</p>
+<p>is executed with the X command. If the variable/constraint</p>
+<p>system is ill-posed, the solution will probably not converge.</p>
+<p>Output</p>
+<p>- - - -</p>
+<p>Everytime a calculation is executed, the integrated forces are displayed</p>
+<p>for the entire configuration. Forces for the individual surfaces,</p>
+<p>strips, or vortex elements can be dsplayed with the FN, FS, FE commands.</p>
+<p>The element force printout is rather voluminous and often not very</p>
+<p>informative. Forces on bodies can be displayed using the FB command.</p>
+<p>The force and moment directions are in stability axes x,y,z, which</p>
+<p>are tilted up by the angle alpha from the body axes X,Y,Z:</p>
+<p>| x | | cos(a) sin(a)| | X |</p>
+<p>| y | = | 1 | | Y |</p>
+<p>| z | |-sin(a) cos(a)| | Z |</p>
+<p>The following standard normalizations are used, with Q = 0.5 rho V^2 …</p>
+<p>CD = F_x / (Q Sref) drag</p>
+<p>CY = F_y / (Q Sref) side force</p>
+<p>CL = F_z / (Q Sref) lift</p>
+<p>Cl = M_x / (Q Sref Bref) roll moment</p>
+<p>Cm = M_y / (Q Sref Cref) pitch moment</p>
+<p>Cn = M_z / (Q Sref Bref) yaw moment</p>
+<p>The CD,CY,CL forces are positive in the direction of the x,y,z axes,</p>
+<p>respectively. The moments can be defined in four possible ways:</p>
+<p>Body axes Stability axes</p>
+<hr>
+<p>Geometric| X Y Z x y z</p>
+<p>|</p>
+<p>Standard | -X Y -Z -x y -z</p>
+<p>Rates | p q r p’ q’ r’</p>
+<p>Moments | Cl Cm Cn Cl’ Cm’ Cn’</p>
+<p>with the rates and moments positive by righthand rule about</p>
+<p>the indicated axes.</p>
+<p>The roll, pitch, and yaw rates (p,q,r) input from the operating</p>
+<p>menu are defined in either the body axes or the stability axes,</p>
+<p>depending on which is chosen in the Options sub-menu.</p>
+<p>It must be pointed out that if sideslip (beta) is nonzero, then</p>
+<p>CD and CY are not the true “drag” and “side-force” aligned with</p>
+<p>the relative wind direction. Likewise for moments Cl and Cm.</p>
+<p>The wind-axes directions are given by</p>
+<p>| x | | cos(b) sin(b) | | x |</p>
+<p>| y | = |-sin(b) cos(b) | | y |</p>
+<p>| z |_wind | 1 | | z |</p>
+<p>| cos(b)cos(a) sin(b) cos(b)sin(a)| | X |</p>
+<p>= |-sin(b)cos(a) cos(b) -sin(b)sin(a)| | Y |</p>
+<p>| -sin(a) 0 cos(a)| | Z |</p>
+<p>hence</p>
+<p>CD_wind = CD cos(b) + CY sin(b)</p>
+<p>CY_wind = CY cos(b) - CD sin(b)</p>
+<p>CL_wind = CL</p>
+<p>Cl_wind = Cl cos(b) + Cm sin(b)</p>
+<p>Cm_wind = Cm cos(b) - Cl sin(b)</p>
+<p>Cn_wind = Cn</p>
+<p>AVL does not display these wind-axes forces since they are not</p>
+<p>relevant to stability and control calculations, and differ from the</p>
+<p>stability-axes forces only if a steady-state sideslip is present,</p>
+<p>such as perhaps in a steady turn. The primary quantity of interest</p>
+<p>here is the overall L/D = CL_wind/CD_wind = CL/CD_wind, and CD_wind</p>
+<p>is more accurately obtained from the Trefftz-Plane anyway.</p>
+<p>The alternative Trefftz-Plane drag coefficient CDi is calculated</p>
+<p>from the wake trace in the Y-Z plane far downstream. This is</p>
+<p>generally more reliable than the CD obtained from surface force</p>
+<p>integration, and is the appropriate wind-axes induced drag for</p>
+<p>performance prediction.</p>
+<p>The span efficiency is defined as</p>
+<p>2 2 2</p>
+<p>e = (CL + CY ) / (pi A CDi) ; A = Bref / Sref</p>
+<p>with Sref being replaced by 2 Sref for Y-image cases (iYsym = 1).</p>
+<p>Stability derivatives</p>
+<hr>
+<p>Command ST generates the stability derivative matrix for the</p>
+<p>current conditions. Derivatives with respect to control</p>
+<p>variables and design parameters are also displayed if</p>
+<p>they are available.</p>
+<p>Command SB generates the stability derivative matrix</p>
+<p>in the body axes (AVL’s X,Y,Z coordinates).</p>
+<p>Flow Results Plotting</p>
+<hr>
+<p>The T command starts up the Trefftz Plane plot menu:</p>
+<p>======================================================</p>
+<p>Y plot data vs Y</p>
+<p>Z plot data vs Z</p>
+<p>P erpendicular cl plot toggle (currently T)</p>
+<p>D ownwash angle plot toggle (currently T)</p>
+<p>L imits for plot</p>
+<p>R eset plot limits</p>
+<p>N umber surfaces toggle (currently F)</p>
+<p>C olor hardcopy toggle (currently F)</p>
+<p>A nnotate plot</p>
+<p>H ardcopy current plot</p>
+<p>ZM zoom</p>
+<p>U nzoom</p>
+<p>S ize change</p>
+<p>Trefftz plot command:</p>
+<p>Most of these plot options are self-explanatory.</p>
+<p>The definitions of cl and perpendicular-cl (clT) are as follows:</p>
+<p>cl = 2 L’ / (rho V^2 c) ~ 2 Gamma / (V c)</p>
+<p>clT = 2 L’ / (rho VT^2 c) ~ 2 Gamma / (VT c)</p>
+<p>where</p>
+<p>L’ = Sum_chord [ rho Gamma V x l ]</p>
+<p>V = freestream speed</p>
+<p>VT = V cos(sweep)</p>
+<p>and “sweep” is the local sweep angle of the surface’s quarter-chord line.</p>
+<p>This quarter-chord line choice can be set to any other chordwise position</p>
+<p>by the SAXFR variable in avl.f (currently set at 0.25). Both cl and clT</p>
+<p>are displayed on the Trefftz-Plane plot, but for a strongly 3D geometry</p>
+<p>they must be interpreted with care.</p>
+<p>In the Trefftz plane context, only the lift/span loading L’, or equivalently</p>
+<p>cl c/Cref = 2 Gamma / (V Cref)</p>
+<p>cl c/Cref = 2 L’ / (rho V^2 Cref)</p>
+<p>is what matters for the overall lift and induced drag. The local cl</p>
+<p>merely indicates the intensity of the chordwise loading in the</p>
+<p>streamwise direction. But since boundary layer development doesn’t</p>
+<p>depend only on the streamwise pressure gradients, this cl may or may not</p>
+<p>be a good indicator of local stall.</p>
+<p>For high aspect ratio swept wings, the surface boundary layer development</p>
+<p>depends only on the airfoil shape and the velocities projected onto the plane</p>
+<p>perpendicular to the spanwise axis (the thinner “streamwise” airfoil shapes</p>
+<p>and streamwise pressure gradients are not significant in this case).</p>
+<p>The stall margin is then described by the local clT, which is referenced</p>
+<p>to the local wing-perpendicular dynamic pressure.</p>
+<p>So to summarize the relevance of cl and clT:</p>
+<p>* High-AR unswept surface:</p>
+<p>-&gt; cl, clT are the same, with the conventional 2D section interpretation.</p>
+<p>* High-AR swept surface:</p>
+<p>-&gt; clT is the correct stall indicator, provided spanwise gradients are small.</p>
+<p>* Strongly 3D geometry, with rapidly varying chord and/or sweep:</p>
+<p>-&gt; cl is probably a better indicator of stall. clT is probably meaningless.</p>
+<p>Trimmed Flight Condition Setup</p>
+<hr>
+<p>The C1 command in the OPER menu enters the setup routine for level or banked</p>
+<p>trimmed horizontal flight. This simply provides a convenient way to set up</p>
+<p>the required constraints for OPER without laborious manual calculations.</p>
+<p>An aircraft mass and air properties are required. These can be provided by</p>
+<p>a mass file which is read in during program startup, or from the main AVL menu.</p>
+<p>If a mass file was not read in, the necessary information can be input manually</p>
+<p>here in the C1 sub-menu.</p>
+<p>The C1 routine works with the following variables and trim equations:</p>
+<p>phi (arbitrary bank angle, positive to right)</p>
+<p>CL (arbitrary CL, whatever is being specified)</p>
+<p>m (mass)</p>
+<p>g (gravity acceleration)</p>
+<p>rho (air density)</p>
+<p>S (reference area, given in input file as SREF)</p>
+<p>V = sqrt(2 m g / rho S CL cos(phi)) (airspeed)</p>
+<p>R = V^2 / g tan(phi) (turn radius, positive for right turn)</p>
+<p>W = V / R (turn rate, positive for right turn)</p>
+<p>p = 0 (roll rate, zero for steady turn)</p>
+<p>q = W sin(phi) (pitch rate, positive nose upward)</p>
+<p>r = W cos(phi) (yaw rate, positive for right turn)</p>
+<p>These equations are evaluated if possible (if the parameters are available),</p>
+<p>and the following display/modification menu is then entered:</p>
+<p>Setup of trimmed run case 1/7: 0 deg. bank</p>
+<p>(level or banked horizontal flight)</p>
+<p>=================================================</p>
+<p>B bank angle = 0.000 deg</p>
+<p>C CL = 0.7000</p>
+<p>V velocity = 5.648 m/s</p>
+<p>M mass = 0.9195 kg</p>
+<p>D air dens. = 1.225 kg/m^3</p>
+<p>G grav.acc. = 9.810 m/s^2</p>
+<p>turn rad. = 0.000 m</p>
+<p>load fac. = 1.000</p>
+<p>X X_cg = 3.400 Lunit</p>
+<p>Y Y_cg = 0.000 Lunit</p>
+<p>Z Z_cg = 0.5000 Lunit</p>
+<p>Enter parameter, value (or # - + N ) c&gt;</p>
+<p>A parameter can be changed by giving its command and value. For example, typing</p>
+<p>B 20</p>
+<p>changes the bank angle to 20 degrees. The equations are then immediately</p>
+<p>re-evaluated with this new parameter, and the menu is displayed again with</p>
+<p>the new resulting flight variables:</p>
+<p>Setup of trimmed run case 1/7: 0 deg. bank</p>
+<p>(level or banked horizontal flight)</p>
+<p>=================================================</p>
+<p>B bank angle = 20.00 deg</p>
+<p>C CL = 0.7000</p>
+<p>V velocity = 5.891 m/s</p>
+<p>M mass = 0.9195 kg</p>
+<p>D air dens. = 1.225 kg/m^3</p>
+<p>G grav.acc. = 9.810 m/s^2</p>
+<p>turn rad. = 9.719 m</p>
+<p>load fac. = 1.064</p>
+<p>X X_cg = 3.400 Lunit</p>
+<p>Y Y_cg = 0.000 Lunit</p>
+<p>Z Z_cg = 0.5000 Lunit</p>
+<p>Enter parameter, value (or # - + N ) c&gt;</p>
+<p>Note that the velocity, turn radius, and load factor have all been recomputed</p>
+<p>to match the new specified bank angle and the current CL. In general, any</p>
+<p>parameter with a command key in the menu can be changed, and the others</p>
+<p>will be recomputed to match.</p>
+<p>The X_cg, Y_cg, Z_cg parameters do not enter directly into the trim calculations here,</p>
+<p>but they are used to set Xref, Yref, Zref when the VL calculation is finally executed.</p>
+<p>Hence they will affect the control deflections needed to enforce trim.</p>
+<p>Special commands</p>
+<p>- - - - - - - - -</p>
+<p>The special commands (# - + N) have exactly the same action as in the OPER menu.</p>
+<p>The “N” command can be used to change the case name. For example:</p>
+<p>N 20 deg. bank</p>
+<p>A different case can be brought up just by typing its index. For example,</p>
+<p>5</p>
+<p>shows the parameters for case 5:</p>
+<p>Setup of trimmed run case 5/7: 40 deg. bank</p>
+<p>(level or banked horizontal flight)</p>
+<p>=================================================</p>
+<p>B bank angle = 40.00 deg</p>
+<p>C CL = 0.7000</p>
+<p>V velocity = 6.453 m/s</p>
+<p>M mass = 0.9195 kg</p>
+<p>D air dens. = 1.225 kg/m^3</p>
+<p>G grav.acc. = 9.810 m/s^2</p>
+<p>turn rad. = 5.059 m</p>
+<p>load fac. = 1.305</p>
+<p>X X_cg = 3.400 Lunit</p>
+<p>Y Y_cg = 0.000 Lunit</p>
+<p>Z Z_cg = 0.5000 Lunit</p>
+<p>Enter parameter, value (or # - + N ) c&gt;</p>
+<p>The current case can be deleted with the “-“ command.</p>
+<p>A new case can be created with the “+” command.</p>
+<p>Multiple-case commands</p>
+<p>- - - - - - - - - - - -</p>
+<p>Frequently, it is desirable to set a parameter to one value for all run cases,</p>
+<p>such as the air density, for example. Rather than repetitively switching</p>
+<p>to each run case and setting its density, e.g.</p>
+<p>1</p>
+<p>D 0.8</p>
+<p>2</p>
+<p>D 0.8</p>
+<p>3</p>
+<p>D 0.8</p>
+<p>.</p>
+<p>.</p>
+<p>one can set the value for ALL the run cases by typing the parameter command twice:</p>
+<p>DD 0.8</p>
+<p>This works for all parameters in the menu, and can save considerable typing.</p>
+<p>Moment trim setup</p>
+<p>- - - - - - - - -</p>
+<p>Once the C1 trim menu is exited by just typing “Enter”, it may</p>
+<p>still be necessary to set up zero-moment constraints for the</p>
+<p>various control deflections. The C1 menu cannot do this for the user,</p>
+<p>since it has no way of knowing what each control variable does.</p>
+<p>Execution</p>
+<p>- - - - -</p>
+<p>Execution after the C1 trim setup is performed with the X command as usual.</p>
+<p>It is easy to compute each run case that is set up simply by typing its</p>
+<p>integer index, followed by X. For example,</p>
+<p>1</p>
+<p>X</p>
+<p>2</p>
+<p>X</p>
+<p>.</p>
+<p>.</p>
+<p>Any one computed run case can of course be examined via the listings or plotting.</p>
+<p>An alternative to converging each run case separately, one can</p>
+<p>issue the XX command, which will converge ALL the run cases.</p>
+<p>It is a good idea to converge all the cases before saving the</p>
+<p>run case file with the S command, so that all the parameters</p>
+<p>in the xxx.run file have their converged values.</p>
+<p>Looping-Flight Condition Setup</p>
+<hr>
+<p>The C2 command in the OPER menu allows a convenient way</p>
+<p>to set up constraints required to achieve a specified</p>
+<p>looping flight. The necessary AVL parameters are computed</p>
+<p>using the following variables and equations:</p>
+<p>CL (arbitrary CL, whatever is being specified)</p>
+<p>m (mass)</p>
+<p>g (gravity acceleration)</p>
+<p>rho (air density)</p>
+<p>R (turn radius)</p>
+<p>N (load factor)</p>
+<p>S (reference area, given in input file as SREF)</p>
+<p>R = 2 m / ( rho S CL )</p>
+<p>N = 0.5 rho V^2 S CL / (m g)</p>
+<p>p = 0 (roll rate)</p>
+<p>q = V/R (pitch rate)</p>
+<p>r = 0 (yaw rate)</p>
+<p>These equations are evaluated if possible (if the parameters are available),</p>
+<p>and the following display/modification menu is then entered:</p>
+<p>Setup of trimmed run case 1/7: looping flight</p>
+<p>(steady pitch rate - looping flight)</p>
+<p>=================================================</p>
+<p>C CL = 0.7000</p>
+<p>V velocity = 5.648 m/s</p>
+<p>M mass = 0.9195 kg</p>
+<p>D air dens. = 1.225 kg/m^3</p>
+<p>G grav.acc. = 9.810 m/s^2</p>
+<p>R turn rad. = 3.324 m</p>
+<p>L load fac. = 1.000</p>
+<p>X X_cg = 3.400 Lunit</p>
+<p>Y Y_cg = 0.000 Lunit</p>
+<p>Z Z_cg = 0.5000 Lunit</p>
+<p>Enter parameter, value (or # - + N ) c&gt;</p>
+<p>The procedure here is the same as with the C1 menu. Any parameter</p>
+<p>can be specified, and the remaining ones are computed to match.</p>
+<p>The case is then executed in the OPER menu with the X command.</p>
+<p>Parameter Modification Menu</p>
+<hr>
+<p>The M command enters the general parameter modification sub-menu:</p>
+<p>Parameters of run case 1/7: 0 deg. bank</p>
+<p>B bank = 0.000 deg</p>
+<p>E elevation = 0.000 deg</p>
+<p>MA Mach no. = 0.000</p>
+<p>V velocity = 5.648 m/s</p>
+<p>D air dens. = 1.225 kg/m^3</p>
+<p>G grav.acc. = 9.810 m/s^2</p>
+<p>M mass = 0.9195 kg</p>
+<p>IX Ixx = 0.2052 kg-m^2</p>
+<p>IY Iyy = 0.7758E-01 kg-m^2</p>
+<p>IZ Izz = 0.2790 kg-m^2</p>
+<p>X X_cg = 3.400 Lunit</p>
+<p>Y Y_cg = 0.000 Lunit</p>
+<p>Z Z_cg = 0.5000 Lunit</p>
+<p>CD CDo = 0.1700E-01</p>
+<p>LA dCL_a = 0.000</p>
+<p>LU dCL_u = 0.000</p>
+<p>MA dCM_a = 0.000</p>
+<p>MU dCM_u = 0.000</p>
+<p>Enter parameter, value (or # - + N ) c&gt;</p>
+<p>This is in effect a “dumb” version of the C1 and C2 sub-menus.</p>
+<p>It simply accepts new parameter values without trying to apply</p>
+<p>any trim equations. Only a few of these parameters, such as</p>
+<p>Mach and XYZ_cg will affect OPER’s solution calculation.</p>
+<p>The remaining parameters are used for eigenmode calculations</p>
+<p>described next.</p>
+<p>Run Case File Contents</p>
+<hr>
+<p>A run case file can be listed to show its contents.</p>
+<p>One case block in the file is shown below:</p>
+<hr>
+<p>Run case 1: VIAS=220 mph</p>
+<p>alpha -&gt; alpha = 4.00000</p>
+<p>beta -&gt; beta = 0.00000</p>
+<p>pb/2V -&gt; pb/2V = 0.00000</p>
+<p>qc/2V -&gt; qc/2V = 0.00000</p>
+<p>rb/2V -&gt; rb/2V = 0.00000</p>
+<p>flap -&gt; flap = 0.00000</p>
+<p>aileron -&gt; Cl roll mom = 0.00000</p>
+<p>elevator -&gt; Cm pitchmom = 0.00000</p>
+<p>rudder -&gt; Cn yaw mom = 0.00000</p>
+<p>alpha = 2.31230 deg</p>
+<p>beta = 0.00000 deg</p>
+<p>pb/2V = 0.00000</p>
+<p>qc/2V = -0.361446E-15</p>
+<p>rb/2V = 0.00000</p>
+<p>CL = 0.312309</p>
+<p>CDo = 0.420000E-01</p>
+<p>bank = 0.00000 deg</p>
+<p>elevation = 0.00000 deg</p>
+<p>heading = 0.00000 deg</p>
+<p>Mach = 0.00000</p>
+<p>velocity = 312.000 ft/s</p>
+<p>density = 0.176000E-02 slug/ft^3</p>
+<p>grav.acc. = 32.0000 ft/s^2</p>
+<p>turn_rad. = 0.00000 ft</p>
+<p>load_fac. = 1.00000</p>
+<p>X_cg = 2.42374</p>
+<p>Y_cg = 0.00000</p>
+<p>Z_cg = -0.103875</p>
+<p>mass = 800.000 slug</p>
+<p>Ixx = 121787. slug-ft^2</p>
+<p>Iyy = 59146.4 slug-ft^2</p>
+<p>Izz = 173515. slug-ft^2</p>
+<p>Ixy = -0.113010E-03 slug-ft^2</p>
+<p>Iyz = 0.00000 slug-ft^2</p>
+<p>Izx = 1621.01 slug-ft^2</p>
+<p>visc CL_a = 0.00000</p>
+<p>visc CL_u = 0.00000</p>
+<p>visc CM_a = 0.00000</p>
+<p>visc CM_u = 0.00000</p>
+<p>The upper sub-block specifies the constraint associated with each</p>
+<p>operating parameter, and is exactly what appears at the top of the</p>
+<p>OPER menu.</p>
+<p>The lower sub-block simply lists all the current parameter values.</p>
+<p>If this run case was not converged before the run case file was written,</p>
+<p>the operating parameter values may not correspond to the specified</p>
+<p>constraints. For example, the top constraint</p>
+<p>alpha -&gt; alpha = 4.00000</p>
+<p>indicates that alpha is to be driven to 4.0 degrees, so the alpha value line</p>
+<p>alpha = 2.31230 deg</p>
+<p>is not “up to date”. The CL value line</p>
+<p>CL = 0.312309</p>
+<p>is therefore probably not up to date either. Such “stale” parameter</p>
+<p>values may or may not be of consequence. A stale alpha or CL value</p>
+<p>doesn’t matter, since the run case will always be converged before</p>
+<p>it is used for plotting, listing output, or eigenmode analysis.</p>
+<p>In any case, issuing the XX command in OPER before saving the</p>
+<p>run case file will ensure that alpha and CL are up to date.</p>
+<p>The dimensional parameter values related to the aircraft mass, e.g.</p>
+<p>density = 1.22500 kg/m^3</p>
+<p>grav.acc. = 9.81000 m/s^2</p>
+<p>X_cg = 2.95775</p>
+<p>Y_cg = 0.00000</p>
+<p>Z_cg = 0.609524</p>
+<p>mass = 0.231000 kg</p>
+<p>Ixx = 0.165803E-01 kg-m^2</p>
+<p>Iyy = 0.113692E-01 kg-m^2</p>
+<p>Izz = 0.278108E-01 kg-m^2</p>
+<p>Ixy = 0.304560E-10 kg-m^2</p>
+<p>Iyz = -0.135360E-10 kg-m^2</p>
+<p>Izx = -0.362168E-03 kg-m^2</p>
+<p>may also be “stale” if the mass file which was used to create this data</p>
+<p>has since been modified. The stale data can be changed to reflect the</p>
+<p>new mass file using the MSET command at top level.</p>
+<p>Finally, the velocity, turn radius, and load factor data,</p>
+<p>velocity = 5.42671 m/s</p>
+<p>turn_rad. = 0.00000 m</p>
+<p>load_fac. = 1.00000</p>
+<p>which depends on the mass file as well as the CL, will probably</p>
+<p>need to be updated is the mass file is changed. This can be</p>
+<p>done manually, or by using the C1 or C2 trim menus of OPER.</p>
+<p>MODE Routine — Eigenmode Analysis</p>
+<p>==================================</p>
+<p>AVL has the capability to perform eigenmode analysis and display</p>
+<p>the results in a number of ways. Meaningful use of this facility</p>
+<p>requires that a realistic configuration is defined, along with</p>
+<p>realistic mass, inertia, and CG data. The mass, inertia, and CG</p>
+<p>data can be input directly (in OPER’s C1,C2, or M submenus),</p>
+<p>or obtained from a xxx.mass file.</p>
+<p>One or more trimmed run cases must also be first set up and checked</p>
+<p>for correctness in the OPER menu. These cases can be saved to the</p>
+<p>xxx.run file from OPER, which is then read in later during AVL startup.</p>
+<p>Any other run case file can be read in later using the CASE command</p>
+<p>from the main menu.</p>
+<p>Typing MODE from the main AVL menu brings up the MODE menu,</p>
+<p>preceded by the currently-defined run cases, if any.</p>
+<p>Run-case parameters for eigenmode analyses …</p>
+<p>run alpha beta CL CDo bank velocity density X_cg mass</p>
+<p>deg deg deg m/s kg/m^3 kg</p>
+<p>1 2.69 0.00 0.700 0.170E-01 0.00 5.65 1.23 3.40 0.920</p>
+<p>2 2.69 0.00 0.700 0.170E-01 10.0 5.69 1.23 3.40 0.920</p>
+<p>> 3 2.69 0.00 0.700 0.170E-01 20.0 5.83 1.23 3.40 0.920</p>
+<p>4 2.69 0.00 0.700 0.170E-01 30.0 6.07 1.23 3.40 0.920</p>
+<p>5 2.69 0.00 0.700 0.170E-01 40.0 6.45 1.23 3.40 0.920</p>
+<p>6 2.69 0.00 0.700 0.170E-01 50.0 7.04 1.23 3.40 0.920</p>
+<p>7 2.69 0.00 0.700 0.170E-01 60.0 7.99 1.23 3.40 0.920</p>
+<p>==========================================================</p>
+<p>“#” select run case for eigenmode analysis (0 = all)</p>
+<p>M odify parameters</p>
+<p>N ew eigenmode calculation</p>
+<p>P lot root locus</p>
+<p>B lowup window</p>
+<p>R eset to normal size</p>
+<p>eX amine selected eigenmode</p>
+<p>A nnotate current plot</p>
+<p>H ardcopy current plot</p>
+<p>S ystem matrix output</p>
+<p>W rite eigenvalues to file</p>
+<p>D ata file overlay toggle</p>
+<p>Z oom</p>
+<p>U nzoom</p>
+<p>.MODE c&gt;</p>
+<p>The run cases serve as the baseline states about which the eigenmodes are defined.</p>
+<p>The “&gt;” indicator in the menu above shows that run case 3 is currently the chosen</p>
+<p>baseline state. This is changed just by typing the new run case index.</p>
+<p>Typing “0” (zero) makes all the cases as chosen baseline states. Computation of</p>
+<p>all their roots will then create root locii. This is useful for investigating</p>
+<p>the effect of an operating parameter (e.g. V, CL, X_cg, bank, etc.) on the roots.</p>
+<p>Parameter editing</p>
+<p>- - - - - - - - -</p>
+<p>If the run case parameters are not correct, they can be changed with the M command.</p>
+<p>For example:</p>
+<p>M</p>
+<p>Parameters of run case 1/7: 0 deg. bank</p>
+<p>B bank = 0.000 deg</p>
+<p>E elevation = 0.000 deg</p>
+<p>V velocity = 5.648 m/s</p>
+<p>D air dens. = 1.225 kg/m^3</p>
+<p>G grav.acc. = 9.810 m/s^2</p>
+<p>M mass = 0.9195 kg</p>
+<p>IX Ixx = 0.2052 kg-m^2</p>
+<p>IY Iyy = 0.7758E-01 kg-m^2</p>
+<p>IZ Izz = 0.2790 kg-m^2</p>
+<p>X X_cg = 3.400 Lunit</p>
+<p>Y Y_cg = 0.000 Lunit</p>
+<p>Z Z_cg = 0.5000 Lunit</p>
+<p>CD CDo = 0.1700E-01</p>
+<p>LA dCL_a = 0.000</p>
+<p>LU dCL_u = 0.000</p>
+<p>MA dCM_a = 0.000</p>
+<p>MU dCM_u = 0.000</p>
+<p>Enter parameter, value (or # - + N ) c&gt;</p>
+<p>This menu is the same as in OPER. Note that changing a parameter may not</p>
+<p>then represent a trimmed flight condition. If the baseline state is to be</p>
+<p>trimmed, as is done with traditional eigenmode analyses, the parameter changes</p>
+<p>are probably best performed in the C1 or C2 menu in OPER.</p>
+<p>CL,CM derivative modifiers</p>
+<p>- - - - - - - - - - - - - -</p>
+<p>The LA,LU,MA,MU commands in the M menu allow specifying explicit</p>
+<p>added changes to the CL and CM derivatives with respect to alpha</p>
+<p>and speed. The alpha derivative modifications dCL_a, dCM_a might</p>
+<p>represent stall, or perhaps effects of separation bubble movement.</p>
+<p>The speed derivative modifications dCL_u, dCM_u might represent</p>
+<p>Mach or Reynolds number effects on the wing or tail airfoils.</p>
+<p>These derivative modifiers are used only for the eigenmode calculations</p>
+<p>in the MODE menu. They do not in any way affect the analysis calculations</p>
+<p>in OPER.</p>
+<p>Mode calculation</p>
+<p>- - - - - - - - -</p>
+<p>The eigenmodes for one or all run cases are computed with the N command.</p>
+<p>The eigenvalues and eigenvectors are listed, and the eigenvalues are also</p>
+<p>plotted on a root map. This can be re-plotted at anytime with the P command,</p>
+<p>or examined more closely with Z or B.</p>
+<p>Mode Examination</p>
+<p>- - - - - - - - -</p>
+<p>The motion of any mode can be viewed in real time by issuing the X command,</p>
+<p>and then clicking on the root symbol. This brings up the mode-view menu:</p>
+<hr>
+<p>L eft R ight</p>
+<p>U p D own</p>
+<p>C lear</p>
+<p>Z oom N ormal size</p>
+<p>I ngress O utgress</p>
+<p>H ardcopy A nnotate</p>
+<p>P anning camera toggle: T</p>
+<p>\&lt; > 0 mode play — real time</p>
+<p>- + 1 mode scale</p>
+<p>S mode sign change</p>
+<p>Type in plot window: Command, or \<space> to exit</p>
+<p>All commands must be typed with the cursor in the graphics window.</p>
+<p>The viewpoint can be set with the L,R,U,D,C keys, like in the</p>
+<p>geometry viewer in OPER.</p>
+<p>The mode motion is rewound or advanced in time with the \&lt; and > keys</p>
+<p>(shift key is not necessary). Holding down these keys will play the</p>
+<p>mode forward or backward in real time. Typing 0 will jump back to</p>
+<p>the starting time.</p>
+<p>The mode scale will decay or grow in time depending on the real part</p>
+<p>of the eigenvalue. But this can be arbitrarily scaled up or down</p>
+<p>with the - and + keys. The 1 key sets the scale factor to a nominal</p>
+<p>“normal” size.</p>
+<p>The P command controls the camera-panning toggle. If panning is on,</p>
+<p>the camera follows the aircraft at the baseline motion, so that the</p>
+<p>baseline state appears stationary. If panning is off, the baseline</p>
+<p>state moves, with the eigenmode motion superimposed on top of it.</p>
+<p>Viewing either with or without panning may be best, depending</p>
+<p>on the mode.</p>
+<p>System matrix output</p>
+<p>- - - - - - - - - - -</p>
+<p>Eigenmode analysis begins by considering that the unsteady flight variables</p>
+<p>U(t) consist of the steady baseline state Uo plus an unsteady perturbation u(t).</p>
+<p>The control variables D are considered the same way.</p>
+<p>U(t) = Uo + u(t)</p>
+<p>D(t) = Do + d(t)</p>
+<p>The perturbations are governed by the following linear system:</p>
+<p>.</p>
+<p>u = A u + B d</p>
+<p>The A and B system matrices depend on Uo and Do. They can be listed</p>
+<p>with the S command from the MODE menu. The 12 components of the u(t)</p>
+<p>vector are ordered as follows:</p>
+<p>u x velocity (+ forward)</p>
+<p>w z velocity (+ down)</p>
+<p>q pitch rate (+ nose up)</p>
+<p>theta pitch angle (+ nose up)</p>
+<p>v y velocity (+ to right)</p>
+<p>p roll rate (+ to right)</p>
+<p>r yaw rate (+ to right)</p>
+<p>phi roll angle (+ to right)</p>
+<p>x x displacement (+ forward)</p>
+<p>y y displacement (+ to right)</p>
+<p>z z displacement (+ down)</p>
+<p>psi heading angle (+ to right)</p>
+<p>The d(t) control vector components are whatever controls were declared</p>
+<p>in the xxx.avl file, in the order that they appeared.</p>
+<p>Plotting Options</p>
+<p>================</p>
+<p>The top-level PLOP command produces the plot option menu,</p>
+<p>shown below with the default values. Most of these parameters</p>
+<p>must be changed before the first plot is made, otherwise they</p>
+<p>may not have the intended effect.</p>
+<p>………………………………………..</p>
+<p>G raphics-enable flag T</p>
+<p>C olor PostScript output? F</p>
+<p>I ndividual PS file output? F</p>
+<p>A spect ratio of plot object 0.0000</p>
+<p>S ize of plot object 9.00”</p>
+<p>P age dimensions 11.00 x 8.50”</p>
+<p>M argins from page edges 0.00”, 0.00”</p>
+<p>F ont size (relative) 0.0170</p>
+<p>W indow/screen size fraction 0.7000</p>
+<p>O rientation of plot: Landscape</p>
+<p>B lowup input method: Keyboard</p>
+<p>Option, Value (or \<Return>) c&gt;</p>
+<p>Toggling the Graphics-enable flag to F is recommended if</p>
+<p>AVL is being executed in batch mode using a command file.</p>
+<p>Normally, all hardcopy goes to the single multi-page plot.ps file.</p>
+<p>Toggling the Individual PS file flag to T will place successive</p>
+<p>hardcopy pages in an individual files, named</p>
+<p>plot000.ps</p>
+<p>plot001.ps</p>
+<p>plot002.ps</p>
+<p>etc.</p>
+<p>These may then be used to create mode animation, etc.</p>
+<p>The other parameters and options are mostly self-explanatory.</p>
+<p>英文版说明文档</p>
+<h1 id="Datcom"><a href="#Datcom" class="headerlink" title="Datcom"></a>Datcom</h1><p>matlab 的帮助文档：doc datcomimport</p>
+<p>我们只关注for005 for006</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">mach = 0,0.1,0.2,0.3</span><br><span class="line">alt = 0,500,5000,10000</span><br><span class="line"></span><br><span class="line">loop = 1:</span><br><span class="line">mach = 0;alt = 0;</span><br><span class="line">mach=0.1;alt=500;</span><br><span class="line">mach=0.2;alt=5000;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">loop = 2:</span><br><span class="line">mach=0;alt = 0,500,5000,10000</span><br><span class="line">mach=0.1;alt = 0,500,5000,10000</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">loop = 3:</span><br><span class="line">alt = 0;mach = 0,0.1,0.2,0.3</span><br><span class="line">alt = 500;mach = 0,0.1,0.2,0.3</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">选2，相当于</span><br><span class="line">for alt = 0,500,5000,10000</span><br><span class="line">	for mach = 0,0.1,0.2,0.3</span><br><span class="line">		for alpha = 0,2,4,6</span><br><span class="line">			...</span><br><span class="line">		end</span><br><span class="line">	end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>FLTCON都是飞行条件，</p>
+<p>LOOP=2.0是计算一系列mach、alt<br>不管loop等于几，所有的alpha都会计算</p>
+<p>stmach 设定亚音速马赫数上限的标量值。0.6</p>
+<p>不对，应该是超过0.99就是超音速</p>
+<p>tsmach        设定超音速马赫数下限的标量值。1.4</p>
+<p>超过1.4才认为是超音速<br>i guess</p>
+<p>X代表x坐标，Z代表z坐标，ALI代表安装角(应该是)</p>
+<p>CG重心，W-wing机翼，H-平尾，V-垂尾</p>
+<p>VERTUP = .TRUE.        垂尾在上面</p>
+<p>VERTUP = .FALSE.        垂尾在下面(应该是)我们一会再找这个</p>
+<p>WGPLNF        HTPLNF        VTPLNF</p>
+<p>PLNF 就是翼面了</p>
+<p>WG-wing机翼</p>
+<p>HT-hon.. tail平尾</p>
+<p>VT-ver.. tail垂尾</p>
+<p>下面这些参数，机翼、平尾、垂尾都一样</p>
+<p>CHRDTP=0.2310        翼稍，直接的定义值<br>SSPNE=1.5776        减去机身的半展长<br>SSPN=1.6977                半展长，直接的定义值<br>CHRDR=1.0600        翼根，直接的定义值<br>SAVSI=35.04                后掠角—倾斜的角度，换算<br>CHSTAT=0.0                reference chord station for inboard and outboard panel sweep angles, fraction of chord<br>TWISTA=0.00                扭转角，直接的定义值<br>DHDADI=-3.00        上反角，直接的定义值<br>TYPE=1.0                直锥形机翼</p>
+<script type="math/tex; mode=display">
+SAVSI = \arctan(\frac {aa}{bb})=\arctan(\frac {\sin(后掠角)}{\cos(后掠)\cos(上反)})</script><p>sweep = 35<br>SAVSI = 35.04<br>上反角小，影响很小</p>
+<p>$BODY 机身</p>
+<p>NX=12.0                横截面数量</p>
+<p>在X、R、ZU、ZL分别对截面x坐标、截面y右、截面z上、截面z下</p>
+<p>BNOSE=1.0        %Nosecone type 机鼻形状</p>
+<p>%1.0圆锥形<br>%2.0尖顶部</p>
+<p>BTAIL=2.0        %Tailcone type 尾椎形状</p>
+<p>%1.0圆锥形<br>%2.0尖顶部<br>%omit for lbt = 0省略，尾巴长度=0</p>
+<p>BLN=2.0000        %Length of body nose</p>
+<p>BLA=2.6000        %Length of cylindrical afterbody segment</p>
+<p>%0.0 for nose alone—0.0表示只有机鼻</p>
+<p>ITYPE=2.0        %1.0直机翼，不使用面积律</p>
+<p>%2.0后掠翼，不使用面积律—默认</p>
+<p>%3.0后掠翼，使用面积律</p>
+<p>METHOD=1.0        </p>
+<p>上面的case和外形等等，都要在开头加一个空格</p>
+<p>下面</p>
+<p>NACA-W-6-64-108</p>
+<p>NACA:<br>W:Wing<br>6：NACA6位数翼型<br>64：前两位<br>108：后三位</p>
+<p>NACA-W-6-64A412</p>
+<p>NACA-H-4-0012</p>
+<p>DIM M                单位：米</p>
+<p>DAMP                计算动导数</p>
+<p>DERIV RAD        单位：rad</p>
+<p>CASEID DJD-SRCS.pri — WBH-ail                CASE的名字</p>
+<p>1.双击Datcom_Windows_2.8.5.exe</p>
+<p>选择文件夹安装datcom，如果有，可以跳过<br>安装完成后，有两个操作，顺序无所谓<br>(1)在datcom的安装目录，有一个datcom.bat<br>打开，在第14、15和16行，删除双引号；<br>Set PREDAT_PROGRAM=”predat”<br>Set DATCOM_PROGRAM=”digdat”<br>Set DATCOM_MODELER_PROGRAM =“DATCOM -modeler”<br>(2)右键点击左下角的windows，选择系统<br>高级系统设置-&gt;环境变量-&gt;双击DATCOMROOT-&gt;将变量值的双引号去掉<br>此时，便可以运行*.dcm—只需要将for005.dat修改后缀名为for005.dcm，即可<br>会生成.ac文件—外形（datcom有一个快捷查看的软件，可以直接查看，但是不能看到坐标、大小等）</p>
+<p>2.解压缩AC3D 8.5.55</p>
+<p>将刚刚生成的.ac文件，使用AC3D.exe打开【更改属性，可以永久更改打开方式】</p>
+<p><strong>NAMELIST ASYFLP</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>DELTAL</th>
+<th>deflection angle for left hand plain flap aileron or left hand panel all moveable horizontal tail, measured in vertical plane of symmetry</th>
+<th><strong>左副翼角度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELTAR</td>
+<td></td>
+<td><strong>右副翼角度</strong></td>
+</tr>
+<tr>
+<td>DELTAD</td>
+<td>projected height of deflector, spoiler-slot deflector control; fraction of chord</td>
+<td></td>
+</tr>
+<tr>
+<td>XSOC</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>NAMELIST SYMFLP</strong></p>
+<table><colgroup><col style="width: 13%" /><col style="width: 66%" /><col style="width: 19%" /></colgroup><thead><tr class="header"><th>FTYPE</th><th><p>=1 plain flaps</p><p>=2 single slotted flaps</p><p>=3 fowler flaps</p><p>=4 double slotted flaps</p><p>=5 split flaps</p></th><th> </th></tr></thead><tbody><tr class="odd"><td>NDELTA</td><td>number of control deflection angles; required for all controls, max of 9</td><td><strong>偏转角度的数量</strong></td></tr><tr class="even"><td>DELTA</td><td>flap deflection angle measured streamwise</td><td> </td></tr><tr class="odd"><td>SPANFI</td><td>span location of of inboard edge of flap or spoiler control measured perpendicular to the vertical plane of symmetry</td><td><strong>垂直于垂直对称面测量的舵面内侧位置</strong></td></tr><tr class="even"><td>SPANFO</td><td>span location of of outboard edge of flap or spoiler control measured perpendicular to the vertical plane of symmetry</td><td><strong>垂直于垂直对称面测量的舵面外侧位置</strong></td></tr><tr class="odd"><td>CHRDFI</td><td>flap chord at inboard edge of plain flap aileron, measured parallel to longitudinal axis</td><td><strong>内侧位置弦，平行于纵轴</strong></td></tr><tr class="even"><td>CHRDFO</td><td>flap chord at outboard edge of plain flap aileron, measured parallel to longitudinal axis</td><td><strong>外侧位置弦，平行于纵轴</strong></td></tr><tr class="odd"><td>NTYPE</td><td><p>=1 round nose flap</p><p>=2 elliptical nose flap</p><p>=3 sharp nose flap</p></td><td> </td></tr><tr class="even"><td>CB</td><td>average chord of the balance</td><td> </td></tr><tr class="odd"><td>TC</td><td>average thickness of the control at the hinge line</td><td> </td></tr><tr class="even"><td>PHETE</td><td>tangent of airfoil trailing edge angle based on ordinates at x/c=0.90 and 0.99</td><td> </td></tr><tr class="odd"><td>PHETEP</td><td>tangent of airfoil trailing edge angle based on ordinates at x/c=0.95 and 0.99</td><td> </td></tr><tr class="even"></tr></tbody></table>
+
+<h1 id="datcom与AVL对比"><a href="#datcom与AVL对比" class="headerlink" title="datcom与AVL对比"></a>datcom与AVL对比</h1><h2 id="英文论文"><a href="#英文论文" class="headerlink" title="英文论文"></a>英文论文</h2><p>Aerodynamics prediction can be manually calculated based on classical aerodynamic theories. However, if a detailed solution is required, this calculation process can become tedious. Back in the times when computers were not accessible to designers, USAF commissioned McDonnell Douglas to create a systematic summary of methods for estimating aircraft aerodynamic stability and control (S&amp;C) derivatives. This collection of papers resulted in currently available USAF Stability and Control Datcom. Datcom is a semi-empirical method that uses both aerodynamic theories and aircraft historical trends to estimate the aircraft’s S&amp;C derivatives. </p>
+<p>Digital Datcom, a computerized version of the original Datcom was made available in 1978. Digital Datcom has the same implementation as the original Datcom, but dramatically shortens the time requires for the calculation process. Digital Datcom was written in FORTRAN. Its input file requires the geometric dimensions of the modeled aircraft. Its output text file stores the S&amp;C derivatives. The interface of Digital Datcom is not very user friendly. The input text file is difficult to decipher and is thus easy to make mistakes. The output is a single text file which is not easy to manipulate or to interface with other programs. </p>
+<p>Instead of using Digital Datcom, DATCOM+<strong>19</strong> developed by Bill Galbraith was used in this simulation. DATCOM+ is wrapper program that improved the input and output interfaces of the original Digital Datcom. The original code of Digital Datcom is retained in DATCOM+ with few minor execution errors corrected. Unlike Digital Datcom, the input file of DATCOM+ allows comments to be included, making inputting the geometry of an aircraft model much easier. For example, the meaning of the reference parameters would not be so apparent to the designer without the comments in Figure 5. </p>
+<p>The output of DATCOM+ consists of five files. The first file is the original Digital Datcom output file. The second file is a XML format file which stores the S&amp;C derivatives; this file can be used by JSBSim or FlightGear directly. The third file, which was used for this research, is an Excel format file, which also stores the S&amp;C derivatives. It is provided for the user convenience as the data can be easily manipulated in Excel or exported to other software; the author used this to extract the needed S&amp;C derivatives to construct the linearized glider model. The fourth file generates custom plots of the S&amp;C derivatives. The last file is an AC3D format file that shows the three-dimensional view of the modeled aircraft. This visual representation helped identify incorrect geometry </p>
+<p>configuration. An AC3D image of the HYPER-DL is shown in Figure 6. </p>
+<p>Operational limitations of DATCOM+, similar to those of Digital Datcom, are discussed here. Prediction capability of Datcom is limited to traditional wing-body-tail aircraft configuration. Resulting S&amp;C derivatives do not include rudder to yawing and rolling moment terms. For Reynolds number below 100,000, the result validity is questionable. Unfortunately, the Reynolds number for the flight condition of this simulation is around 100,000; thus the output from AVL is used to verify the result from Datcom. If the results from the two programs are in close agreement, the validity of the stability and control derivatives used in this simulation can be justified. </p>
+<p>Another category of aerodynamic S&amp;C derivatives prediction method is based on Computational Fluid Dynamics (CFD). The fundamental goal of CFD is to solve the Navier-Stokes equations that describe the fluid dynamics. Generally it is not feasible to solve the closed form equations directly; thus, a numerical method is used to solve the simplified form of the Navier-Stokes equations. If the air flow is assumed to be inviscid and irrotational, the Navier-Stokes equations can be simplified to potential-flow theory. </p>
+<p>Athena Vortex Lattice (AVL), developed by Mark Drela and Harold Youngren at MIT, is used here.<strong>18</strong> AVL is one of the existing computer programs that are based on potential-flow theory. The vortex lattice method divides the surface of an aircraft into small panels with varying strength horseshoe vortex filaments placed on each panel. The program then proceeds to simultaneously solve the circulation on each vortex filament, and calculates the forces and moments generated by each panel. Unlike Datcom, AVL allows designers to model unconventional aircraft geometries. Graphical representation of HYPER-DL in AVL is shown in Figure 7. </p>
+<p>Operational limitations of AVL include: AVL does not provide derivatives relating to drag or the rate of change of angle of attack, αdot; the validation of the result is limited to small angles of attack and sideslip; the oscillatory motion of the aircraft must be slow enough so that the period of oscillation is much longer than the time it takes the flow to traverse an airfoil chord;<strong>22</strong> finally, the results from AVL do not capture any nonlinear effects, such as stall</p>
+<p>Using the same geometry, inertia, and flight conditions as inputs to both DATCOM+ and AVL, the aerodynamics prediction of these two programs show similar results, given in Figure 8 to Figure 11. Significant differences were observed in the side force and yaw moment terms. These can be attributed to the prediction methods and the limitations of the two programs. DATCOM+’s prediction on lateral and directional aerodynamic characteristics are also limited. </p>
+<p> The difference in CLq and Cmq plots might be caused by the different horizontal tail moment arms interpretation of the two programs. The lower drag values predicted by AVL did not account for induced drag, whereas Datcom does not demonstrate this shortcoming. In conclusion, noting the exceptions above, the results from DATCOM+ and AVL were in good agreement. Nevertheless, CFD, wind tunnel, or flight test would be needed if more accurate results are desired. </p>
+<h2 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h2><p>空气动力学预测可以根据经典空气动力学理论进行手工计算。但是，如果需要详细的解决方案，计算过程可能会变得繁琐。在设计师无法使用计算机的时代，美国空军委托麦道公司创建一个估计飞机空气动力学稳定性和控制学(S&amp;C)导数方法的系统总结。这组论文产生了目前可用的美国空军稳定性和控制软件Datcom。Datcom是一种半经验证的方法，它同时使用空气动力学理论和飞机的历史趋势来估计飞机的稳定和控制(S&amp;C)导数。</p>
+<p>Digital Datcom，是Datcom的计算机版本，于1978年推出。Digital Datcom与原Datcom具有相同的实现，但大大缩短了所需的计算时间。Digital Datcom是用FORTRAN编写的。它的输入文件需要模型飞机的几何尺寸。它的输出文本文件存放着稳定和控制(S&amp;C)导数。Digital Datcom的界面对用户不是很友好。输入的文本文件难以解读，因此很容易出错。输出是单个文本文件，不容易操作或与其他程序接口。</p>
+<p>相比于Digital Datcom，Bill Galbraith 开发的Datcom+被应用于仿真中。Datcom+是一个封装好的程序，改进了原Digital Datcom的输入和输出接口。Digital Datcom的代码保留在Datcom+中，同时修正了少量错误。与Digital Datcom不同，Datcom+的输入文件允许包含注释，使飞机模型的几何输入更加容易。例如，如果没有图5中的注释，参考参数的含义对设计师来说就不那么明显。</p>
+<p><img src="f48b/image-20230330014121140.png" alt="image-20230330014121140" style="zoom:70%;" /></p>
+<p>DATCOM+的输出由五个文件组成。第一个文件是原Digital Datcom输出文件。第二个文件是存储稳定和控制(S&amp;C)导数的XML格式文件；该文件可以由JSBSim或FlightGear直接使用。第三个文件，是用于本研究的，是一个Excel格式的文件，它也存储了S&amp;C导数。为了方便用户，数据可以很容易地用Excel操作或导出到其他软件；作者利用此方法提取所需的S&amp;C导数，以构建线性化的滑翔机模型。第四个文件生成S&amp;C导数的自定义图。最后一个文件是一个AC3D格式的文件，它显示了模型飞机的三维视图。这种可视化的表示有助于识别不正确的几何配置。HYPER-DL的AC3D图像如图6所示。</p>
+<p><img src="f48b/image-20230330014146931.png" alt="image-20230330014146931" style="zoom:80%;" /></p>
+<p>这里讨论了类似于Digital Datcom的DATCOM+的操作限制。Datcom 的预测能力仅限于传统的机翼-机身-机尾飞机配置。由此产生的S&amp;C导数不包括方向舵到偏航和滚动力矩项。对于低于10万的雷诺数，结果的有效性是值得怀疑的。不幸的是，该模拟的飞行条件下的雷诺数约为10万；因此，来自AVL的输出用于验证来自Datcom的结果。如果这两个程序的结果非常一致，那么在这个模拟中使用的稳定性和控制导数的有效性可以被证明是合理的。</p>
+<p>另一种气动力稳定和操纵导数预测方法是基于计算流体动力学(CFD)。CFD的基本目标是求解描述流体动力学的navier-stokes方程。一般直接求解封闭形式的方程是不可行的；因此，采用数值方法求解Navier-Stokes方程的简化形式。如果假设气流是无粘的和无旋转的，则Navier-Stokes方程可以简化为势流理论。</p>
+<p>AVL，由麻省理工学院的Mark Drela和Harold Youngren 开发。AVL是现有的基于势流理论的计算机程序之一。使用涡格法将飞机表面分成小面板，每个面板上放置不同强度的马蹄涡。然后，程序同时解决每个马蹄涡上的环，并计算每个面板产生的力和力矩。与Datcom不同的是，AVL允许设计师使用非传统的飞机几何模型。AVL中HYPER-DL的图形表示如图7所示。</p>
+<p><img src="f48b/image-20230330014220610.png" alt="image-20230330014220610" style="zoom:75%;" /></p>
+<p>AVL的操作限制包括：AVL不提供与阻力或攻角变化率相关的导数，αdot；结果的验证仅限于小攻角和侧滑；飞机的振荡运动必须足够慢，以便振荡周期比气流穿越翼弦所需的时间要长得多；最后，AVL的结果没有捕捉到任何非线性效应，如失速。</p>
+<p> 使用相同的几何形状、惯量和飞行条件作为DATCOM+和AVL的输入，这两个程序的空气动力学预测显示了类似的结果，如图8到图11所示。侧力和偏航力矩项有显著差异。这可以归因于预测方法和两个程序的局限。DATCOM+对滚转和航向空气动力特性的预测也受到了限制。</p>
+<p>在DATCOM中可以看到失速，而在AVL中没有。CLq和Cmq图的差异可能由于不同软件对尾力臂的解释不同。AVL预测的阻力低，是因为没有考虑诱导阻力，而DATCOM并没有这个缺点。总的来说，除了以上的情况之外，DATCOM和AVL的结果是一致的。然而，需要更精确的结果，就需要进行CFD、风洞、飞行测试等。</p>
+<p><img src="f48b/image-20230330014246779.png" alt="image-20230330014246779" style="zoom:80%;" /></p>
+<p><img src="f48b/image-20230330014258502.png" alt="image-20230330014258502" style="zoom:80%;" /></p>
+<p><img src="f48b/image-20230330014314515.png" alt="image-20230330014314515" style="zoom:80%;" /></p>
+<p><img src="f48b/image-20230330014325894.png" alt="image-20230330014325894" style="zoom:80%;" /></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/f48b.html">https://bfaner.github.io/posts/f48b.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/2f81.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">主控制回路</div></div></a></div><div class="next-post pull-right"><a href="/posts/c408.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">固定翼位置控制</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AVL"><span class="toc-number">1.</span> <span class="toc-text">AVL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#History"><span class="toc-number">1.1.</span> <span class="toc-text">History</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#General-Description"><span class="toc-number">1.2.</span> <span class="toc-text">General Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vortex-Lattice-Modeling-Principles"><span class="toc-number">1.3.</span> <span class="toc-text">Vortex-Lattice Modeling Principles</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configurations"><span class="toc-number">1.3.1.</span> <span class="toc-text">Configurations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unsteady-flow"><span class="toc-number">1.3.2.</span> <span class="toc-text">Unsteady flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Compressibility"><span class="toc-number">1.3.3.</span> <span class="toc-text">Compressibility</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-Files"><span class="toc-number">1.3.4.</span> <span class="toc-text">Input Files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Geometry-Input-File-%E2%80%94-xxx-avl"><span class="toc-number">1.3.5.</span> <span class="toc-text">Geometry Input File — xxx.avl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mass-Input-File-%E2%80%94-xxx-mass"><span class="toc-number">1.3.6.</span> <span class="toc-text">Mass Input File — xxx.mass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-Case-Save-File-%E2%80%94-xxx-run"><span class="toc-number">1.3.7.</span> <span class="toc-text">Run-Case Save File — xxx.run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Program-Execution"><span class="toc-number">1.3.8.</span> <span class="toc-text">Program Execution</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Datcom"><span class="toc-number">2.</span> <span class="toc-text">Datcom</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#datcom%E4%B8%8EAVL%E5%AF%B9%E6%AF%94"><span class="toc-number">3.</span> <span class="toc-text">datcom与AVL对比</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%B1%E6%96%87%E8%AE%BA%E6%96%87"><span class="toc-number">3.1.</span> <span class="toc-text">英文论文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%91%E6%96%87"><span class="toc-number">3.2.</span> <span class="toc-text">译文</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

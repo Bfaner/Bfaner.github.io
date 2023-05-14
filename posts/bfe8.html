@@ -1,0 +1,424 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>旋翼姿态控制 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="四元数控制方案 姿态角、目标姿态角转为四元数$q_b$、$q_t$  体轴系到目标轴系，四元数的误差为$q _ { b } ^ { t } &amp;#x3D; \left( q _ { i } ^ { b } \right) ^ { - 1 } \cdot q _ { i }^t$ 此误差也可表示为：  \vec{"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/bfe8"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '旋翼姿态控制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 20:09:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">旋翼姿态控制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-12T14:05:11.000Z" title="发表于 2021-05-12 22:05:11">2021-05-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-14T12:09:25.711Z" title="更新于 2023-04-14 20:09:25">2023-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/PX4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">PX4学习笔记</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="四元数控制方案"><a href="#四元数控制方案" class="headerlink" title="四元数控制方案"></a>四元数控制方案</h1><ol>
+<li><p>姿态角、目标姿态角转为四元数$q_b$、$q_t$</p>
+</li>
+<li><p>体轴系到目标轴系，四元数的误差为$q _ { b } ^ { t } = \left( q _ { i } ^ { b } \right) ^ { - 1 } \cdot q _ { i }^t$</p>
+<p>此误差也可表示为：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{e d}=\left[\begin{array}{c}
+\cos \frac{\alpha}{2} \newline
+\sin \frac{\alpha}{2} \vec{r}
+\end{array}\right]</script><p>即期望机体轴系绕机体轴系的旋转轴r旋转α角度</p>
+</li>
+<li><p>将旋转轴的α倍作为角度误差进行控制律计算，当α较小时，2sin(α/2)=α</p>
+<p>则，目标的姿态角</p>
+<script type="math/tex; mode=display">
+\vec{\omega}_{d}=\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot \alpha \vec{r}=\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot 2 \sin \frac{\alpha}{2} \vec{r}=2\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot \vec{q}_{e d}^{\prime}(1: 3)</script></li>
+</ol>
+<p>示例：</p>
+<img src="/posts/bfe8/image-20230409233518519.png" class="" title="image-20230409233518519">
+<h1 id="Px4的四元数控制方案"><a href="#Px4的四元数控制方案" class="headerlink" title="Px4的四元数控制方案"></a>Px4的四元数控制方案</h1><p>相比于直接用四元数控制，PX4中，先对齐Z轴(限制偏航)，再进行控制。</p>
+<p>举例：当前姿态为[0,10,0]，目标姿态为[0,30,10]</p>
+<ol>
+<li><p>计算体轴系到中间轴系的四元数</p>
+<p>①求得$q_b$、$q_t$的旋转矩阵</p>
+<p>②对旋转矩阵的z列进行对齐(即旋转)，得到体轴系到中间轴系的四元数</p>
+<p>③根据示例，体轴到中间轴系需要-5°滚转、19.55°俯仰、0.02°偏航</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alpha = <span class="built_in">acos</span>(<span class="built_in">dot</span>(ez,ezd)/norm(ez)/norm(ezd));</span><br><span class="line">V = <span class="built_in">cross</span>(ez,ezd)/norm(<span class="built_in">cross</span>(ez,ezd));</span><br><span class="line">qe_tilt = [<span class="built_in">cos</span>(alpha/<span class="number">2</span>);<span class="built_in">sin</span>(alpha/<span class="number">2</span>)*V];</span><br></pre></td></tr></table></figure>
+<img src="/posts/bfe8/image-20230409233745219.png" class="" title="image-20230409233745219">
+</li>
+<li><p>计算中间轴系到目标轴系的四元数，对其偏航进行限制</p>
+<p>①地轴系到中间轴系=(地轴系到体轴系)*(体轴系到中间轴系)</p>
+<p>②中间轴系到目标轴系=(地轴系到中间轴系)-1*(地轴系到体轴系)</p>
+<p>③根据示例，中间轴系到目标轴系需要9.544°偏航</p>
+<img src="/posts/bfe8/image-20230409233839199.png" class="" title="image-20230409233839199">
+</li>
+<li><p>计算地轴系到新目标轴系的四元数</p>
+<p>①对目标轴系的偏航限制0.5的系数，得到新目标轴系</p>
+<p>②地轴系到新目标轴系的四元数</p>
+<p>③根据示例，新的目标四元数为-2.75°滚转、29.89°俯仰、4.494°偏航</p>
+<img src="/posts/bfe8/image-20230409233921969.png" class="" title="image-20230409233921969">
+</li>
+<li><p>计算体轴系到新目标轴系的四元数$q _ { b } ^ { t } = \left( q _ { i } ^ { b } \right) ^ { - 1 } \cdot q _ { i }^t$：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{e d}^{\prime}=\vec{q}^{-1} \cdot \vec{q}_d^{\prime}</script><p>此误差也可表示为：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{e d}=\left[\begin{array}{c}
+ \cos \frac{\alpha}{2} \newline
+ \sin \frac{\alpha}{2} \vec{r}
+ \end{array}\right]</script><p>即期望机体轴系绕机体轴系的旋转轴r旋转α角度</p>
+</li>
+<li><p>将旋转轴的α倍作为角度误差进行控制律计算，当α较小时，2sin(α/2)=α</p>
+<p>则，目标的姿态角</p>
+<script type="math/tex; mode=display">
+\vec{\omega}_{d}=\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot \alpha \vec{r}=\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot 2 \sin \frac{\alpha}{2} \vec{r}=2\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot \vec{q}_{e d}^{\prime}(1: 3)</script><p>①根据示例，取各系数均为1</p>
+<p>②最终得到角速度为-4.23°/s、19.66°/s、4.14°/s，该结果与转为欧拉角后的结果相差不大</p>
+<img src="/posts/bfe8/image-20230410001859926.png" class="" title="image-20230410001859926">
+</li>
+</ol>
+<p>Nonlinear Quadrocopter Attitude Control Technical Report论文提出了如下控制律，并证明了其李雅普诺夫稳定性，提出将绕z轴旋转和其他偏转为两种状态，因此增加了中间轴系</p>
+<script type="math/tex; mode=display">
+\vec{\Omega}_{c m d}(\mathbf{q})=\frac{2}{\tau} \operatorname{sgn}\left(q_{e, 0}\right) \mathbf{q}_{e, 1: 3}, \quad \operatorname{sgn}\left(q_{e, 0}\right)= \begin{cases}1, & q_{e, 0} \geq 0 \newline -1, & q_{e, 0}<0\end{cases}</script><h1 id="对齐Z轴的影响"><a href="#对齐Z轴的影响" class="headerlink" title="对齐Z轴的影响"></a>对齐Z轴的影响</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>初始姿态</th>
+<th>目标姿态</th>
+<th>未对齐z轴</th>
+<th>对齐z轴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0<br>10 <br>0 <br></td>
+<td>0<br/>30 <br/>10 <br/></td>
+<td><img src="bfe8/image-20230410002112426.png" alt="image-20230410002112426" style="zoom:40%;" /></td>
+<td><img src="bfe8/image-20230410002127888.png" alt="image-20230410002127888" style="zoom:25%;" /></td>
+</tr>
+<tr>
+<td>0<br>10 <br>0 <br></td>
+<td>10<br/>30 <br/>50 <br/></td>
+<td><img src="bfe8/image-20230410002356581.png" alt="image-20230410002356581" style="zoom: 30%;" /></td>
+<td><img src="bfe8/image-20230410002433754.png" alt="image-20230410002433754" style="zoom:40%;" /></td>
+</tr>
+<tr>
+<td>0<br>10 <br>0 <br></td>
+<td>-10<br/>30 <br/>50 <br/></td>
+<td><img src="bfe8/image-20230410002457899.png" alt="image-20230410002457899" style="zoom:23%;" /></td>
+<td><img src="bfe8/image-20230410002517056.png" alt="image-20230410002517056" style="zoom:23%;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>对比限制偏航前后得到的目标角速度，可以发现，限制后的偏航角速度大幅减小，俯仰角略有增加；偏航角较大时，俯仰和滚转姿态变化较大。</p>
+<h1 id="推导过程"><a href="#推导过程" class="headerlink" title="推导过程"></a>推导过程</h1><p>链式法则：</p>
+<script type="math/tex; mode=display">
+q_a^c=q_a^b \cdot q_b^c</script><p>轴系定义：</p>
+<p>地轴N、体轴B、目标体轴T、中间轴系M(对齐了z轴的轴系)</p>
+<ol>
+<li>体轴系→中间轴系$q_b^m$(轴在地轴系，仅通过旋转对齐z轴)</li>
+<li>体轴系→中间轴系$q_b^{\prime m}=\left(q_i^b\right)^{-1} \cdot q_b^m \cdot q_i^b$(轴在体轴系)</li>
+<li>地轴系→中间轴系$q_i^m=q_i^b \cdot q_b^m$</li>
+<li>中间轴系→目标轴系$q_m^t=\left(q_i^m\right)^{-1} \cdot q_i^t$，之后限制偏航</li>
+<li>地轴系→目标轴系$q_i^t=q_i^m \cdot q_m^t$，</li>
+<li>体轴系→目标轴系，$q_i^b$到$q_i^t$的误差$q_b^t=\left(q_i^b\right)^{-1} \cdot q_i^t$</li>
+</ol>
+<p>当前姿态、目标姿态都是相对于地轴系的一个旋转</p>
+<ol>
+<li><p>当前姿态$\overrightarrow{q}=\left[\begin{array}{llll}q_{0} &amp; q_{1} &amp; q_{2} &amp; q_{3}\end{array}\right]$，目标姿态$\overrightarrow{q_d}=\left[\begin{array}{llll}q_{d 0} &amp; q_{d 1} &amp; q_{d 2} &amp; q_{d 3}\end{array}\right]$</p>
+</li>
+<li><p>则当前姿态的旋转矩阵为：</p>
+<script type="math/tex; mode=display">
+L=\left[\begin{array}{ccc}
+q_0^2+q_1^2-q_2^2-q_3^2 & 2\left(q_1 q_2-q_0 q_3\right) & 2\left(q_0 q_2+q_1 q_3\right) \newline
+2\left(q_0 q_3+q_1 q_2\right) & q_0^2-q_1^2+q_2^2-q_3^2 & 2\left(q_2 q_3-q_0 q_1\right) \newline
+2\left(q_1 q_3-q_0 q_2\right) & 2\left(q_0 q_1-q_2 q_3\right) & q_0^2-q_1^2-q_2^2+q_3^2
+\end{array}\right]</script><p>目标姿态的旋转矩阵为：</p>
+<script type="math/tex; mode=display">
+L_d=\left[\begin{array}{ccc}
+q_{d 0}^2+q_{d 1}^2-q_{d 2}^2-q_{d 3}^2 & 2\left(q_{d 1} q_{d 2}-q_{d 0} q_{d 3}\right) & 2\left(q_{d 0} q_{d 2}+q_{d 1} q_{d 3}\right) \newline
+2\left(q_{d 0} q_{d 3}+q_{d 1} q_{d 2}\right) & q_{d 0}^2-q_{d 1}^2+q_{d 2}^2-q_{d 3}^2 & 2\left(q_{d 2} q_{d 3}-q_{d 0} q_{d 1}\right) \newline
+2\left(q_{d 1} q_{d 3}-q_{d 0} q_{d 2}\right) & 2\left(q_{d 0} q_{d 1}-q_{d 2} q_{d 3}\right) & q_{d 0}^2-q_{d 1}^2-q_{d 2}^2+q_{d 3}^2
+\end{array}\right]</script></li>
+<li><p>姿态z轴的单位向量</p>
+<script type="math/tex; mode=display">
+{ }^N \vec{e}_z{ }^B=\left[\begin{array}{c}
+2\left(q_0 q_2+q_1 q_3\right) \newline
+2\left(q_2 q_3-q_0 q_1\right) \newline
+q_0^2-q_1^2-q_2^2+q_3^2
+\end{array}\right]</script><script type="math/tex; mode=display">
+{ }^N \vec{e}_{z d}{ }^B=\left[\begin{array}{c}
+2\left(q_{d 0} q_{d 2}+q_{d 1} q_{d 3}\right) \newline
+2\left(q_{d 2} q_{d 3}-q_{d 0} q_{d 1}\right) \newline
+q_{d 0}^2-q_{d 1}^2-q_{d 2}^2+q_{d 3}^2
+\end{array}\right]</script></li>
+<li><p>则，对齐z轴，由${ }^N \vec{e}_z{ }^B$到${ }^N \vec{e}_{zd}{ }^B$的四元数可以表示为【体轴系到中间轴系的旋转$q_b^{\prime m}$】：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \alpha=\arccos \left({ }^N \vec{e}_z{ }^B,{ }^N \vec{e}_{z d}{ }^B\right) \newline
+& \vec{q}_{e_{-} \text {tilt }}=\left[\begin{array}{c}
+\cos (\alpha / 2) \newline
+\sin (\alpha / 2) \frac {\vec{e}_z{ }^B\times{ }^N \vec{e}_{z d}{ }^B} {\left\|{ }^N \vec{e}_z{ }^B \times{ }^N \vec{e}_{z d}{ }^B\right\|}
+\end{array}\right] \newline
+\end{aligned}</script><p>这个四元数的转轴是在地轴系下的，需要转到体轴系【体轴系到中间轴系的旋转$q_b^m$】：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{e_{-} \text {tilt }}=\vec{q}_N^B \cdot \vec{q}_{e_{-} \mathrm{tilt}} \cdot\left(\vec{q}_N^B\right)^*=\vec{q}^{-1} \cdot \vec{q}_{e_{-} \mathrm{tilt}} \cdot \vec{q}</script></li>
+<li><p>则，表示倾斜运动的四元数【即地轴系到中间轴系$q_i^m=\vec{q} \cdot q_b^m\left(\vec{q}=q_i^b\right)$】：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{d, \text { red }}=\vec{q} \cdot \vec{q}_{e_{-} \mathrm{tilt}}^{\prime}=\vec{q} \cdot \vec{q}^{-1} \cdot \vec{q}_{e_{-} \mathrm{tilt}} \cdot \vec{q}=\vec{q}_{e_{-} \mathrm{tilt}} \cdot \vec{q}</script></li>
+<li><p>表示旋转运动的四元数【$q_m^t=\left(q_i^m\right)^{-1} \cdot \vec{q}_d\left(\vec{q}_d=q_i^t\right)$】：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{d, \text { mix }}=\left(\vec{q}_{d, \mathrm{red}}\right)^{-1} \cdot \vec{q}_d</script><p>此时，$\vec{q}_{d, \text { mix }}$相当于绕z轴旋转了αmix(中间轴系到目标轴系$q_m^t$)</p>
+<p>即，</p>
+<script type="math/tex; mode=display">
+\vec{q}_{d, \text { mix }}=\left[\begin{array}{llll}
+\cos \left(\frac{\alpha_{\text {mix }}}{2}\right) & 0 & 0 & \sin \left(\frac{\alpha_{\text {mix }}}{2}\right)
+\end{array}\right]^{\mathrm{T}}</script></li>
+<li><p>此处加入偏航运动的限制k，k为yaw权重(中间轴系到目标轴系，限制$q_m^t$)</p>
+<script type="math/tex; mode=display">
+\vec{q}_{d, \text { mix }}=\left[\begin{array}{llll}
+\cos \left(k\frac{\alpha_{mix }}{2}\right) & 0 & 0 & \sin \left(k\frac{\alpha_{mix}}{2}\right)
+\end{array}\right]^{T}</script></li>
+<li><p>得到最终的期望四元数【$q_i^t=q_i^m \cdot q_m^t$】：</p>
+<script type="math/tex; mode=display">
+\vec{q}_d^{\prime}=\vec{q}_{d, \mathrm{red}} \cdot \vec{q}_{d, m i x}^{\prime}</script></li>
+<li><p>四元数的误差为【$q_b^t=\left(q_i^b\right)^{-1} \cdot q_i^t$】：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{e d}^{\prime}=\vec{q}^{-1} \cdot \vec{q}_d^{\prime}</script><p>此误差也可表示为：</p>
+<script type="math/tex; mode=display">
+\vec{q}_{e d}^{\prime}=\left[\begin{array}{c}
+ \cos \frac{\alpha}{2} \newline
+ \sin \frac{\alpha}{2} \vec{r}
+ \end{array}\right]</script><p>即期望机体轴系绕机体轴系的旋转轴r旋转α角度</p>
+</li>
+<li><p>将旋转轴的α倍作为角度误差进行控制律计算，当α较小时，2sin(α/2)=α</p>
+<p>则，目标的姿态角</p>
+<script type="math/tex; mode=display">
+\vec{\omega}_{d}=\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot \alpha \vec{r}=\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot 2 \sin \frac{\alpha}{2} \vec{r}=2\left[\begin{array}{ccc}
+k_{1} & 0 & 0 \newline
+0 & k_{2} & 0 \newline
+0 & 0 & k_{3}
+\end{array}\right] \cdot \vec{q}_{e d}^{\prime}(1: 3)</script></li>
+<li><p>增加偏航角速度前馈</p>
+<script type="math/tex; mode=display">
+\vec{\omega}_d=\vec{\omega}_d+K_{f f} * w_{d z}</script></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/bfe8.html">https://bfaner.github.io/posts/bfe8.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/aa9e.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">空投比赛相关</div></div></a></div><div class="next-post pull-right"><a href="/posts/598d.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">飞机动力模拟计算</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0%E6%8E%A7%E5%88%B6%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">四元数控制方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Px4%E7%9A%84%E5%9B%9B%E5%85%83%E6%95%B0%E6%8E%A7%E5%88%B6%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">Px4的四元数控制方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E9%BD%90Z%E8%BD%B4%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">3.</span> <span class="toc-text">对齐Z轴的影响</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A8%E5%AF%BC%E8%BF%87%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">推导过程</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

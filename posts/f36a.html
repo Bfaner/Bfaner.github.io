@@ -1,0 +1,1216 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>通讯链路 | BFaner</title><meta name="author" content="帆小生,1257291642@qq.com"><meta name="copyright" content="帆小生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="整体介绍通信链路总览  atkpTxTask：ATKP 数据包发送任务。 该任务主要是获取 stabilizerTask 中的传感器数据、姿态数据、电机 PWM 输出数据等数据以定周期发送给 radiolinkTask 和 usblinkTxTask， 由这两个任务分别发送飞遥控器和上位机。 atk"><link rel="shortcut icon" href="/img/%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://bfaner.github.io/posts/f36a"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"这篇文章已经","messageNext":"天没更新了，内容有可能已经过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '通讯链路',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-05 20:48:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><script async src="/css/categoryBar.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/double-row.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BFaner</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/weibo/"><i class="fa-fw fas fa-comments"></i><span> 微博</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">通讯链路</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-04T02:24:34.000Z" title="发表于 2021-03-04 10:24:34">2021-03-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-05T12:48:09.348Z" title="更新于 2023-04-05 20:48:09">2023-04-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/">航空航天</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9/Minifly/">Minifly</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h1 id="整体介绍"><a href="#整体介绍" class="headerlink" title="整体介绍"></a>整体介绍</h1><h2 id="通信链路总览"><a href="#通信链路总览" class="headerlink" title="通信链路总览"></a>通信链路总览</h2><p><img src="f36a/image-20230401175936326.png" alt="image-20230401175936326" style="zoom:30%;" /></p>
+<p><img src="f36a/image-20230401175951464.png" alt="image-20230401175951464" style="zoom:30%;" /></p>
+<p><strong>atkpTxTask</strong>：ATKP 数据包发送任务。 该任务主要是获取 stabilizerTask 中的传感器数据、姿态数据、电机 PWM 输出数据等数据以定周期发送给 radiolinkTask 和 usblinkTxTask， 由这两个任务分别发送飞遥控器和上位机。</p>
+<p><strong>atkpRxAnlTask</strong>：ATKP 数据包接收处理任务。 该任务主要是处理遥控器和上位机发下来的数据包， 解析到的控制指令则发送到 stabilizerTask 中去。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><img src="/posts/f36a/image-20230401180202938.png" class="" title="image-20230401180202938">
+<ul>
+<li>uartslkDataDelivery队列<br>串口2中断接收，radiolinkTask中读取的数据</li>
+<li>rxQueue队列<br>处理指令的同时，把radiolinkTask接收的数据从rxPacket发送至rxQueue队列中<br>见函数atkpPacketDispatch(&amp;rxPacket)</li>
+<li>txQueue队列<br>同样在函数atkpPacketDispatch(&amp;rxPacket)也会处理txQueue的数据，并存到txPacket打包后，通过串口DMA发送</li>
+</ul>
+<h2 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h2><p><img src="f36a/image-20230401180021877.png" alt="image-20230401180021877" style="zoom:50%;" /></p>
+<h3 id="串口指令格式【Usblink】"><a href="#串口指令格式【Usblink】" class="headerlink" title="串口指令格式【Usblink】"></a>串口指令格式【Usblink】</h3><p><img src="f36a/image-20230401180551866.png" alt="image-20230401180551866" style="zoom:50%;" /></p>
+<p><strong>指令格式：帧头(AA+AF)+功能ID+数据长度+数据+校验</strong></p>
+<p>校验帧头：AA+AF</p>
+<p>功能ID: 表示该数据的意义，msgID分为 上行指令ID :upmsgID_e ；下行指令ID ：downmsgID_e,这是两个枚举变量</p>
+<p>数据长度：dataLen</p>
+<p>数据数组：data 最大为30，即数组长度最多30，为data[0]+data[1-29]，其中data[0]用作区别是控制命令还是控制数据。</p>
+<h3 id="一键起飞数据包解析举例"><a href="#一键起飞数据包解析举例" class="headerlink" title="一键起飞数据包解析举例"></a>一键起飞数据包解析举例</h3><p>一键起飞帧： AA AF 50 02 00 03 AE<br>帧头：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*下行帧头*/</span>---从哪里发来</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DOWN_BYTE1 0xAA  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DOWN_BYTE2 0xAF </span></span><br></pre></td></tr></table></figure>
+<p>MsgID:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DOWN_REMOTER	= <span class="number">0x50</span>,<span class="comment">//指定 遥控器下行给四轴 的命令</span></span><br><span class="line">&#125;downmsgID_e;</span><br></pre></td></tr></table></figure>
+<p>02  —表示有2-1 = 1个数据<br>data[0]   —00  —遥控数据类别：控制命令</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*遥控数据类别*/</span> </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	REMOTER_CMD,<span class="comment">//控制命令0x00</span></span><br><span class="line">	REMOTER_DATA,<span class="comment">//控制数据0x01</span></span><br><span class="line">&#125;remoterType_e;</span><br></pre></td></tr></table></figure>
+<p>data[1]   —03  —控制命令：起飞、降落</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*下行命令/----控制命令</span></span><br><span class="line"><span class="comment">#define  CMD_GET_MSG		0x01	/*获取四轴信息（自检）*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  CMD_GET_CANFLY		0x02	<span class="comment">/*获取四轴能否起飞*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  CMD_FLIGHT_LAND	0x03	<span class="comment">/*起飞、降落*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  CMD_EMER_STOP		0x04	<span class="comment">/*紧急停机*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  CMD_FLIP			0x05	<span class="comment">/*4D翻滚*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  CMD_POWER_MODULE	0x06	<span class="comment">/*´打开关闭拓展模块电源´*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  CMD_LEDRING_EFFECT	0x07	<span class="comment">/*设置RGB灯环效果*/</span></span></span><br></pre></td></tr></table></figure>
+<p>0xAE: 校验和 从帧头到数据最后一位逐字节相加，结果取最低两个字节，如AA +AF+ 50 +02 +00 +03的结果取最低两个字节等于AE。</p>
+<h3 id="控制数据ATKP数据帧举例"><a href="#控制数据ATKP数据帧举例" class="headerlink" title="控制数据ATKP数据帧举例"></a>控制数据ATKP数据帧举例</h3><p>AAAF 50 1D 01 0000a040 00000000 00000000 00004842 00000000 00000000 00 00 00 00 31</p>
+<p>帧头:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0xAA</span> <span class="number">0xAF</span> <span class="comment">// 下行帧头,说明是遥控器或者上位机发过来的</span></span><br></pre></td></tr></table></figure>
+<p>MsgID:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x50</span>： DOWN_REMOTOR <span class="comment">//下行指令</span></span><br></pre></td></tr></table></figure>
+<p>0x1D ： 数据长度29 -1 =28 也就是结构体remoterData_t的长度，注意字节对齐。<br>data[0]  0x01： data[0] = 0x01，说明接下来的是控制数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*遥控数据类别*/</span> </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	REMOTER_CMD,<span class="comment">//控制命令0x00</span></span><br><span class="line">	REMOTER_DATA,<span class="comment">//控制数据0x01</span></span><br><span class="line">&#125;remoterType_e;</span><br></pre></td></tr></table></figure>
+<p>9个数据：<br><strong>0x0000A040</strong>（send.roll = 5.0f IEEE754标准32位浮点数 小端字节序）<br><strong>0x40A00000</strong> —- 0<strong>100 0000 1</strong>010 0000 0000 0000 0000 0000    —-$(-1)^0<em>2^{129-127}</em>(1.01) = (-1)^0<em>2^2</em>(1.01) = 101 = 5$<br>//关于大小端：数据存储的大端字节序还是小端字节序取决于CPU，STM32 采用小端字节序。<br><strong>0x00000000</strong>（send.pitch = 0.0f）<br><strong>0x00000000</strong>（send.yaw = 0.0f）<br><strong>0x00004842</strong>（send. thrust = 50.0f 50%油门）<br>0x42480000 —- 0<strong>100 0010 0</strong>100 1000 0000 0000 0000 0000    —-$(-1)^0<em>2^{132-127}</em>(1.1001) = (-1)^0<em>2^5</em>(1.1001) = 110010 = 50$<br><strong>0x00000000</strong>（send. trimPitch = 0.0f trim是修正系统误差，默认0）<br><strong>0x00000000</strong>（send. trimRoll = 0.0f）<br>0x00 （u8-CtrlMode 0x00-手动模式 0x01-定高定点模式）<br>0x00 （bool-FlyMode true-X模式 false-无头模式）<br>0x00 （bool-RCLok 解锁相关，用不上）<br>0x00 （1byte-字节对齐）</p>
+<p>0x31 （前面所有字节的校验和）</p>
+<p><img src="f36a/image-20230401183304982.png" alt="image-20230401183304982" style="zoom:50%;" /></p>
+<h1 id="代码流程图"><a href="#代码流程图" class="headerlink" title="代码流程图"></a>代码流程图</h1><p><img src="f36a/image-20230401185827808.png" alt="image-20230401185827808" style="zoom:50%;" /></p>
+<img src="/posts/f36a/%E9%80%9A%E8%AE%AF%E6%B5%81%E7%A8%8B%E5%9B%BE.png" class="" title="通讯流程图">
+<h1 id="radiolink-c"><a href="#radiolink-c" class="headerlink" title="radiolink.c"></a>radiolink.c</h1><h2 id="各函数作用"><a href="#各函数作用" class="headerlink" title="各函数作用"></a>各函数作用</h2><ol>
+<li>void radiolinkTask(void *param)</li>
+</ol>
+<ul>
+<li>该任务主要负责接收从 NRF51822 发送（串口方式）过来的数据，然后对数据进行打包和校验，打包成 ATKP 格式并校验无误后发送到 atkpRxAnlTask 的接收队列里，同时回传一帧数据给 NRF51822。</li>
+<li>接收来自<strong>NRF51822</strong>的ATKP数据c，给rxState赋值【0,1,2,3,4,5】判断，每一步判断消息是否为帧头1、帧头2、ID、数据长度、数据、校验和，若全正确，则进入atkpPacketDispatch(&amp;rxPacket)</li>
+<li>ATKP数据（基于于匿名科创地面站V4.34通信协议下位机）。</li>
+</ul>
+<p>2，void radiolinkInit(void)</p>
+<ul>
+<li>“comm.c”中调用</li>
+<li>作用：初始化串口，检测是否创建了“发送消息队列”，没有则创建，用作发消息给NRF51822等</li>
+</ul>
+<p>3，static void uartSendPacket(atkp_t *p)</p>
+<ul>
+<li>作用：把结构体atkp_t，打包ATKPPacket数据,并通过串口DMA发送-&gt;uartslkSendDataDmaBlocking(dataSize, sendBuffer);</li>
+</ul>
+<p>4，static void atkpPacketDispatch(atkp_t *rxPacket)</p>
+<ul>
+<li><ol>
+<li>断言检查，将rxPacket发送至rxQueue队列中</li>
+<li>若MsgID不是关电源，开启无线数据指示灯LED_GREEN_L；</li>
+<li>若有需要发送的数据，读取txQueue队列的消息，并保存在txPacket中作为缓冲区</li>
+<li>若数据大小符合要求，则开启发送指示灯，将数据通过串口DMA发送</li>
+</ol>
+</li>
+<li>作用：把接收到的一个遥控无线数据包存到“接收队列”，并从“发送队列”中获取一个包，通过串口DMA发送</li>
+<li>其中接收包：atkpReceivePacketBlocking(rxPacket)函数原型为atkpReceivePacketBlocking(atkp_t *p)，函数里面调用xQueueSend(rxQueue, p, portMAX_DELAY)，向“接收队列”发送消息，也就是把接收到的包发送到“接收队列”</li>
+<li>其中发送包：xQueueReceive(txQueue, &amp;txPacket, 0) == pdTRUE，从“发送队列”获取一个包，uartSendPacket(&amp;txPacket);再通过串口发送过去</li>
+</ul>
+<p>5，bool radiolinkSendPacket(const atkp_t *p)</p>
+<ul>
+<li>作用：发送包到“发送队列”，返回发送状态</li>
+<li>return xQueueSend(txQueue, p, 0);//不等，发送失败则返回errQUEUE_FULL</li>
+</ul>
+<p>6，bool radiolinkSendPacketBlocking(const atkp_t *p)</p>
+<ul>
+<li>作用：发送包到“发送队列”，带阻塞</li>
+<li>return xQueueSend(txQueue, p, portMAX_DELAY); //一直等到</li>
+</ul>
+<p>7，int radiolinkGetFreeTxQueuePackets(void)</p>
+<ul>
+<li>作用：获取“发送队列”剩余的容量</li>
+<li>return (RADIOLINK_TX_QUEUE_SIZE - uxQueueMessagesWaiting(txQueue));//30-已被使用的=剩余的</li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;config.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;radiolink.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;config_param.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;led.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ledseq.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;uart_syslink.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*FreeRtos includes*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FreeRTOS.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;task.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;semphr.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;queue.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RADIOLINK_TX_QUEUE_SIZE  30 <span class="comment">/*接收队列个数*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	waitForStartByte1,<span class="comment">//0</span></span><br><span class="line">	waitForStartByte2,<span class="comment">//1</span></span><br><span class="line">	waitForMsgID,<span class="comment">//2</span></span><br><span class="line">	waitForDataLength,<span class="comment">//3</span></span><br><span class="line">	waitForData,<span class="comment">//4</span></span><br><span class="line">	waitForChksum1,<span class="comment">//5</span></span><br><span class="line">&#125;rxState;<span class="comment">//只能取上面的值   </span></span><br><span class="line"><span class="comment">//省略枚举名称，直接定义枚举变量，第一个枚举成员的默认值为整型的 0，后续枚举成员的值在前一个成员上加 1</span></span><br><span class="line"><span class="type">static</span> <span class="type">bool</span> isInit;</span><br><span class="line"><span class="type">static</span> <span class="type">atkp_t</span> txPacket;</span><br><span class="line"><span class="comment">/*通讯数据结构*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">uint8_t</span> msgID;</span><br><span class="line">	<span class="type">uint8_t</span> dataLen;</span><br><span class="line">	<span class="type">uint8_t</span> data[ATKP_MAX_DATA_SIZE];</span><br><span class="line">&#125;<span class="type">atkp_t</span>;   </span><br><span class="line"><span class="comment">//ATKP_MAX_DATA_SIZE=30；msgID(1字节)：功能字；dataLen(1字节)：数据长度；data：有效数据。（无线数据最大传输长度为32）</span></span><br><span class="line"><span class="type">static</span> <span class="type">atkp_t</span> rxPacket;   <span class="comment">//tx是发送(transport),rx是接收(receive)</span></span><br><span class="line"><span class="type">static</span> xQueueHandle  txQueue;<span class="comment">//声明txQueue队列</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">atkpPacketDispatch</span><span class="params">(<span class="type">atkp_t</span> *rxPacket)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//radiolinkInit作用：初始化串口，检测是否创建了“发送消息队列”，没有则创建，用作发消息给NRF51822等</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">radiolinkInit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (isInit) <span class="keyword">return</span>;<span class="comment">//已初始化直接返回</span></span><br><span class="line">	uartslkInit();   <span class="comment">//未串口初始化则初始化 </span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*创建发送队列，CRTP_TX_QUEUE_SIZE个消息*/</span></span><br><span class="line">	txQueue = xQueueCreate(RADIOLINK_TX_QUEUE_SIZE, <span class="keyword">sizeof</span>(<span class="type">atkp_t</span>));<span class="comment">//30个消息，每个消息的大小为数据结构atkp_t的大小</span></span><br><span class="line">	ASSERT(txQueue);</span><br><span class="line">	</span><br><span class="line">	isInit = <span class="literal">true</span>;<span class="comment">//标记已经初始化串口</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//radiolink接收ATKPPacket任务，把包存到rxPacket结构体中</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">radiolinkTask</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	rxState = waitForStartByte1;	<span class="comment">//switch从waitForStartByte1开始</span></span><br><span class="line">	u8 c;</span><br><span class="line">	u8 dataIndex = <span class="number">0</span>;</span><br><span class="line">	u8 cksum = <span class="number">0</span>;<span class="comment">//将陆续接到的变量c求和</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (uartslkGetDataWithTimout(&amp;c))<span class="comment">//传引用，双向的，从uartslkDataDelivery队列收到的值存在变量c</span></span><br><span class="line">			<span class="comment">/*从接受队列里读数据（带超时处理）*/</span></span><br><span class="line">			<span class="type">bool</span> <span class="title function_">uartslkGetDataWithTimout</span><span class="params">(u8 *c)</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">/*接受uartslkDataDelivery(1024个容量)消息*/</span></span><br><span class="line">				<span class="keyword">if</span> (xQueueReceive(uartslkDataDelivery, c, UARTSLK_DATA_TIMEOUT_TICKS) == pdTRUE)	</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				*c = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">switch</span>(rxState)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">case</span> waitForStartByte1:</span><br><span class="line">				<span class="comment">/*下行帧头*/</span></span><br><span class="line">				<span class="comment">//#define DOWN_BYTE1 0xAA，如果成功收到DOWN_BYTE1，下次循环则进入下个case waitForStartByte2:，否则继续case waitForStartByte1:</span></span><br><span class="line">					rxState = (c == DOWN_BYTE1) ? waitForStartByte2 : waitForStartByte1;</span><br><span class="line">					cksum = c;<span class="comment">//求和，用来校验</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForStartByte2:</span><br><span class="line">			    <span class="comment">/*下行帧头*/</span></span><br><span class="line">				<span class="comment">//#define DOWN_BYTE2 0xAF，如果成功收到DOWN_BYTE2，下次循环则进入下个case waitForMsgID:否则进入上个case waitForStartByte1</span></span><br><span class="line">					rxState = (c == DOWN_BYTE2) ? waitForMsgID : waitForStartByte1;</span><br><span class="line">					cksum += c;<span class="comment">//求和，用来校验</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForMsgID:</span><br><span class="line">					rxPacket.msgID = c;<span class="comment">//把收到的数据c存在结构体，此时c为id</span></span><br><span class="line">					rxState = waitForDataLength;<span class="comment">//下次循环则进入 case waitForDataLength</span></span><br><span class="line">					cksum += c;<span class="comment">//求和，用来校验</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForDataLength:</span><br><span class="line">					<span class="keyword">if</span> (c &lt;= ATKP_MAX_DATA_SIZE)</span><br><span class="line">					<span class="comment">//c为数据长度，如果没超过30.#define ATKP_MAX_DATA_SIZE 30</span></span><br><span class="line">					&#123;</span><br><span class="line">						rxPacket.dataLen = c;<span class="comment">//把收到的数据c存在结构体，此时c为数据长度</span></span><br><span class="line">						dataIndex = <span class="number">0</span>;</span><br><span class="line">						<span class="comment">//如果此时接收到的c &gt; 0，下次进入case waitForData:，否则进入case waitForChksum1:</span></span><br><span class="line">						rxState = (c &gt; <span class="number">0</span>) ? waitForData : waitForChksum1;	</span><br><span class="line">						<span class="comment">/*c=0,数据长度为0，校验1*/</span></span><br><span class="line">						cksum += c;<span class="comment">//求和，用来校验</span></span><br><span class="line">					&#125; <span class="keyword">else</span> <span class="comment">//如果超过最大长度30</span></span><br><span class="line">					&#123;</span><br><span class="line">						rxState = waitForStartByte1;<span class="comment">//从case waitForStartByte1开始重新接收</span></span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForData:<span class="comment">//由case waitForDataLength:可知dataIndex = 0;</span></span><br><span class="line">					rxPacket.data[dataIndex] = c;<span class="comment">//从第0个开始存储</span></span><br><span class="line">					dataIndex++;<span class="comment">//存到下个位置，</span></span><br><span class="line">					cksum += c;<span class="comment">//求和，用来校验</span></span><br><span class="line">					<span class="comment">//没有改变rxState，下次循环继续进入这个case</span></span><br><span class="line">					<span class="keyword">if</span> (dataIndex == rxPacket.dataLen)<span class="comment">//如果存满了,改变rxState</span></span><br><span class="line">					&#123;</span><br><span class="line">						rxState = waitForChksum1;<span class="comment">//跳转到下个case waitForChksum1:进行校验</span></span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForChksum1:</span><br><span class="line">					<span class="keyword">if</span> (cksum == c)	<span class="comment">/*所有校验正确*/</span></span><br><span class="line">					&#123;</span><br><span class="line">						atkpPacketDispatch(&amp;rxPacket);<span class="comment">//radiolink接收到ATKPPacket预处理</span></span><br><span class="line">					&#125; </span><br><span class="line">					<span class="keyword">else</span>	<span class="comment">/*校验错误*/</span></span><br><span class="line">					&#123;</span><br><span class="line">						rxState = waitForStartByte1;	<span class="comment">//校验错误则进入rxState = waitForStartByte1，重新接收</span></span><br><span class="line">						IF_DEBUG_ASSERT(<span class="number">1</span>);</span><br><span class="line">					&#125;</span><br><span class="line">					rxState = waitForStartByte1;<span class="comment">//校验成功，进入下一次接收</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					ASSERT(<span class="number">0</span>);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>	<span class="comment">/*超时处理*/</span></span><br><span class="line">		&#123;</span><br><span class="line">			rxState = waitForStartByte1;<span class="comment">//超时重新接收</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*radiolink接收到ATKPPacket预处理，把接收到的一个遥控无线数据包存到“接收队列”，并从“发送队列”中获取一个包，通过串口DMA发送*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">atkpPacketDispatch</span><span class="params">(<span class="type">atkp_t</span> *rxPacket)</span></span><br><span class="line">&#123;</span><br><span class="line">	atkpReceivePacketBlocking(rxPacket);<span class="comment">//调用xQueueSend(rxQueue, p, portMAX_DELAY)向“接收队列”发送消息，\也就是把接收到的包发送到“接收队列”</span></span><br><span class="line">	<span class="type">bool</span> <span class="title function_">atkpReceivePacketBlocking</span><span class="params">(<span class="type">atkp_t</span> *p)</span></span><br><span class="line">	&#123;</span><br><span class="line">		ASSERT(p);</span><br><span class="line">		ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">		<span class="keyword">return</span> xQueueSend(rxQueue, p, portMAX_DELAY);	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>( rxPacket-&gt;msgID == DOWN_POWER)<span class="comment">//DOWN_POWER= 0x05,//接收到的包ID=0x05，则什么都不做</span></span><br><span class="line">	&#123;;&#125;<span class="comment">/*do noting*/</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		ledseqRun(DATA_RX_LED, seq_linkup);</span><br><span class="line">		<span class="comment">/*接收到一个遥控无线数据包则发送一个包*/</span></span><br><span class="line">		<span class="keyword">if</span>(xQueueReceive(txQueue, &amp;txPacket, <span class="number">0</span>) == pdTRUE)<span class="comment">//从“发送队列”获取一个包</span></span><br><span class="line">		&#123;</span><br><span class="line">			ASSERT(txPacket.dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">			ledseqRun(DATA_TX_LED, seq_linkup);</span><br><span class="line">			<span class="comment">/*运行led的sequence序列*/</span></span><br><span class="line">			<span class="type">void</span> <span class="title function_">ledseqRun</span><span class="params">(led_e led, <span class="type">const</span> <span class="type">ledseq_t</span> *sequence)</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="type">int</span> prio = getPrio(sequence);	<span class="comment">/*获得LED优先序列*/</span></span><br><span class="line">			</span><br><span class="line">				<span class="keyword">if</span>(prio&lt;<span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">			</span><br><span class="line">				xSemaphoreTake(ledseqSem, portMAX_DELAY);<span class="comment">//ledseqSem信号量</span></span><br><span class="line">				state[led][prio] = <span class="number">0</span>; </span><br><span class="line">				updateActive(led);</span><br><span class="line">				xSemaphoreGive(ledseqSem);</span><br><span class="line">			</span><br><span class="line">				<span class="keyword">if</span>(activeSeq[led] == prio)	<span class="comment">/*当前序列优先级等于活动序列优先级*/</span></span><br><span class="line">					runLedseq(timer[led]);</span><br><span class="line">			&#125;</span><br><span class="line">			uartSendPacket(&amp;txPacket);<span class="comment">//从“发送队列”中读取一个包，再通过串口发送过去</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*打包ATKPPacket数据通过串口DMA发送*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">uartSendPacket</span><span class="params">(<span class="type">atkp_t</span> *p)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> dataSize;</span><br><span class="line">	u8 cksum = <span class="number">0</span>;</span><br><span class="line">	u8 sendBuffer[<span class="number">36</span>];</span><br><span class="line">	</span><br><span class="line">	ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">	<span class="comment">//把结构体成员，打包成ATKP格式</span></span><br><span class="line">	sendBuffer[<span class="number">0</span>] = UP_BYTE1;<span class="comment">///*上行帧头*/#define UP_BYTE1 0xAA</span></span><br><span class="line">	sendBuffer[<span class="number">1</span>] = UP_BYTE2;<span class="comment">///*上行帧头*/#define UP_BYTE2 0xAA</span></span><br><span class="line">	sendBuffer[<span class="number">2</span>] = p-&gt;msgID;</span><br><span class="line">	sendBuffer[<span class="number">3</span>] = p-&gt;dataLen;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">memcpy</span>(&amp;sendBuffer[<span class="number">4</span>], p-&gt;data, p-&gt;dataLen);<span class="comment">//复制 p-&gt;data所在的内存内容的前dataLen个字节到&amp;sendBuffer[4]内存地址上。</span></span><br><span class="line">	<span class="comment">//memcpy() 用来复制内存，复制 src 所指的内存内容的前 num 个字节到 dest 所指的内存地址上。\</span></span><br><span class="line"><span class="comment">	其原型为：void * memcpy ( void * dest, const void * src, size_t num );</span></span><br><span class="line">	dataSize = p-&gt;dataLen + <span class="number">5</span>;<span class="comment">//加上cksum</span></span><br><span class="line">	<span class="comment">/*计算校验和*/</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;dataSize<span class="number">-1</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cksum += sendBuffer[i];<span class="comment">//把数字所有的值加起来，作为校验</span></span><br><span class="line">	&#125;</span><br><span class="line">	sendBuffer[dataSize<span class="number">-1</span>] = cksum;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*串口DMA发送*/</span></span><br><span class="line">	uartslkSendDataDmaBlocking(dataSize, sendBuffer);</span><br><span class="line">	<span class="comment">/*通过DMA发送原始数据*/</span></span><br><span class="line">	<span class="type">void</span> <span class="title function_">uartslkSendDataDmaBlocking</span><span class="params">(u32 size, u8* data)</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (isUartDmaInitialized)</span><br><span class="line">		&#123;</span><br><span class="line">			xSemaphoreTake(uartBusy, portMAX_DELAY);</span><br><span class="line">			<span class="keyword">while</span>(DMA_GetCmdStatus(UARTSLK_DMA_STREAM) != DISABLE);	<span class="comment">/*等待DMA空闲*/</span></span><br><span class="line">			<span class="built_in">memcpy</span>(dmaBuffer, data, size);		<span class="comment">/*复制数据到DMA缓冲区*/</span></span><br><span class="line">			DMA_InitStructure.DMA_BufferSize = size;</span><br><span class="line">			initialDMACount = size;</span><br><span class="line">			DMA_Init(UARTSLK_DMA_STREAM, &amp;DMA_InitStructure);	<span class="comment">/*重新初始化DMA数据流*/</span></span><br><span class="line">			DMA_ITConfig(UARTSLK_DMA_STREAM, DMA_IT_TC, ENABLE);<span class="comment">/*开启DMA传输完成中断*/</span>		</span><br><span class="line">			USART_DMACmd(UARTSLK_TYPE, USART_DMAReq_Tx, ENABLE);<span class="comment">/* 使能USART DMA TX请求 */</span></span><br><span class="line">			USART_ClearFlag(UARTSLK_TYPE, USART_FLAG_TC);		<span class="comment">/* 清除传输完成中断标志位 */</span></span><br><span class="line">			DMA_Cmd(UARTSLK_DMA_STREAM, ENABLE);	<span class="comment">/* 使能DMA USART TX数据流 */</span></span><br><span class="line">			xSemaphoreTake(waitUntilSendDone, portMAX_DELAY);</span><br><span class="line">			xSemaphoreGive(uartBusy);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//发送包到“发送队列”</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">radiolinkSendPacket</span><span class="params">(<span class="type">const</span> <span class="type">atkp_t</span> *p)</span></span><br><span class="line">&#123;</span><br><span class="line">	ASSERT(p);</span><br><span class="line">	ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">	<span class="keyword">return</span> xQueueSend(txQueue, p, <span class="number">0</span>);<span class="comment">//不等，发送失败则返回errQUEUE_FULL</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//发送包到“发送队列”，带阻塞</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">radiolinkSendPacketBlocking</span><span class="params">(<span class="type">const</span> <span class="type">atkp_t</span> *p)</span></span><br><span class="line">&#123;</span><br><span class="line">	ASSERT(p);</span><br><span class="line">	ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">	<span class="keyword">return</span> xQueueSend(txQueue, p, portMAX_DELAY);	<span class="comment">//一直等到</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取“发送队列”剩余的容量</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">radiolinkGetFreeTxQueuePackets</span><span class="params">(<span class="type">void</span>)</span>	</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> (RADIOLINK_TX_QUEUE_SIZE - uxQueueMessagesWaiting(txQueue));<span class="comment">//30-已被使用的=剩余的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h1><h2 id="atkp-h"><a href="#atkp-h" class="headerlink" title="atkp.h"></a>atkp.h</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __ATKP_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __ATKP_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*上行帧头*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> UP_BYTE1 0xAA</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> UP_BYTE2 0xAA</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*下行帧头*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DOWN_BYTE1 0xAA </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DOWN_BYTE2 0xAF  </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ATKP_MAX_DATA_SIZE 30</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*通讯数据结构*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">uint8_t</span> msgID;</span><br><span class="line">	<span class="type">uint8_t</span> dataLen;</span><br><span class="line">	<span class="type">uint8_t</span> data[ATKP_MAX_DATA_SIZE];</span><br><span class="line">&#125;<span class="type">atkp_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*上行指令ID*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	UP_VERSION		= <span class="number">0x00</span>,</span><br><span class="line">	UP_STATUS		= <span class="number">0x01</span>,</span><br><span class="line">	UP_SENSER		= <span class="number">0x02</span>,</span><br><span class="line">	UP_RCDATA		= <span class="number">0x03</span>,</span><br><span class="line">	UP_GPSDATA		= <span class="number">0x04</span>,</span><br><span class="line">	UP_POWER		= <span class="number">0x05</span>,</span><br><span class="line">	UP_MOTOR		= <span class="number">0x06</span>,</span><br><span class="line">	UP_SENSER2		= <span class="number">0x07</span>,</span><br><span class="line">	UP_FLYMODE		= <span class="number">0x0A</span>,</span><br><span class="line">	UP_SPEED 		= <span class="number">0x0B</span>,</span><br><span class="line">	UP_PID1		= <span class="number">0x10</span>,</span><br><span class="line">	UP_PID2		= <span class="number">0x11</span>,</span><br><span class="line">	UP_PID3		= <span class="number">0x12</span>,</span><br><span class="line">	UP_PID4		= <span class="number">0x13</span>,</span><br><span class="line">	UP_PID5		= <span class="number">0x14</span>,</span><br><span class="line">	UP_PID6		= <span class="number">0x15</span>,</span><br><span class="line">	UP_RADIO		= <span class="number">0x40</span>,</span><br><span class="line">	UP_MSG		= <span class="number">0xEE</span>,</span><br><span class="line">	UP_CHECK		= <span class="number">0xEF</span>,</span><br><span class="line">	</span><br><span class="line">	UP_REMOTER		= <span class="number">0x50</span>,</span><br><span class="line">	UP_PRINTF		= <span class="number">0x51</span>,</span><br><span class="line">	</span><br><span class="line">	UP_USER_DATA1	= <span class="number">0xF1</span>,</span><br><span class="line">	UP_USER_DATA2	= <span class="number">0xF2</span>,</span><br><span class="line">	UP_USER_DATA3	= <span class="number">0xF3</span>,</span><br><span class="line">	UP_USER_DATA4	= <span class="number">0xF4</span>,</span><br><span class="line">	UP_USER_DATA5	= <span class="number">0xF5</span>,</span><br><span class="line">	UP_USER_DATA6	= <span class="number">0xF6</span>,</span><br><span class="line">	UP_USER_DATA7	= <span class="number">0xF7</span>,</span><br><span class="line">	UP_USER_DATA8	= <span class="number">0xF8</span>,</span><br><span class="line">	UP_USER_DATA9	= <span class="number">0xF9</span>,</span><br><span class="line">	UP_USER_DATA10	= <span class="number">0xFA</span>,</span><br><span class="line">&#125;upmsgID_e;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*下行指令*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB		0x01</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_GYRO_CALIB		0x02</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_MAG_CALIB		0x04</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_BARO_CALIB		0x05</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_EXIT	0x20</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP1	0x21</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP2	0x22</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP3	0x23</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP4	0x24</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP5	0x25</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP6	0x26</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_FLIGHT_LOCK		0xA0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_COMMAND_FLIGHT_ULOCK		0xA1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_ACK_READ_PID				0x01</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_ACK_READ_VERSION			0xA0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  D_ACK_RESET_PARAM			0xA1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*下行指令ID*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	DOWN_COMMAND	= <span class="number">0x01</span>,</span><br><span class="line">	DOWN_ACK		= <span class="number">0x02</span>,</span><br><span class="line">	DOWN_RCDATA	= <span class="number">0x03</span>,</span><br><span class="line">	DOWN_POWER		= <span class="number">0x05</span>,</span><br><span class="line">	DOWN_FLYMODE	= <span class="number">0x0A</span>,</span><br><span class="line">	DOWN_PID1		= <span class="number">0x10</span>,</span><br><span class="line">	DOWN_PID2		= <span class="number">0x11</span>,</span><br><span class="line">	DOWN_PID3		= <span class="number">0x12</span>,</span><br><span class="line">	DOWN_PID4		= <span class="number">0x13</span>,</span><br><span class="line">	DOWN_PID5		= <span class="number">0x14</span>,</span><br><span class="line">	DOWN_PID6		= <span class="number">0x15</span>,</span><br><span class="line">	DOWN_RADIO		= <span class="number">0x40</span>,</span><br><span class="line">	</span><br><span class="line">	DOWN_REMOTER	= <span class="number">0x50</span>,<span class="comment">//指定 遥控器下行给四轴 的命令</span></span><br><span class="line">&#125;downmsgID_e;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">atkpTxTask</span><span class="params">(<span class="type">void</span> *param)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">atkpRxAnlTask</span><span class="params">(<span class="type">void</span> *param)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">atkpInit</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">bool</span> <span class="title function_">atkpReceivePacketBlocking</span><span class="params">(<span class="type">atkp_t</span> *p)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/*ATKP_H*/</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="remoter-ctrl-h"><a href="#remoter-ctrl-h" class="headerlink" title="remoter_ctrl.h"></a>remoter_ctrl.h</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/*遥控数据类别*/ </span><br><span class="line">typedef enum </span><br><span class="line">&#123;</span><br><span class="line">	REMOTER_CMD,//控制命令0x00</span><br><span class="line">	REMOTER_DATA,//控制数据0x01</span><br><span class="line">&#125;remoterType_e;</span><br><span class="line"></span><br><span class="line">/*下行命令/----控制命令</span><br><span class="line">#define  CMD_GET_MSG		0x01	/*获取四轴信息（自检）*/</span><br><span class="line">#define  CMD_GET_CANFLY		0x02	/*获取四轴能否起飞*/</span><br><span class="line">#define  CMD_FLIGHT_LAND	0x03	/*起飞、降落*/</span><br><span class="line">#define  CMD_EMER_STOP		0x04	/*紧急停机*/</span><br><span class="line">#define  CMD_FLIP			0x05	/*4D翻滚*/</span><br><span class="line">#define  CMD_POWER_MODULE	0x06	/*´打开关闭拓展模块电源´*/</span><br><span class="line">#define  CMD_LEDRING_EFFECT	0x07	/*设置RGB灯环效果*/</span><br><span class="line">#define  CMD_POWER_VL53LXX	0x08	/*´打开关闭激光*/</span><br><span class="line"></span><br><span class="line">/*遥控数据结构*/-----控制数据</span><br><span class="line">typedef __packed struct</span><br><span class="line">&#123;</span><br><span class="line">	float roll;      </span><br><span class="line">	float pitch;  </span><br><span class="line">	float yaw;      </span><br><span class="line">	float thrust;</span><br><span class="line">	float trimPitch;</span><br><span class="line">	float trimRoll;</span><br><span class="line">	u8	ctrlMode;</span><br><span class="line">	bool flightMode;</span><br><span class="line">	bool RCLock;</span><br><span class="line">&#125; remoterData_t;</span><br><span class="line"></span><br><span class="line">/*遥控数据结构*/-----控制数据</span><br><span class="line">typedef __packed struct</span><br><span class="line">&#123;</span><br><span class="line">	float roll;      </span><br><span class="line">	float pitch;  </span><br><span class="line">	float yaw;      </span><br><span class="line">	float thrust;</span><br><span class="line">	float trimPitch;</span><br><span class="line">	float trimRoll;</span><br><span class="line">	u8	ctrlMode;</span><br><span class="line">	bool flightMode;</span><br><span class="line">	bool RCLock;</span><br><span class="line">&#125; remoterData_t;</span><br></pre></td></tr></table></figure>
+<h1 id="atpk-c"><a href="#atpk-c" class="headerlink" title="atpk.c"></a>atpk.c</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;atkp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;radiolink.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usblink.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usbd_usr.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stabilizer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;motors.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;commander.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;flip.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pid.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;attitude_pid.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sensors.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;position_pid.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;config_param.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;power_control.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;remoter_ctrl.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*FreeRTOS相关头文件*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FreeRTOS.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;task.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;semphr.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;queue.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//数据拆分宏定义</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  BYTE0(dwTemp)       ( *( (u8 *)(&amp;dwTemp)	)  )</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  BYTE1(dwTemp)       ( *( (u8 *)(&amp;dwTemp) + 1) )</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  BYTE2(dwTemp)       ( *( (u8 *)(&amp;dwTemp) + 2) )</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  BYTE3(dwTemp)       ( *( (u8 *)(&amp;dwTemp) + 3) )</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//数据返回周期时间（单位ms）</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_STATUS	30</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_SENSOR 	10</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_RCDATA 	40</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_POWER 	100</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_MOTOR	40</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_SENSOR2 	40</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  PERIOD_SPEED   	50</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ATKP_RX_QUEUE_SIZE 	10 <span class="comment">/*ATKP包接收队列消息个数*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>  </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	u16 roll;</span><br><span class="line">	u16 pitch;</span><br><span class="line">	u16 yaw;</span><br><span class="line">	u16 thrust;</span><br><span class="line">&#125;joystickFlyui16_t;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> isConnect = <span class="literal">false</span>;</span><br><span class="line"><span class="type">bool</span> isInit = <span class="literal">false</span>;</span><br><span class="line"><span class="type">bool</span> flyable = <span class="literal">false</span>;</span><br><span class="line"><span class="type">static</span> joystickFlyui16_t rcdata;</span><br><span class="line"><span class="type">static</span> xQueueHandle rxQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> PidObject pidAngleRoll;</span><br><span class="line"><span class="keyword">extern</span> PidObject pidAnglePitch;</span><br><span class="line"><span class="keyword">extern</span> PidObject pidAngleYaw;</span><br><span class="line"><span class="keyword">extern</span> PidObject pidRateRoll;</span><br><span class="line"><span class="keyword">extern</span> PidObject pidRatePitch;</span><br><span class="line"><span class="keyword">extern</span> PidObject pidRateYaw;</span><br><span class="line"></span><br><span class="line"><span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">atkpSendPacket</span><span class="params">(<span class="type">atkp_t</span> *p)</span></span><br><span class="line">&#123;</span><br><span class="line">	radiolinkSendPacket(p);<span class="comment">//发送到radiolink的“发送队列txQueue”</span></span><br><span class="line">	<span class="type">bool</span> <span class="title function_">radiolinkSendPacket</span><span class="params">(<span class="type">const</span> <span class="type">atkp_t</span> *p)</span></span><br><span class="line">	&#123;</span><br><span class="line">		ASSERT(p);</span><br><span class="line">		ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">		<span class="keyword">return</span> xQueueSend(txQueue, p, <span class="number">0</span>);<span class="comment">//不等，发送失败则返回errQUEUE_FULL</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(getusbConnectState())</span><br><span class="line">	&#123;</span><br><span class="line">		usblinkSendPacket(p);<span class="comment">//发送到usblink的“发送队列txQueue”</span></span><br><span class="line">		<span class="comment">/*usb连接发送atkpPacket*/</span></span><br><span class="line">		<span class="type">bool</span> <span class="title function_">usblinkSendPacket</span><span class="params">(<span class="type">const</span> <span class="type">atkp_t</span> *p)</span></span><br><span class="line">		&#123;</span><br><span class="line">			ASSERT(p);</span><br><span class="line">			ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">			<span class="keyword">return</span> xQueueSend(txQueue, p, <span class="number">0</span>);	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/***************************发送至匿名上位机指令******************************/</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendStatus</span><span class="params">(<span class="type">float</span> roll, <span class="type">float</span> pitch, <span class="type">float</span> yaw, s32 alt, u8 fly_model, u8 armed)</span><span class="comment">//飞机姿态等基本信息</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	vs16 _temp;</span><br><span class="line">	vs32 _temp2 = alt;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_STATUS;-<span class="number">-1</span></span><br><span class="line">	</span><br><span class="line">	_temp = (<span class="type">int</span>)(roll*<span class="number">100</span>);</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = (<span class="type">int</span>)(pitch*<span class="number">100</span>);</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = (<span class="type">int</span>)(yaw*<span class="number">100</span>);</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	</span><br><span class="line">	p.data[_cnt++]=BYTE3(_temp2);</span><br><span class="line">	p.data[_cnt++]=BYTE2(_temp2);</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp2);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp2);</span><br><span class="line">	</span><br><span class="line">	p.data[_cnt++] = fly_model;</span><br><span class="line">	p.data[_cnt++] = armed;</span><br><span class="line">	</span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendSenser</span><span class="params">(s16 a_x,s16 a_y,s16 a_z,s16 g_x,s16 g_y,s16 g_z,s16 m_x,s16 m_y,s16 m_z)</span><span class="comment">//九轴传感器数据</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	vs16 _temp;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_SENSER;-<span class="number">-2</span></span><br><span class="line"></span><br><span class="line">	_temp = a_x;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = a_y;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = a_z;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	</span><br><span class="line">	_temp = g_x;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = g_y;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = g_z;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	</span><br><span class="line">	_temp = m_x;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = m_y;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = m_z;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = <span class="number">0</span>;	</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);	</span><br><span class="line">	</span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendRCData</span><span class="params">(u16 thrust,u16 yaw,u16 roll,u16 pitch,u16 aux1,u16 aux2,u16 aux3,u16 aux4,u16 aux5,u16 aux6)</span></span><br><span class="line"><span class="comment">//飞机收到的控制数据</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_RCDATA;-<span class="number">-3</span></span><br><span class="line">	p.data[_cnt++]=BYTE1(thrust);</span><br><span class="line">	p.data[_cnt++]=BYTE0(thrust);</span><br><span class="line">	p.data[_cnt++]=BYTE1(yaw);</span><br><span class="line">	p.data[_cnt++]=BYTE0(yaw);</span><br><span class="line">	p.data[_cnt++]=BYTE1(roll);</span><br><span class="line">	p.data[_cnt++]=BYTE0(roll);</span><br><span class="line">	p.data[_cnt++]=BYTE1(pitch);</span><br><span class="line">	p.data[_cnt++]=BYTE0(pitch);</span><br><span class="line">	p.data[_cnt++]=BYTE1(aux1);</span><br><span class="line">	p.data[_cnt++]=BYTE0(aux1);</span><br><span class="line">	p.data[_cnt++]=BYTE1(aux2);</span><br><span class="line">	p.data[_cnt++]=BYTE0(aux2);</span><br><span class="line">	p.data[_cnt++]=BYTE1(aux3);</span><br><span class="line">	p.data[_cnt++]=BYTE0(aux3);</span><br><span class="line">	p.data[_cnt++]=BYTE1(aux4);</span><br><span class="line">	p.data[_cnt++]=BYTE0(aux4);</span><br><span class="line">	p.data[_cnt++]=BYTE1(aux5);</span><br><span class="line">	p.data[_cnt++]=BYTE0(aux5);</span><br><span class="line">	p.data[_cnt++]=BYTE1(aux6);</span><br><span class="line">	p.data[_cnt++]=BYTE0(aux6);</span><br><span class="line"></span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendPower</span><span class="params">(u16 votage, u16 current)</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_POWER;-<span class="number">-5</span></span><br><span class="line">	</span><br><span class="line">	p.data[_cnt++]=BYTE1(votage);</span><br><span class="line">	p.data[_cnt++]=BYTE0(votage);</span><br><span class="line">	p.data[_cnt++]=BYTE1(current);</span><br><span class="line">	p.data[_cnt++]=BYTE0(current);</span><br><span class="line">	</span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendMotorPWM</span><span class="params">(u16 m_1,u16 m_2,u16 m_3,u16 m_4,u16 m_5,u16 m_6,u16 m_7,u16 m_8)</span><span class="comment">//电机PWM值</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_MOTOR;-<span class="number">-6</span></span><br><span class="line">	</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_1);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_1);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_2);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_2);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_3);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_3);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_4);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_4);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_5);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_5);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_6);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_6);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_7);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_7);</span><br><span class="line">	p.data[_cnt++]=BYTE1(m_8);</span><br><span class="line">	p.data[_cnt++]=BYTE0(m_8);</span><br><span class="line">	</span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendSenser2</span><span class="params">(s32 bar_alt,u16 csb_alt)</span><span class="comment">//发送气压计信息</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_SENSER2;-<span class="number">-7</span></span><br><span class="line">	</span><br><span class="line">	p.data[_cnt++]=BYTE3(bar_alt);</span><br><span class="line">	p.data[_cnt++]=BYTE2(bar_alt);</span><br><span class="line">	p.data[_cnt++]=BYTE1(bar_alt);</span><br><span class="line">	p.data[_cnt++]=BYTE0(bar_alt);</span><br><span class="line">	</span><br><span class="line">	p.data[_cnt++]=BYTE1(csb_alt);</span><br><span class="line">	p.data[_cnt++]=BYTE0(csb_alt);</span><br><span class="line">	</span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendPid</span><span class="params">(u8 group,<span class="type">float</span> p1_p,<span class="type">float</span> p1_i,<span class="type">float</span> p1_d,<span class="type">float</span> p2_p,<span class="type">float</span> p2_i,<span class="type">float</span> p2_d,<span class="type">float</span> p3_p,<span class="type">float</span> p3_i,<span class="type">float</span> p3_d)</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 _cnt=<span class="number">0</span>;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	vs16 _temp;</span><br><span class="line">	</span><br><span class="line">	p.msgID = <span class="number">0x10</span>+group<span class="number">-1</span>;-<span class="number">-10</span>~<span class="number">15</span></span><br><span class="line"></span><br><span class="line">	_temp = p1_p * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p1_i * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p1_d * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p2_p * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p2_i * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p2_d * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p3_p * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p3_i * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	_temp = p3_d * <span class="number">10</span> ;</span><br><span class="line">	p.data[_cnt++]=BYTE1(_temp);</span><br><span class="line">	p.data[_cnt++]=BYTE0(_temp);</span><br><span class="line">	</span><br><span class="line">	p.dataLen = _cnt;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">sendCheck</span><span class="params">(u8 head, u8 check_sum)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	</span><br><span class="line">	p.msgID = UP_CHECK;--EF</span><br><span class="line">	p.dataLen = <span class="number">2</span>;</span><br><span class="line">	p.data[<span class="number">0</span>] = head;</span><br><span class="line">	p.data[<span class="number">1</span>] = check_sum;</span><br><span class="line">	atkpSendPacket(&amp;p);<span class="comment">//把ATKP包发送到radiolink和usblink的“发送队列txQueue”</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/****************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*数据周期性发送给上位机，每1ms调用一次*/</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">atkpSendPeriod</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">static</span> u16 count_ms = <span class="number">1</span>;</span><br><span class="line">	<span class="comment">//if（！（）） ，只有当里面的为0时，！0就是真。</span></span><br><span class="line">	<span class="keyword">if</span>(!(count_ms % PERIOD_STATUS))<span class="comment">//count_ms/30ms,每30ms发送一次</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">attitude_t</span> attitude;<span class="comment">//结构体=时间戳+欧拉角</span></span><br><span class="line">		getAttitudeData(&amp;attitude);</span><br><span class="line">		<span class="type">int</span> positionZ = getPositionZ() * <span class="number">100.f</span>;</span><br><span class="line">		sendStatus(attitude.roll, attitude.pitch, attitude.yaw, positionZ, <span class="number">0</span>, flyable);	<span class="comment">//发送状态			</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!(count_ms % PERIOD_SENSOR))<span class="comment">//count_ms/10ms，每10ms发送一次MPU数据</span></span><br><span class="line">	&#123;</span><br><span class="line">		Axis3i16 acc;</span><br><span class="line">		Axis3i16 gyro;</span><br><span class="line">		Axis3i16 mag;</span><br><span class="line">		getSensorRawData(&amp;acc, &amp;gyro, &amp;mag);</span><br><span class="line">		sendSenser(acc.x, acc.y, acc.z, gyro.x, gyro.y, gyro.z, mag.x, mag.y, mag.z);<span class="comment">//发送MPU九轴传感器数据	</span></span><br><span class="line">		<span class="comment">//3 轴加速度传感器、3 轴陀螺仪传感器和 3 轴磁力计		</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!(count_ms % PERIOD_RCDATA))<span class="comment">//count_ms/40ms，每40ms发送一次遥控数据（油门，偏航，翻滚，俯仰）</span></span><br><span class="line">	&#123;</span><br><span class="line">		sendRCData(rcdata.thrust, rcdata.yaw, rcdata.roll,</span><br><span class="line">					rcdata.pitch, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);<span class="comment">//发送遥控器的数据</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!(count_ms % PERIOD_POWER))<span class="comment">//count_ms/100ms，每100ms发送一次电压数据</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">float</span> bat = pmGetBatteryVoltage();</span><br><span class="line">		sendPower(bat*<span class="number">100</span>,<span class="number">500</span>);<span class="comment">//发送电量信息</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!(count_ms % PERIOD_MOTOR))<span class="comment">//count_ms/40ms，每40ms发送一次电机PWMxxx数据</span></span><br><span class="line">	&#123;</span><br><span class="line">		u16 m1,m2,m3,m4;</span><br><span class="line">		motorPWM_t motorPWM;</span><br><span class="line">		getMotorPWM(&amp;motorPWM);</span><br><span class="line">		m1 = (<span class="type">float</span>)motorPWM.m1/<span class="number">65535</span>*<span class="number">1000</span>;</span><br><span class="line">		m2 = (<span class="type">float</span>)motorPWM.m2/<span class="number">65535</span>*<span class="number">1000</span>;</span><br><span class="line">		m3 = (<span class="type">float</span>)motorPWM.m3/<span class="number">65535</span>*<span class="number">1000</span>;</span><br><span class="line">		m4 = (<span class="type">float</span>)motorPWM.m4/<span class="number">65535</span>*<span class="number">1000</span>;</span><br><span class="line">		sendMotorPWM(m1,m2,m3,m4,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!(count_ms % PERIOD_SENSOR2))<span class="comment">//count_ms/40ms，每40ms发送一次气压计数据</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> baro = getBaroData() * <span class="number">100.f</span>;</span><br><span class="line">		sendSenser2(baro,<span class="number">0</span>);<span class="comment">//发送气压计信息</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(++count_ms&gt;=<span class="number">65535</span>) </span><br><span class="line">		count_ms = <span class="number">1</span>;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将帧头，地址，帧数据部分的长度，每个数据求和作为校验</span></span><br><span class="line"><span class="type">static</span> u8 <span class="title function_">atkpCheckSum</span><span class="params">(<span class="type">atkp_t</span> *packet)</span><span class="comment">//分析atkp_t结构体（包），得出校验值</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 sum;</span><br><span class="line">	sum = DOWN_BYTE1;<span class="comment">/*下行帧头*/</span></span><br><span class="line">	sum += DOWN_BYTE2;</span><br><span class="line">	sum += packet-&gt;msgID;<span class="comment">//帧地址</span></span><br><span class="line">	sum += packet-&gt;dataLen;<span class="comment">//帧数据部分的长度</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;packet-&gt;dataLen; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		sum += packet-&gt;data[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//解包，根据msgID==下行指令ID（枚举类型）和data[0]做出处理</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">atkpReceiveAnl</span><span class="params">(<span class="type">atkp_t</span> *anlPacket)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(anlPacket-&gt;msgID	== DOWN_COMMAND)<span class="comment">//DOWN_COMMAND	= 0x01，下行指令</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/*下行指令*/</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB		0x01</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_GYRO_CALIB		0x02</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_MAG_CALIB		0x04</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_BARO_CALIB		0x05</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_EXIT	0x20</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP1	0x21</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP2	0x22</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP3	0x23</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP4	0x24</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP5	0x25</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_ACC_CALIB_STEP6	0x26</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_FLIGHT_LOCK		0xA0</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_COMMAND_FLIGHT_ULOCK		0xA1</span></span><br><span class="line">		</span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_ACK_READ_PID			0x01</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_ACK_READ_VERSION		0xA0</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span>  D_ACK_RESET_PARAM			0xA1</span></span><br><span class="line">	</span><br><span class="line">		<span class="keyword">switch</span>(anlPacket-&gt;data[<span class="number">0</span>])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_GYRO_CALIB:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_MAG_CALIB:				</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_BARO_CALIB:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB_STEP1:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB_STEP2:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB_STEP3:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB_STEP4:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB_STEP5:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_ACC_CALIB_STEP6:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_FLIGHT_LOCK:</span><br><span class="line">				flyable = <span class="literal">false</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">case</span> D_COMMAND_FLIGHT_ULOCK:</span><br><span class="line">				flyable = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;			</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_ACK)<span class="comment">//DOWN_ACK	= 0x02,</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(anlPacket-&gt;data[<span class="number">0</span>] == D_ACK_READ_PID)<span class="comment">/*读取PID参数*/</span></span><br><span class="line">		&#123;</span><br><span class="line">			sendPid(<span class="number">1</span>, pidRateRoll.kp, pidRateRoll.ki, pidRateRoll.kd,</span><br><span class="line">					   pidRatePitch.kp, pidRatePitch.ki, pidRatePitch.kd,</span><br><span class="line">					   pidRateYaw.kp, pidRateYaw.ki, pidRateYaw.kd </span><br><span class="line">				   );</span><br><span class="line">			sendPid(<span class="number">2</span>, pidAngleRoll.kp, pidAngleRoll.ki, pidAngleRoll.kd,</span><br><span class="line">					   pidAnglePitch.kp, pidAnglePitch.ki, pidAnglePitch.kd,</span><br><span class="line">					   pidAngleYaw.kp, pidAngleYaw.ki, pidAngleYaw.kd </span><br><span class="line">				   );</span><br><span class="line">			sendPid(<span class="number">3</span>, pidVZ.kp, pidVZ.ki, pidVZ.kd,</span><br><span class="line">					   pidZ.kp, pidZ.ki, pidZ.kd,</span><br><span class="line">					   pidVX.kp, pidVX.ki, pidVX.kd</span><br><span class="line">				   );</span><br><span class="line">			sendPid(<span class="number">4</span>, pidX.kp, pidX.ki, pidX.kd,</span><br><span class="line">					   <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">					   <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">				   );</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(anlPacket-&gt;data[<span class="number">0</span>] == D_ACK_RESET_PARAM)<span class="comment">/*恢复默认参数*/</span></span><br><span class="line">		&#123;</span><br><span class="line">			resetConfigParamPID();</span><br><span class="line">			</span><br><span class="line">			attitudeControlInit(RATE_PID_DT, ANGEL_PID_DT); <span class="comment">/*初始化姿态PID*/</span>	</span><br><span class="line">			positionControlInit(VELOCITY_PID_DT, POSITION_PID_DT); <span class="comment">/*初始化位置PID*/</span></span><br><span class="line">			</span><br><span class="line">			sendPid(<span class="number">1</span>, pidRateRoll.kp, pidRateRoll.ki, pidRateRoll.kd,</span><br><span class="line">					   pidRatePitch.kp, pidRatePitch.ki, pidRatePitch.kd,</span><br><span class="line">					   pidRateYaw.kp, pidRateYaw.ki, pidRateYaw.kd </span><br><span class="line">				   );</span><br><span class="line">			sendPid(<span class="number">2</span>, pidAngleRoll.kp, pidAngleRoll.ki, pidAngleRoll.kd,</span><br><span class="line">					   pidAnglePitch.kp, pidAnglePitch.ki, pidAnglePitch.kd,</span><br><span class="line">					   pidAngleYaw.kp, pidAngleYaw.ki, pidAngleYaw.kd </span><br><span class="line">				   );</span><br><span class="line">			sendPid(<span class="number">3</span>, pidVZ.kp, pidVZ.ki, pidVZ.kd,</span><br><span class="line">					   pidZ.kp, pidZ.ki, pidZ.kd,</span><br><span class="line">					   pidVX.kp, pidVX.ki, pidVX.kd</span><br><span class="line">				   );</span><br><span class="line">			sendPid(<span class="number">4</span>, pidX.kp, pidX.ki, pidX.kd,</span><br><span class="line">					   <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">					   <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">				   );</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_RCDATA)<span class="comment">/*指令值*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		rcdata = *((joystickFlyui16_t*)anlPacket-&gt;data);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_POWER)<span class="comment">/*nrf51822*/</span></span><br><span class="line">	&#123;</span><br><span class="line">		pmSyslinkUpdate(anlPacket);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_REMOTER)<span class="comment">/*遥控器*/</span>	</span><br><span class="line">	&#123;</span><br><span class="line">		remoterCtrlProcess(anlPacket);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_PID1)<span class="comment">//在线PID调试</span></span><br><span class="line">	&#123;</span><br><span class="line">		pidRateRoll.kp  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">0</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">1</span>));</span><br><span class="line">		pidRateRoll.ki  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">2</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">3</span>));</span><br><span class="line">		pidRateRoll.kd  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">4</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">5</span>));</span><br><span class="line">		pidRatePitch.kp = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">6</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">7</span>));</span><br><span class="line">		pidRatePitch.ki = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">8</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">9</span>));</span><br><span class="line">		pidRatePitch.kd = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">10</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">11</span>));</span><br><span class="line">		pidRateYaw.kp   = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">12</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">13</span>));</span><br><span class="line">		pidRateYaw.ki   = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">14</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">15</span>));</span><br><span class="line">		pidRateYaw.kd   = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">16</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">17</span>));</span><br><span class="line">		u8 cksum = atkpCheckSum(anlPacket);</span><br><span class="line">		sendCheck(anlPacket-&gt;msgID,cksum);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_PID2)</span><br><span class="line">	&#123;</span><br><span class="line">		pidAngleRoll.kp  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">0</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">1</span>));</span><br><span class="line">		pidAngleRoll.ki  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">2</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">3</span>));</span><br><span class="line">		pidAngleRoll.kd  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">4</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">5</span>));</span><br><span class="line">		pidAnglePitch.kp = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">6</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">7</span>));</span><br><span class="line">		pidAnglePitch.ki = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">8</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">9</span>));</span><br><span class="line">		pidAnglePitch.kd = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">10</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">11</span>));</span><br><span class="line">		pidAngleYaw.kp   = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">12</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">13</span>));</span><br><span class="line">		pidAngleYaw.ki   = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">14</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">15</span>));</span><br><span class="line">		pidAngleYaw.kd   = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">16</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">17</span>));</span><br><span class="line">		u8 cksum = atkpCheckSum(anlPacket);</span><br><span class="line">		sendCheck(anlPacket-&gt;msgID,cksum);</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_PID3)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">float</span> kp  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">0</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">1</span>));</span><br><span class="line">		<span class="type">float</span> ki  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">2</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">3</span>));</span><br><span class="line">		<span class="type">float</span> kd  = <span class="number">0.1</span>*((s16)(*(anlPacket-&gt;data+<span class="number">4</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">5</span>));</span><br><span class="line">		setPositionPIDZ(kp, ki, kd);</span><br><span class="line">		u8 cksum = atkpCheckSum(anlPacket);</span><br><span class="line">		sendCheck(anlPacket-&gt;msgID,cksum);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_PID4)</span><br><span class="line">	&#123;</span><br><span class="line">		u8 cksum = atkpCheckSum(anlPacket);</span><br><span class="line">		sendCheck(anlPacket-&gt;msgID,cksum);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(anlPacket-&gt;msgID == DOWN_PID5)</span><br><span class="line">	&#123;</span><br><span class="line">		u8 cksum = atkpCheckSum(anlPacket);</span><br><span class="line">		sendCheck(anlPacket-&gt;msgID,cksum);</span><br><span class="line">	&#125;</span><br><span class="line">	-</span><br><span class="line">	&#123;</span><br><span class="line"><span class="comment">//		s16 temp1  = ((s16)(*(anlPacket-&gt;data+0)&lt;&lt;8)|*(anlPacket-&gt;data+1));</span></span><br><span class="line"><span class="comment">//		s16 temp2  = ((s16)(*(anlPacket-&gt;data+2)&lt;&lt;8)|*(anlPacket-&gt;data+3));</span></span><br><span class="line"><span class="comment">//		s16 temp3  = ((s16)(*(anlPacket-&gt;data+4)&lt;&lt;8)|*(anlPacket-&gt;data+5));</span></span><br><span class="line">		s16 enable = ((s16)(*(anlPacket-&gt;data+<span class="number">6</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">7</span>));</span><br><span class="line">		s16 m1_set = ((s16)(*(anlPacket-&gt;data+<span class="number">8</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">9</span>));</span><br><span class="line">		s16 m2_set = ((s16)(*(anlPacket-&gt;data+<span class="number">10</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">11</span>));</span><br><span class="line">		s16 m3_set = ((s16)(*(anlPacket-&gt;data+<span class="number">12</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">13</span>));</span><br><span class="line">		s16 m4_set = ((s16)(*(anlPacket-&gt;data+<span class="number">14</span>)&lt;&lt;<span class="number">8</span>)|*(anlPacket-&gt;data+<span class="number">15</span>));</span><br><span class="line">		setMotorPWM(enable,m1_set,m2_set,m3_set,m4_set);</span><br><span class="line">		attitudePIDwriteToConfigParam();</span><br><span class="line">		positionPIDwriteToConfigParam();</span><br><span class="line">		u8 cksum = atkpCheckSum(anlPacket);</span><br><span class="line">		sendCheck(anlPacket-&gt;msgID,cksum);</span><br><span class="line">	&#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">atkpTxTask</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	sendMsgACK();<span class="comment">//返回四轴信息</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		atkpSendPeriod();<span class="comment">//数据周期性发送给上位机，每1ms调用一次</span></span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ATKP 数据包接收处理任务，主要是处理遥控器和上位机发下来的数据包，解析到的控制指令则发送到 stabilizerTask 中去</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">atkpRxAnlTask</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		xQueueReceive(rxQueue, &amp;p, portMAX_DELAY);<span class="comment">//从“接收队列rxQueue”提取一个包，存入缓冲区p</span></span><br><span class="line">		atkpReceiveAnl(&amp;p);<span class="comment">//双向值传递，分析处理包</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">atkpInit</span><span class="params">(<span class="type">void</span>)</span><span class="comment">//检测是否创建了“接收队列”，没有则创建</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(isInit) <span class="keyword">return</span>;</span><br><span class="line">	rxQueue = xQueueCreate(ATKP_RX_QUEUE_SIZE, <span class="keyword">sizeof</span>(<span class="type">atkp_t</span>));</span><br><span class="line">	ASSERT(rxQueue);</span><br><span class="line">	isInit = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">atkpReceivePacketBlocking</span><span class="params">(<span class="type">atkp_t</span> *p)</span><span class="comment">//接收ATKP包，带阻塞（死等），只被usblinkRxTask和atkpPacketDispatch调用</span></span><br><span class="line">&#123;</span><br><span class="line">	ASSERT(p);</span><br><span class="line">	ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">	<span class="keyword">return</span> xQueueSend(rxQueue, p, portMAX_DELAY);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="usblink-c"><a href="#usblink-c" class="headerlink" title="usblink.c"></a>usblink.c</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;config.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usblink.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;atkp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;config_param.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ledseq.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usbd_cdc_vcp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usbd_usr.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*FreeRTOS相关头文件*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FreeRTOS.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;task.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;queue.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;semphr.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> USBLINK_TX_QUEUE_SIZE 	30 <span class="comment">/*接收队列个数*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	waitForStartByte1,</span><br><span class="line">	waitForStartByte2,</span><br><span class="line">	waitForMsgID,</span><br><span class="line">	waitForDataLength,</span><br><span class="line">	waitForData,</span><br><span class="line">	waitForChksum1,</span><br><span class="line">&#125;rxState;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">bool</span> isInit;</span><br><span class="line"><span class="type">static</span> <span class="type">atkp_t</span> rxPacket;</span><br><span class="line"><span class="type">static</span> xQueueHandle  txQueue;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*usb连接初始化*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">usblinkInit</span><span class="params">()</span><span class="comment">//检测是否创建了“发送消息队列”，没有则创建，</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(isInit) <span class="keyword">return</span>;</span><br><span class="line">	</span><br><span class="line">	usbd_cdc_vcp_Init();<span class="comment">// 初始化usb，并创建“usbDataDelivery队列”</span></span><br><span class="line">	<span class="comment">/*创建发送队列，USBLINK_TX_QUEUE_SIZE个消息*/</span></span><br><span class="line">	txQueue = xQueueCreate(USBLINK_TX_QUEUE_SIZE, <span class="keyword">sizeof</span>(<span class="type">atkp_t</span>));<span class="comment">//创建了“发送消息队列”</span></span><br><span class="line">	ASSERT(txQueue);</span><br><span class="line">	isInit = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*usb连接发送atkpPacket*/</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">usblinkSendPacket</span><span class="params">(<span class="type">const</span> <span class="type">atkp_t</span> *p)</span></span><br><span class="line">&#123;</span><br><span class="line">	ASSERT(p);</span><br><span class="line">	ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">	<span class="keyword">return</span> xQueueSend(txQueue, p, <span class="number">0</span>);	<span class="comment">//向队列发送消息，其他任务调用它，把自己的atkpPacket存到txQueue，\  usblinkTxTask任务又从txQueue取出发给上位机等。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取剩余可用txQueue个数</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">usblinkGetFreeTxQueuePackets</span><span class="params">(<span class="type">void</span>)</span>	</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> (USBLINK_TX_QUEUE_SIZE - uxQueueMessagesWaiting(txQueue));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//USB发送ATKPPacket任务</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">usblinkTxTask</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">atkp_t</span> p;</span><br><span class="line">	u8 sendBuffer[<span class="number">64</span>];</span><br><span class="line">	u8 cksum;</span><br><span class="line">	u8 dataLen;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		xQueueReceive(txQueue, &amp;p, portMAX_DELAY);</span><br><span class="line">		</span><br><span class="line">		sendBuffer[<span class="number">0</span>] = UP_BYTE1;<span class="comment">/*上行帧头*/</span></span><br><span class="line">		sendBuffer[<span class="number">1</span>] = UP_BYTE2;</span><br><span class="line">		sendBuffer[<span class="number">2</span>] = p.msgID;</span><br><span class="line">		sendBuffer[<span class="number">3</span>] = p.dataLen;</span><br><span class="line">		<span class="built_in">memcpy</span>(&amp;sendBuffer[<span class="number">4</span>], p.data, p.dataLen);</span><br><span class="line">		cksum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; p.dataLen+<span class="number">4</span>; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			cksum += sendBuffer[i];</span><br><span class="line">		&#125;</span><br><span class="line">		dataLen = p.dataLen + <span class="number">5</span>;</span><br><span class="line">		sendBuffer[dataLen - <span class="number">1</span>] = cksum;</span><br><span class="line">		usbsendData(sendBuffer, dataLen);</span><br><span class="line">		<span class="type">void</span> <span class="title function_">usbsendData</span><span class="params">(u8* data, u16 length)</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;length; i++)</span><br><span class="line">			&#123;</span><br><span class="line">				VCP_DataTx(data[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		  * @brief  VCP_DataTx</span></span><br><span class="line"><span class="comment">		  *         CDC received data to be send over USB IN endpoint are managed in </span></span><br><span class="line"><span class="comment">		  *         this function.</span></span><br><span class="line"><span class="comment">		  * @param  Buf: Buffer of data to be sent</span></span><br><span class="line"><span class="comment">		  * @param  Len: Number of data to be sent (in bytes)</span></span><br><span class="line"><span class="comment">		  * @retval Result of the opeartion: USBD_OK if all operations are OK else VCP_FAIL</span></span><br><span class="line"><span class="comment">		  */</span></span><br><span class="line">		<span class="type">static</span> <span class="type">uint16_t</span> <span class="title function_">VCP_DataTx</span> <span class="params">(<span class="type">uint8_t</span> data)</span></span><br><span class="line">		&#123;</span><br><span class="line">		  <span class="keyword">if</span> (linecoding.datatype == <span class="number">7</span>)</span><br><span class="line">		  &#123;</span><br><span class="line">		    APP_Rx_Buffer[APP_Rx_ptr_in] = data &amp; <span class="number">0x7F</span>;</span><br><span class="line">		  &#125;</span><br><span class="line">		  <span class="keyword">else</span> <span class="keyword">if</span> (linecoding.datatype == <span class="number">8</span>)</span><br><span class="line">		  &#123;</span><br><span class="line">		    APP_Rx_Buffer[APP_Rx_ptr_in] = data;</span><br><span class="line">		  &#125;</span><br><span class="line">		  </span><br><span class="line">		  APP_Rx_ptr_in++;</span><br><span class="line">		  </span><br><span class="line">		  <span class="comment">/* To avoid buffer overflow */</span></span><br><span class="line">		  <span class="keyword">if</span>(APP_Rx_ptr_in == APP_RX_DATA_SIZE)</span><br><span class="line">		  &#123;</span><br><span class="line">		    APP_Rx_ptr_in = <span class="number">0</span>;</span><br><span class="line">		  &#125;  </span><br><span class="line">		  </span><br><span class="line">		  <span class="keyword">return</span> USBD_OK;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		ledseqRun(DATA_TX_LED, seq_linkup);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//USB虚拟串口接收ATKPPacket任务</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">usblinkRxTask</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 c;</span><br><span class="line">	u8 dataIndex = <span class="number">0</span>;</span><br><span class="line">	u8 cksum = <span class="number">0</span>;</span><br><span class="line">	rxState = waitForStartByte1;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (usbGetDataWithTimout(&amp;c))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">switch</span>(rxState)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">case</span> waitForStartByte1:</span><br><span class="line">					rxState = (c == DOWN_BYTE1) ? waitForStartByte2 : waitForStartByte1;</span><br><span class="line">					cksum = c;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForStartByte2:</span><br><span class="line">					rxState = (c == DOWN_BYTE2) ? waitForMsgID : waitForStartByte1;</span><br><span class="line">					cksum += c;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForMsgID:</span><br><span class="line">					rxPacket.msgID = c;</span><br><span class="line">					rxState = waitForDataLength;</span><br><span class="line">					cksum += c;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForDataLength:</span><br><span class="line">					<span class="keyword">if</span> (c &lt;= ATKP_MAX_DATA_SIZE)</span><br><span class="line">					&#123;</span><br><span class="line">						rxPacket.dataLen = c;</span><br><span class="line">						dataIndex = <span class="number">0</span>;</span><br><span class="line">						rxState = (c &gt; <span class="number">0</span>) ? waitForData : waitForChksum1;	</span><br><span class="line">						cksum += c;</span><br><span class="line">					&#125; <span class="keyword">else</span> </span><br><span class="line">					&#123;</span><br><span class="line">						rxState = waitForStartByte1;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForData:</span><br><span class="line">					rxPacket.data[dataIndex] = c;</span><br><span class="line">					dataIndex++;</span><br><span class="line">					cksum += c;</span><br><span class="line">					<span class="keyword">if</span> (dataIndex == rxPacket.dataLen)</span><br><span class="line">					&#123;</span><br><span class="line">						rxState = waitForChksum1;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> waitForChksum1:</span><br><span class="line">					<span class="keyword">if</span> (cksum == c)	<span class="comment">/*所有校验正确*/</span></span><br><span class="line">					&#123;</span><br><span class="line">						ledseqRun(DATA_RX_LED, seq_linkup);</span><br><span class="line">						atkpReceivePacketBlocking(&amp;rxPacket);</span><br><span class="line">						<span class="type">bool</span> <span class="title function_">atkpReceivePacketBlocking</span><span class="params">(<span class="type">atkp_t</span> *p)</span></span><br><span class="line">						&#123;</span><br><span class="line">							ASSERT(p);</span><br><span class="line">							ASSERT(p-&gt;dataLen &lt;= ATKP_MAX_DATA_SIZE);</span><br><span class="line">							<span class="keyword">return</span> xQueueSend(rxQueue, p, portMAX_DELAY);	</span><br><span class="line">						&#125;</span><br><span class="line">					&#125; </span><br><span class="line">					<span class="keyword">else</span>	<span class="comment">/*校验错误*/</span></span><br><span class="line">					&#123;</span><br><span class="line">						rxState = waitForStartByte1;	</span><br><span class="line">						IF_DEBUG_ASSERT(<span class="number">1</span>);</span><br><span class="line">					&#125;</span><br><span class="line">					rxState = waitForStartByte1;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					ASSERT(<span class="number">0</span>);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>	<span class="comment">/*超时处理*/</span></span><br><span class="line">		&#123;</span><br><span class="line">			rxState = waitForStartByte1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="附录：匿名地面站协议"><a href="#附录：匿名地面站协议" class="headerlink" title="附录：匿名地面站协议"></a>附录：匿名地面站协议</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>飞控-&gt;上位机</strong></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>帧</strong></td>
+<td><strong>帧头</strong></td>
+<td><strong>功能字</strong></td>
+<td><strong>长度</strong></td>
+<td><strong>数据</strong></td>
+<td><strong>校验</strong></td>
+<td><strong>备注</strong></td>
+</tr>
+<tr>
+<td>VER</td>
+<td>AAAA</td>
+<td>00</td>
+<td>LEN</td>
+<td>uint8 HardwareType硬件种类<br/> uint16  HardwareVER<em>100硬件版本 <br/>uint16  SoftwareVER</em>100软件版本  <br/>uint16  ProtocolVER<em>100协议版本  <br/>uint16  BootloaderVER</em>100</td>
+<td>SUM</td>
+<td>版本信息</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>AAAA</td>
+<td>01</td>
+<td>LEN</td>
+<td>int16  ROL<em>100 <br>int16  PIT</em>100<br>int16  YAW*100<br>int32  ALT_USE(高度cm)  <br/>uint8  FLY_MODEL(飞行模式）<br/>u8 ARMED :  0加锁 1解锁</td>
+<td>SUM</td>
+<td>飞机姿态等基本信息</td>
+</tr>
+<tr>
+<td>SENSER</td>
+<td>AAAA</td>
+<td>02</td>
+<td>18</td>
+<td>int16 ACC_X <br/>int16 ACC_Y <br/>int16 ACC_Z <br/>int16  GYRO_X<br/>int16  GYRO_Y <br/>int16  GYRO_Z <br/>int16 MAG_X  <br/>int16 MAG_Y <br/>int16 MAG_Z</td>
+<td>SUM</td>
+<td>飞机传感器数据</td>
+</tr>
+<tr>
+<td>RCDATA</td>
+<td>AAAA</td>
+<td>03</td>
+<td>20</td>
+<td>int16 THR<br/>int16 YAW  <br/>int16 ROL  <br/>int16 PIT  <br/>int16 AUX1  <br/>int16 AUX2  <br/>int16 AUX3  <br/>int16 AUX4 <br/> int16 AUX5  <br/>int16 AUX6</td>
+<td>SUM</td>
+<td>飞机收到的控制数据</td>
+</tr>
+<tr>
+<td>GPSDATA</td>
+<td>AAAA</td>
+<td>04</td>
+<td>LEN</td>
+<td>参见数据定义-&gt;当前位置信息</td>
+<td>SUM</td>
+<td>机载GPS 信息</td>
+</tr>
+<tr>
+<td>POWER</td>
+<td>AAAA</td>
+<td>05</td>
+<td>LEN</td>
+<td>uint16  Votage<em>100 <br/> uint16  Current</em>100</td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td>MOTO</td>
+<td></td>
+<td>06</td>
+<td>LEN</td>
+<td>uint16  PWM_MOTO12345678</td>
+<td>SUM</td>
+<td>马达PWM(范围0-  1000)</td>
+</tr>
+<tr>
+<td>SENSER2</td>
+<td>AAAA</td>
+<td>07</td>
+<td>LEN</td>
+<td>int32  ALT_BAR(推荐为cm单位)  <br/>uint16  ALT_CSB(超声波高度cm)</td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>08</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>09</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td>FLY  MODEL</td>
+<td>AAAA</td>
+<td>0A</td>
+<td>LEN</td>
+<td>int8  AUX1_LOW_MODEL  <br/>int8  AUX1_MID_MODEL  <br/>int8  AUX1_HIG_MODEL  <br/>int8  AUX2_LOW_MODEL  <br/>int8  AUX2_MID_MODEL  <br/>int8  AUX2_HIG_MODEL  <br/>int8  AUX3_LOW_MODEL  <br/>int8  AUX3_MID_MODEL  <br/>int8  AUX3_HIG_MODEL</td>
+<td>SUM</td>
+<td>飞行模式</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>0B</td>
+<td>LEN</td>
+<td>int16  SPEED_ROL  <br/>int16  SPEED_PIT  <br/>int16  SPEED_Z（单位cm）</td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>0C</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>0D</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>0E</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>0F</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td>PID1</td>
+<td>AAAA</td>
+<td>10</td>
+<td>18</td>
+<td>int16  PID1_P  <br/>int16  PID1_I  <br/>int16  PID1_D  <br/>int16  PID2_P  <br/>int16  PID2_I <br/>int16  PID2_D  <br/>int16  PID3_P  <br/>int16  PID3_I  <br/>int16  PID3_D</td>
+<td>SUM</td>
+<td>PID数据帧1</td>
+</tr>
+<tr>
+<td>PID2</td>
+<td>AAAA</td>
+<td>11</td>
+<td>18</td>
+<td>int16  PID4_P  <br/>int16  PID4_I  <br/>int16  PID4_D  <br/>int16  PID5_P  <br/>int16  PID5_I  <br/>int16  PID5_D  <br/>int16  PID6_P  <br/>int16  PID6_I  <br/>int16  PID6_D</td>
+<td>SUM</td>
+<td>PID数据帧2</td>
+</tr>
+<tr>
+<td>PID3</td>
+<td>AAAA</td>
+<td>12</td>
+<td>18</td>
+<td>int16  PID7_P  <br/>int16  PID7_I  <br/>int16  PID7_D  <br/>int16  PID8_P  <br/>int16  PID8_I  <br/>int16  PID8_D  <br/>int16  PID9_P  <br/>int16  PID9_I  <br/>int16  PID9_D</td>
+<td>SUM</td>
+<td>PID数据帧3</td>
+</tr>
+<tr>
+<td>PID4</td>
+<td>AAAA</td>
+<td>13</td>
+<td>18</td>
+<td>int16  PID10_P  <br/>int16  PID10_I  <br/>int16  PID10_D  <br/>int16  PID11_P  <br/>int16  PID11_I  <br/>int16  PID11_D  <br/>int16  PID12_P  <br/>int16  PID12_I  <br/>int16  PID12_D</td>
+<td>SUM</td>
+<td>PID数据帧4</td>
+</tr>
+<tr>
+<td>PID5</td>
+<td>AAAA</td>
+<td>14</td>
+<td>18</td>
+<td>int16  PID13_P  <br/>int16  PID13_I  <br/>int16  PID13_D  <br/>int16  PID14_P  <br/>int16  PID14_I  <br/>int16  PID14_D  <br/>int16  PID15_P  <br/>int16  PID15_I  <br/>int16  PID15_D</td>
+<td>SUM</td>
+<td>PID数据帧5</td>
+</tr>
+<tr>
+<td>PID6</td>
+<td>AAAA</td>
+<td>15</td>
+<td>18</td>
+<td>int16  PID16_P  <br/>int16  PID16_I  <br/>int16  PID16_D  <br/>int16  PID17_P  <br/>int16  PID17_I  <br/>int16  PID17_D  <br/>int16  PID18_P  <br/>int16  PID18_I  <br/>int16  PID18_D</td>
+<td>SUM</td>
+<td>PID数据帧6</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>16</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>17</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td>FP_NUM</td>
+<td>AAAA</td>
+<td>20</td>
+<td>LEN</td>
+<td>uing16  FP_NUM</td>
+<td>SUM</td>
+<td>飞控已有航点数量</td>
+</tr>
+<tr>
+<td>FP</td>
+<td>AAAA</td>
+<td>21</td>
+<td>LEN</td>
+<td>参见数据定义-&gt;航点信息</td>
+<td>SUM</td>
+<td>航点信息</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td>MSG</td>
+<td>AAAA</td>
+<td>EE</td>
+<td>7</td>
+<td>uint8_t  MSG_ID  <br>uint8_t  MSG_DATA</td>
+<td>SUM</td>
+<td>MSG_ID:  01:加速度  02:陀螺仪  03:罗盘     MSG_DATA:  01:校准成功  E1:校准失败</td>
+</tr>
+<tr>
+<td>CHECK</td>
+<td>AAAA</td>
+<td>EF</td>
+<td>7</td>
+<td>uint8 FREAM_HEAD 帧头<br>  uint8 CHECK_SUM 和校验</td>
+<td>SUM</td>
+<td>比如要返回PID1数据帧的校验数据，FREAM_HEAD=0x10，CHECK_SUM=接收到PID1数据帧计算出的SUM</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAA</td>
+<td>F0</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F1</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F2</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F3</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F4</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F5</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F6</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F7</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F8</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>F9</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>AAAA</td>
+<td>FA</td>
+<td>LEN</td>
+<td>自定义</td>
+<td>SUM</td>
+<td>用户数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>上位机（遥控）-&gt;飞控</strong></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>帧</strong></td>
+<td><strong>帧头</strong></td>
+<td><strong>功能字</strong></td>
+<td><strong>长度</strong></td>
+<td><strong>数据</strong></td>
+<td><strong>校验</strong></td>
+<td><strong>返回校验</strong></td>
+<td><strong>备注</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CONMAND</td>
+<td>AAAF</td>
+<td>01</td>
+<td>1</td>
+<td>uint8 CMD1</td>
+<td>SUM</td>
+<td>YES</td>
+<td>命令集合1  01：ACC校准  02：GYRO校准     04：MAG校准  05：BARO校准     20：退出6面校准  21：6面校准第1步  22：6面校准第2步  23：6面校准第3步  24：6面校准第4步  25：6面校准第5步  26：6面校准第6步     A0：飞控锁定（仅用于手机蓝牙控制）  A1：飞控解锁（仅用于手机蓝牙控制）</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>AAAF</td>
+<td>02</td>
+<td>1</td>
+<td>uint8 CMD2</td>
+<td>SUM</td>
+<td>YES</td>
+<td>命令集合2  01：读取PID请求（返回AAAA  10\11\12\13\14\15数据帧）  02：读取飞行模式设置请求（返回AAAA  0A数据帧）  21：读取飞控内航点数量（返回AAAA  20数据帧）     A0：读取下位机版本信息（返回AAAA  00数据帧）  A1：恢复默认参数</td>
+</tr>
+<tr>
+<td>RCDATA</td>
+<td>AAAF</td>
+<td>03</td>
+<td>20</td>
+<td>int16 THR<br/>int16 YAW  <br/>int16 ROL  <br/>int16 PIT  <br/>int16 AUX1  <br/>int16 AUX2  <br/>int16 AUX3  <br/>int16 AUX4 <br/>int16 AUX5  <br/>int16 AUX6</td>
+<td>SUM</td>
+<td>NO</td>
+<td>飞行控制数据(仅用于微型飞机，无刷飞机请用航模遥控控制）</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>04</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>05</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>06</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>07</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>08</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>09</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>FLY  MODEL</td>
+<td>AAAF</td>
+<td>0A</td>
+<td>LEN</td>
+<td>int8  AUX1_LOW_MODEL  <br/>int8  AUX1_MID_MODEL  <br/>int8  AUX1_HIG_MODEL  <br/>int8  AUX2_LOW_MODEL  <br/>int8  AUX2_MID_MODEL  <br/>int8  AUX2_HIG_MODEL  <br/>int8  AUX3_LOW_MODEL  <br/>int8  AUX3_MID_MODEL  <br/>int8  AUX3_HIG_MODEL</td>
+<td>SUM</td>
+<td>YES</td>
+<td>飞行模式</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>0B</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>0C</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>0D</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>0E</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>0F</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PID1</td>
+<td>AAAF</td>
+<td>10</td>
+<td>18</td>
+<td>int16  PID1_P  <br/>int16  PID1_I  <br/>int16  PID1_D  <br/>int16  PID2_P  <br/>int16  PID2_I <br/>int16  PID2_D  <br/>int16  PID3_P  <br/>int16  PID3_I  <br/>int16  PID3_D</td>
+<td>SUM</td>
+<td>YES</td>
+<td>PID数据帧1到6     共有18组PID，每3组PID组成一个PID数据帧，所以共6个PID数据帧     上位机会对每个PID数据帧内的数据进行判断，如果都是65535的默认值，则会跳过发送该PID数据帧</td>
+</tr>
+<tr>
+<td>PID2</td>
+<td>AAAF</td>
+<td>11</td>
+<td>18</td>
+<td>int16  PID4_P  <br/>int16  PID4_I  <br/>int16  PID4_D  <br/>int16  PID5_P  <br/>int16  PID5_I  <br/>int16  PID5_D  <br/>int16  PID6_P  <br/>int16  PID6_I  <br/>int16  PID6_D</td>
+<td>SUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>PID3</td>
+<td>AAAF</td>
+<td>12</td>
+<td>18</td>
+<td>int16  PID7_P  <br/>int16  PID7_I  <br/>int16  PID7_D  <br/>int16  PID8_P  <br/>int16  PID8_I  <br/>int16  PID8_D  <br/>int16  PID9_P  <br/>int16  PID9_I  <br/>int16  PID9_D</td>
+<td>SUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>PID4</td>
+<td>AAAF</td>
+<td>13</td>
+<td>18</td>
+<td>int16  PID10_P  <br/>int16  PID10_I  <br/>int16  PID10_D  <br/>int16  PID11_P  <br/>int16  PID11_I  <br/>int16  PID11_D  <br/>int16  PID12_P  <br/>int16  PID12_I  <br/>int16  PID12_D</td>
+<td>SUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>PID5</td>
+<td>AAAF</td>
+<td>14</td>
+<td>18</td>
+<td>int16  PID13_P  <br/>int16  PID13_I  <br/>int16  PID13_D  <br/>int16  PID14_P  <br/>int16  PID14_I  <br/>int16  PID14_D  <br/>int16  PID15_P  <br/>int16  PID15_I  <br/>int16  PID15_D</td>
+<td>SUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>PID6</td>
+<td>AAAF</td>
+<td>15</td>
+<td>18</td>
+<td>int16  PID16_P  <br/>int16  PID16_I  <br/>int16  PID16_D  <br/>int16  PID17_P  <br/>int16  PID17_I  <br/>int16  PID17_D  <br/>int16  PID18_P  <br/>int16  PID18_I  <br/>int16  PID18_D</td>
+<td>SUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>16</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td>17</td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>READ_FP</td>
+<td>AAAF</td>
+<td>20</td>
+<td>LEN</td>
+<td>uint16  FP_CNT</td>
+<td>SUM</td>
+<td></td>
+<td>读取第CNT个航点信息</td>
+</tr>
+<tr>
+<td>FP</td>
+<td>AAAF</td>
+<td>21</td>
+<td>LEN</td>
+<td>参见数据定义-&gt;航点信息</td>
+<td>SUM</td>
+<td>YES</td>
+<td>写入航点信息</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CAM  CONTROL</td>
+<td>AAAF</td>
+<td>80</td>
+<td>13</td>
+<td>uint8 OBJ1_OK =1可用=0不可用  uint16  OBJ1_X  uint16  OBJ1_Y  uint8 OBJ2_OK  uint16  OBJ2_X  uint16  OBJ2_Y  uint8 ALT_OK  uint16 ALT</td>
+<td>SUM</td>
+<td>NO</td>
+<td>摄像头控制数据  OBJ1用于定位  OBJ2用于计算航向  ALT为高度数据</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IAP</td>
+<td>AAAF</td>
+<td>F0</td>
+<td>LEN</td>
+<td>uint16  BOOT_STA</td>
+<td>SUM</td>
+<td>NO</td>
+<td>立即进入IAP功能：  BOOT_STA=0xFFFA</td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AAAF</td>
+<td></td>
+<td>LEN</td>
+<td></td>
+<td>SUM</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://bfaner.github.io">帆小生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://bfaner.github.io/posts/f36a.html">https://bfaner.github.io/posts/f36a.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bfaner.github.io" target="_blank">BFaner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/3ae2.html"><img class="prev-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">传感器</div></div></a></div><div class="next-post pull-right"><a href="/posts/47e3.html"><img class="next-cover" src="/img/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PX4二次开发</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帆小生</div><div class="author-info__description">Because we can</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bfaner"><i class="fab fa-github"></i><span>联系我</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">整体介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E9%93%BE%E8%B7%AF%E6%80%BB%E8%A7%88"><span class="toc-number">1.1.</span> <span class="toc-text">通信链路总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.2.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">指令格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E3%80%90Usblink%E3%80%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">串口指令格式【Usblink】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%94%AE%E8%B5%B7%E9%A3%9E%E6%95%B0%E6%8D%AE%E5%8C%85%E8%A7%A3%E6%9E%90%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">一键起飞数据包解析举例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E6%95%B0%E6%8D%AEATKP%E6%95%B0%E6%8D%AE%E5%B8%A7%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">控制数据ATKP数据帧举例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">代码流程图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#radiolink-c"><span class="toc-number">3.</span> <span class="toc-text">radiolink.c</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%87%BD%E6%95%B0%E4%BD%9C%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">各函数作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">通讯协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#atkp-h"><span class="toc-number">4.1.</span> <span class="toc-text">atkp.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#remoter-ctrl-h"><span class="toc-number">4.2.</span> <span class="toc-text">remoter_ctrl.h</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#atpk-c"><span class="toc-number">5.</span> <span class="toc-text">atpk.c</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#usblink-c"><span class="toc-number">6.</span> <span class="toc-text">usblink.c</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E5%8C%BF%E5%90%8D%E5%9C%B0%E9%9D%A2%E7%AB%99%E5%8D%8F%E8%AE%AE"><span class="toc-number">7.</span> <span class="toc-text">附录：匿名地面站协议</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 帆小生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
